@@ -1,0 +1,9 @@
+one:
+  money_group_id: 1
+  money_user_id: 1
+two:
+  money_group_id: 1
+  money_user_id: 2
+three:
+  money_group_id: 2
+  money_user_id: 1

@@ -1,5 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
   id: 1
+  username: dustin
+  name: Dustin Sallings
+  hash: blahblah
 two:
   id: 2
+  username: dustin2
+  name: Dustin Too
+  hash: blahblah2

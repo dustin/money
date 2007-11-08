@@ -1,5 +1,16 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
   id: 1
+  money_group_id: 1
+  name: Cat1
+  budget: 300.50
 two:
   id: 2
+  money_group_id: 1
+  name: Cat2
+  budget: null
+three:
+  id: 3
+  money_group_id: 2
+  name: Cat1(2)
+  budget: 15.27
