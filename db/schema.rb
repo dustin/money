@@ -4,65 +4,67 @@
 
 ActiveRecord::Schema.define(:version => 6) do
 
-  create_table "money_accounts", :force => true do |t|
-    t.column "money_group_id", :integer, :null => false
-    t.column "name",           :string,  :null => false
+  create_table "accounts", :force => true do |t|
+    t.column "group_id", :integer, :null => false
+    t.column "name",     :string,  :null => false
   end
 
-  add_index "money_accounts", ["money_group_id", "name"], :name => "index_money_accounts_on_money_group_id_and_name", :unique => true
+  add_index "accounts", ["group_id", "name"], :name => "index_accounts_on_group_id_and_name", :unique => true
 
-  create_table "money_categories", :force => true do |t|
-    t.column "money_group_id", :integer,                               :null => false
-    t.column "name",           :string,                                :null => false
-    t.column "budget",         :decimal, :precision => 6, :scale => 2
+  create_table "categories", :force => true do |t|
+    t.column "group_id", :integer,                               :null => false
+    t.column "name",     :string,                                :null => false
+    t.column "budget",   :decimal, :precision => 6, :scale => 2
   end
 
-  add_index "money_categories", ["money_group_id", "name"], :name => "index_money_categories_on_money_group_id_and_name", :unique => true
+  add_index "categories", ["group_id", "name"], :name => "index_categories_on_group_id_and_name", :unique => true
 
-  create_table "money_group_user_map", :id => false, :force => true do |t|
-    t.column "money_group_id", :integer, :null => false
-    t.column "money_user_id",  :integer, :null => false
+  create_table "group_user_map", :id => false, :force => true do |t|
+    t.column "group_id", :integer, :null => false
+    t.column "user_id",  :integer, :null => false
   end
 
-  add_index "money_group_user_map", ["money_group_id", "money_user_id"], :name => "index_money_group_user_map_on_money_group_id_and_money_user_id", :unique => true
+  add_index "group_user_map", ["group_id", "user_id"], :name => "index_group_user_map_on_group_id_and_user_id", :unique => true
 
-  create_table "money_groups", :force => true do |t|
+  create_table "groups", :force => true do |t|
     t.column "name", :string, :null => false
   end
 
-  add_index "money_groups", ["name"], :name => "index_money_groups_on_name", :unique => true
+  add_index "groups", ["name"], :name => "index_groups_on_name", :unique => true
 
-  create_table "money_roles", :force => true do |t|
+  create_table "money_transactions", :force => true do |t|
+    t.column "user_id",     :integer,                                                   :null => false
+    t.column "account_id",  :integer,                                                   :null => false
+    t.column "category_id", :integer,                                                   :null => false
+    t.column "descr",       :string,                                                    :null => false
+    t.column "amount",      :decimal,  :precision => 6, :scale => 2,                    :null => false
+    t.column "ds",          :date,                                                      :null => false
+    t.column "reconciled",  :boolean,                                :default => false, :null => false
+    t.column "deleted_at",  :datetime
+    t.column "ts",          :datetime,                                                  :null => false
+  end
+
+  add_index "money_transactions", ["deleted_at"], :name => "index_money_transactions_on_deleted_at"
+
+  create_table "roles", :force => true do |t|
     t.column "name", :string, :limit => 16, :null => false
   end
 
-  add_index "money_roles", ["name"], :name => "idx_role_rolename", :unique => true
+  add_index "roles", ["name"], :name => "idx_role_rolename", :unique => true
 
-  create_table "money_transactions", :force => true do |t|
-    t.column "money_user_id",     :integer,                                                   :null => false
-    t.column "money_account_id",  :integer,                                                   :null => false
-    t.column "money_category_id", :integer,                                                   :null => false
-    t.column "descr",             :string,                                                    :null => false
-    t.column "amount",            :decimal,  :precision => 6, :scale => 2,                    :null => false
-    t.column "ds",                :date,                                                      :null => false
-    t.column "reconciled",        :boolean,                                :default => false, :null => false
-    t.column "deleted_at",        :datetime
-    t.column "ts",                :datetime,                                                  :null => false
+  create_table "user_roles_map", :id => false, :force => true do |t|
+    t.column "role_id", :integer, :null => false
+    t.column "user_id", :integer, :null => false
   end
 
-  create_table "money_user_roles_map", :id => false, :force => true do |t|
-    t.column "money_role_id", :integer, :null => false
-    t.column "money_user_id", :integer, :null => false
-  end
+  add_index "user_roles_map", ["role_id", "user_id"], :name => "idx_user_role_map", :unique => true
 
-  add_index "money_user_roles_map", ["money_role_id", "money_user_id"], :name => "idx_user_role_map", :unique => true
-
-  create_table "money_users", :force => true do |t|
+  create_table "users", :force => true do |t|
     t.column "username", :string, :limit => 16, :null => false
     t.column "name",     :string,               :null => false
     t.column "hash",     :string,               :null => false
   end
 
-  add_index "money_users", ["username"], :name => "idx_user_username", :unique => true
+  add_index "users", ["username"], :name => "idx_user_username", :unique => true
 
 end

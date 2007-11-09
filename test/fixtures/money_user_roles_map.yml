@@ -1,9 +1,0 @@
-one:
-  money_user_id: 1
-  money_role_id: 1
-two:
-  money_user_id: 1
-  money_role_id: 2
-three:
-  money_user_id: 2
-  money_role_id: 1
