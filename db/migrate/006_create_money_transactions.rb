@@ -8,9 +8,10 @@ class CreateMoneyTransactions < ActiveRecord::Migration
       t.column :amount, :decimal, :precision => 6, :scale => 2, :null => false
       t.column :ds, :date, :null => false
       t.column :reconciled, :boolean, :default => false, :null => false
-      t.column :deleted, :boolean, :default => false, :null => false
+      t.column :deleted_at, :timestamp
       t.column :ts, :timestamp, :null => false
     end
+    add_index :money_transactions, :deleted_at
   end
 
   def self.down

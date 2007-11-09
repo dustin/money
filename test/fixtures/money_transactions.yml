@@ -5,8 +5,38 @@ one:
   money_account_id: 1
   money_category_id: 1
   descr: Spent some money
-  amount: 13.45
+  amount: -13.45
   ds: 2007-11-08
   reconciled: false
-  deleted: false
   ts: 2007-11-08 00:27:19
+two:
+  id: 2
+  money_user_id: 1
+  money_account_id: 1
+  money_category_id: 2
+  descr: Spent some more money
+  amount: -5.00
+  ds: 2007-11-08
+  reconciled: true
+  ts: 2007-11-08 19:12:13
+three:
+  id: 3
+  money_user_id: 1
+  money_account_id: 1
+  money_category_id: 1
+  descr: Mistaken transaction
+  amount: -1000.00
+  ds: 2007-11-09
+  reconciled: false
+  deleted_at: 2007-11-08 19:45:13
+  ts: 2007-11-08 19:16:13
+four:
+  id: 4
+  money_user_id: 1
+  money_account_id: 2
+  money_category_id: 1
+  descr: Deposit
+  amount: 500.13
+  ds: 2007-11-08
+  reconciled: false
+  ts: 2007-11-08 19:19:13

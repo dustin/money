@@ -44,6 +44,12 @@ Rails::Initializer.run do |config|
   # See Rails::Configuration for more options
 end
 
+class Array 
+  def extract_options! 
+    self.last.is_a?(Hash) ? pop : {} 
+  end 
+end
+
 # Add new inflection rules using the following format 
 # (all these examples are active by default):
 # Inflector.inflections do |inflect|

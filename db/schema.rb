@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(:version => 6) do
     t.column "amount",            :decimal,  :precision => 6, :scale => 2,                    :null => false
     t.column "ds",                :date,                                                      :null => false
     t.column "reconciled",        :boolean,                                :default => false, :null => false
-    t.column "deleted",           :boolean,                                :default => false, :null => false
+    t.column "deleted_at",        :datetime
     t.column "ts",                :datetime,                                                  :null => false
   end
 
