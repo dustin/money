@@ -31,4 +31,10 @@ class MoneyUserTest < Test::Unit::TestCase
     assert_equal(3, u.id)
     assert_equal(u, MoneyUser.find(3))
   end
+
+  def test_lookup_by_name
+    u=MoneyUser.find_by_username('dustin')
+    assert_equal(1, u.id)
+  end
+
 end
