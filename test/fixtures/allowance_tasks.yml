@@ -12,3 +12,16 @@ one:
   from_category_id: 1
   to_category_id: 3
   deleted: false
+two:
+  id: 2
+  name: Do More Stuff
+  description: Do all the other stuff.
+  creator_id: 1
+  owner_id: 2
+  frequency: 7
+  value: 0.10
+  from_account_id: 1
+  to_account_id: 3
+  from_category_id: 1
+  to_category_id: 3
+  deleted: false

@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  allowance_task_id: 1
+  ts: 2007-11-08 19:12:13
+two:
+  id: 2
+  allowance_task_id: 1
+  ts: 2007-11-09 21:55:47
+three:
+  id: 3
+  allowance_task_id: 2
+  ts: 2007-11-09 22:45:19
