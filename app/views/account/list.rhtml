@@ -1,0 +1,13 @@
+<p>Your account list:</p>
+
+<ul>
+	<% @groups.each do |g| %>
+	<li><%= g.name %>
+		<ul>
+			<% g.accounts.each do |a| %>
+				<li><%= a.name %></li>
+			<% end %>
+		</ul>
+	</li>
+	<% end %>
+</ul>
