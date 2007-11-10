@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 6) do
+ActiveRecord::Schema.define(:version => 7) do
 
   create_table "accounts", :force => true do |t|
     t.column "group_id", :integer, :null => false
@@ -10,6 +10,23 @@ ActiveRecord::Schema.define(:version => 6) do
   end
 
   add_index "accounts", ["group_id", "name"], :name => "index_accounts_on_group_id_and_name", :unique => true
+
+  create_table "allowance_tasks", :force => true do |t|
+    t.column "name",             :string,  :limit => 64,                                                  :null => false
+    t.column "description",      :text,                                                                   :null => false
+    t.column "creator_id",       :integer,                                                                :null => false
+    t.column "owner_id",         :integer,                                                                :null => false
+    t.column "frequency",        :integer,                                                                :null => false
+    t.column "value",            :decimal,               :precision => 6, :scale => 2,                    :null => false
+    t.column "from_account_id",  :integer,                                                                :null => false
+    t.column "to_account_id",    :integer,                                                                :null => false
+    t.column "from_category_id", :integer,                                                                :null => false
+    t.column "to_category_id",   :integer,                                                                :null => false
+    t.column "deleted",          :boolean,                                             :default => false
+  end
+
+  add_index "allowance_tasks", ["from_account_id"], :name => "index_allowance_tasks_on_from_account_id"
+  add_index "allowance_tasks", ["owner_id"], :name => "index_allowance_tasks_on_owner_id"
 
   create_table "categories", :force => true do |t|
     t.column "group_id", :integer,                               :null => false

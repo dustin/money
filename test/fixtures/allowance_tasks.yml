@@ -1,0 +1,14 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  name: Do Stuff
+  description: Do all the stuff.
+  creator_id: 1
+  owner_id: 2
+  frequency: 7
+  value: 0.25
+  from_account_id: 1
+  to_account_id: 3
+  from_category_id: 1
+  to_category_id: 3
+  deleted: false
