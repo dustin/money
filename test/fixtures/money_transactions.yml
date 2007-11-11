@@ -2,7 +2,7 @@
 one:
   id: 1
   user_id: 1
-  account_id: 1
+  money_account_id: 1
   category_id: 1
   descr: Spent some money
   amount: -13.45
@@ -12,7 +12,7 @@ one:
 two:
   id: 2
   user_id: 1
-  account_id: 1
+  money_account_id: 1
   category_id: 2
   descr: Spent some more money
   amount: -5.00
@@ -22,7 +22,7 @@ two:
 three:
   id: 3
   user_id: 1
-  account_id: 1
+  money_account_id: 1
   category_id: 1
   descr: Mistaken transaction
   amount: -1000.00
@@ -33,7 +33,7 @@ three:
 four:
   id: 4
   user_id: 1
-  account_id: 2
+  money_account_id: 2
   category_id: 1
   descr: Deposit
   amount: 500.13

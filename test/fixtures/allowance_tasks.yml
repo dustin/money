@@ -7,8 +7,8 @@ one:
   owner_id: 2
   frequency: 7
   value: 0.25
-  from_account_id: 1
-  to_account_id: 3
+  from_money_account_id: 1
+  to_money_account_id: 3
   from_category_id: 1
   to_category_id: 3
   deleted: false
@@ -20,8 +20,8 @@ two:
   owner_id: 2
   frequency: 7
   value: 0.10
-  from_account_id: 1
-  to_account_id: 3
+  from_money_account_id: 1
+  to_money_account_id: 3
   from_category_id: 1
   to_category_id: 3
   deleted: false
