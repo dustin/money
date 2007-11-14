@@ -1,0 +1,27 @@
+<table class="transaction_list">
+<thead>
+	<tr>
+		<th>Clear</th>
+		<th>Transaction ID</th>
+		<th>Date</th>
+		<th>User</th>
+		<th>Category</th>
+		<th>Amount</th>
+		<th>Description</th>
+	</tr>
+</thead>
+
+<tbody>
+<% @current_acct.transactions.each_with_index do |t, idx| %>
+  <tr class="<%= idx % 2 == 0 ? 'odd' : 'even'%>">
+		<td>[x]</td>
+		<td><%= t.id %></td>
+		<td><%= t.ds %></td>
+		<td><%= t.user %></td>
+		<td><%= t.category.name %></td>
+		<td><%= currency_span(t.amount) %></td>
+		<td><%= t.descr %></td>
+	</tr>
+<% end %>
+</tbody>
+</table>

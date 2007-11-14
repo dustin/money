@@ -12,6 +12,4 @@ module ApplicationHelper
     "<span class=\"#{amt_class(amt)}\">#{number_to_currency(amt)}</span>"
   end
 
-	
-
 end
