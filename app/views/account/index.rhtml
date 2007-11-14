@@ -1,11 +1,13 @@
 <h1>Accounts for <%= current_user.name %></h1>
 
+<ul id="accountlist">
 <% @groups.each do |g| %>
 <li><%= g.name %>
 	<ul>
 		<% g.accounts.each do |a| %>
-			<li><%= a.name %></li>
+			<li><a href="/acct/<%= a.id %>"><%= a.name %></a></li>
 		<% end %>
 	</ul>
 </li>
 <% end %>
+</ul>

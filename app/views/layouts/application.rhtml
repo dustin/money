@@ -14,7 +14,7 @@
 	<div id="footer">
 		<% if current_user %>
 			<% current_user.groups.each_with_index do |g, idx| %>
-				<% if idx > 0 %>|<% end%> <%= g.name %>: <%= number_to_currency(g.balance) %>
+				<% if idx > 0 %>| <% end%><%= g.name %>: <%= currency_span(g.balance) %>
 			<% end %>
 		<% end %>
 	</div>
