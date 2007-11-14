@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title><% if flash[:title]%><%= flash[:title]%><% else %>Money<% end%></title>
+</head>
+
+<body>
+
+	<div id="maincontent"><%= yield %></div>
+
+	<div id="footer">
+		<% if current_user %>
+			<% current_user.groups.each_with_index do |g, idx| %>
+				<% if idx > 0 %>|<% end%> <%= g.name %>: <%= number_to_currency(g.balance) %>
+			<% end %>
+		<% end %>
+	</div>
+</body>
+</html>
