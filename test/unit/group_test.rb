@@ -24,4 +24,12 @@ class GroupTest < Test::Unit::TestCase
   def test_list_accounts2
     assert_equal([3], Group.find(2).accounts.map(&:id))
   end
+
+  def test_balance
+    assert_equal(481.68, Group.find(1).balance)
+  end
+
+  def test_balance_empty
+    assert_equal(0, Group.find(2).balance)
+  end
 end
