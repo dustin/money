@@ -1,5 +1,6 @@
 class AccountController < ApplicationController
-  # say something nice, you goof!  something sweet.
+  skip_before_filter :login_required
+
   def index
     if logged_in? || User.count > 0
       redirect_to(:controller => '/acct', :action => 'index')
