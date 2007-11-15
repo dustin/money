@@ -13,7 +13,7 @@
 	<div id="maincontent"><%= yield %></div>
 
 	<div id="footer">
-		<% if current_user %>
+		<% if current_user && current_user != :false %>
 			<% current_user.groups.each_with_index do |g, idx| %>
 				<% if idx > 0 %>| <% end%><%= g.name %>: <%= currency_span(g.balance) %>
 			<% end %>
