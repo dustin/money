@@ -5,7 +5,7 @@
 <li><%= g.name %>
 	<ul>
 		<% g.accounts.each do |a| %>
-			<li><a href="/acct/transactions/<%= a.id %>"><%= a.name %></a></li>
+			<li><%= link_to a.name, :action => 'transactions', :id => g.id %></a></li>
 		<% end %>
 	</ul>
 </li>
