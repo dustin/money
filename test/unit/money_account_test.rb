@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MoneyAccountTest < Test::Unit::TestCase
-  fixtures :money_accounts, :groups
+  fixtures :money_accounts, :groups, :money_transactions
 
   def test_create
     a=MoneyAccount.new :name => "Test Account",
