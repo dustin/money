@@ -1,3 +1,5 @@
+<h1>Transactions for <%= @current_acct.name %></h1>
+
 <table class="transaction_list">
 <thead>
 	<tr>
@@ -17,7 +19,7 @@
 		<td>[x]</td>
 		<td><%= t.id %></td>
 		<td><%= t.ds %></td>
-		<td><%= t.user %></td>
+		<td><%= t.user.login %></td>
 		<td><%= t.category.name %></td>
 		<td><%= currency_span(t.amount) %></td>
 		<td><%= t.descr %></td>
