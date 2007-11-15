@@ -6,6 +6,7 @@
 <head>
 	<title><% if flash[:title]%><%= flash[:title]%><% else %>Money<% end%></title>
 	<%= javascript_include_tag :defaults %>
+	<link rel="stylesheet" type="text/css" href="/style.css"/>
 </head>
 
 <body>
@@ -17,6 +18,8 @@
 			<% current_user.groups.each_with_index do |g, idx| %>
 				<% if idx > 0 %>| <% end%><%= g.name %>: <%= currency_span(g.balance) %>
 			<% end %>
+			<br/>
+			<%= link_to 'Logout', :action => 'logout', :controller => 'account'%>
 		<% end %>
 	</div>
 </body>

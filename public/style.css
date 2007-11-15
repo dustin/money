@@ -1,0 +1,53 @@
+body {
+	font-family: Arial, sans-serif;
+}
+
+#accountlist {
+	list-style: none;
+	padding-left: 0;
+}
+
+#accountlist ul {
+	list-style: none;
+	padding-left: 2em;
+	font-size: smaller;
+}
+
+table {
+	border-width: 2px;
+	border-style: outset;
+}
+
+tr,th,td {
+	border-width: 1px;
+	border-style: inset;
+}
+
+#footer {
+	padding-top: 0.5em;
+	border-top: solid 1px;
+	font-size: small;
+}
+
+.moneycolumn {
+	text-align: right;
+}
+
+.positive {
+	color: green;
+	background: inherit;
+}
+
+.negative {
+	color: red;
+	background: inherit;
+}
+
+.deleted * {
+	text-decoration: line-through;
+}
+
+tr.even {
+	background: #ddf;
+	color: black;
+}
