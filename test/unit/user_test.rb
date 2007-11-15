@@ -43,30 +43,30 @@ class UserTest < Test::Unit::TestCase
   end
 
   def test_should_reset_password
-    users(:quentin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
-    assert_equal users(:quentin), User.authenticate('quentin', 'new password')
+    users(:dustin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
+    assert_equal users(:dustin), User.authenticate('dustin', 'new password')
   end
 
   def test_should_not_rehash_password
-    users(:quentin).update_attributes(:login => 'quentin2')
-    assert_equal users(:quentin), User.authenticate('quentin2', 'test')
+    users(:dustin).update_attributes(:login => 'dustin')
+    assert_equal users(:dustin), User.authenticate('dustin', 'blahblah')
   end
 
   def test_should_authenticate_user
-    assert_equal users(:quentin), User.authenticate('quentin', 'test')
+    assert_equal users(:dustin), User.authenticate('dustin', 'blahblah')
   end
 
   def test_should_set_remember_token
-    users(:quentin).remember_me
-    assert_not_nil users(:quentin).remember_token
-    assert_not_nil users(:quentin).remember_token_expires_at
+    users(:dustin).remember_me
+    assert_not_nil users(:dustin).remember_token
+    assert_not_nil users(:dustin).remember_token_expires_at
   end
 
   def test_should_unset_remember_token
-    users(:quentin).remember_me
-    assert_not_nil users(:quentin).remember_token
-    users(:quentin).forget_me
-    assert_nil users(:quentin).remember_token
+    users(:dustin).remember_me
+    assert_not_nil users(:dustin).remember_token
+    users(:dustin).forget_me
+    assert_nil users(:dustin).remember_token
   end
   
 
@@ -94,7 +94,7 @@ class UserTest < Test::Unit::TestCase
   def test_creation
     pw='ii28g28g'
     u=User.new :login => 'dustin3', :name => 'Dustin Three',
-      :email => 'dustin@spy.net',
+      :email => 'dustin+sometest@spy.net',
       :password => pw, :password_confirmation => pw
     u.save
     assert_equal(3, u.id)
@@ -102,7 +102,7 @@ class UserTest < Test::Unit::TestCase
   end
 
   def test_lookup_by_name
-    u=User.find_by_login('quentin')
+    u=User.find_by_login('dustin')
     assert_equal(1, u.id)
   end
 

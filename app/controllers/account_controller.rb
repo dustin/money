@@ -1,7 +1,11 @@
 class AccountController < ApplicationController
   # say something nice, you goof!  something sweet.
   def index
-    redirect_to(:action => 'login') unless logged_in? || User.count > 0
+    if logged_in? || User.count > 0
+      redirect_to(:controller => '/acct', :action => 'index')
+    else
+      redirect_to(:action => 'login')
+    end
   end
 
   def login
@@ -10,7 +14,9 @@ class AccountController < ApplicationController
     if logged_in?
       if params[:remember_me] == "1"
         self.current_user.remember_me
-        cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
+        cookies[:auth_token] = { :value => self.current_user.remember_token,
+          :expires => self.current_user.remember_token_expires_at }
+        redirect_to :controller => '/acct', :action => 'index'
       end
       redirect_back_or_default(:controller => '/acct', :action => 'index')
       flash[:notice] = "Logged in successfully"
