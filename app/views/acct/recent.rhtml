@@ -1,0 +1,31 @@
+<h1>Recent Transactions</h1>
+
+<table class="transaction_list">
+<thead>
+	<tr>
+		<th>Clear</th>
+		<th>Txn ID</th>
+		<th>Date</th>
+		<th>User</th>
+		<th>Group</th>
+		<th>Category</th>
+		<th>Amount</th>
+		<th>Description</th>
+	</tr>
+</thead>
+
+<tbody>
+<% @transactions.each_with_index do |t, idx| %>
+  <tr class="<%= idx % 2 == 0 ? 'odd' : 'even'%> <%= t.deleted_at ? 'deleted' : '' %>">
+		<td>[<%= t.reconciled ? 'x' : '&nbsp;' %>]</td>
+		<td><%= t.id %></td>
+		<td><%= t.ds %></td>
+		<td><%= t.user.login %></td>
+		<td><%= t.category.group.name %></td>
+		<td><%= t.category.name %></td>
+		<td class="moneycolumn"><%= currency_span(t.amount) %></td>
+		<td><%= t.descr %></td>
+	</tr>
+<% end %>
+</tbody>
+</table>

@@ -12,6 +12,12 @@ class AcctController < ApplicationController
 
   def transactions_all
     do_txn_page :find_with_deleted
+    render :template => "acct/transactions"
+  end
+
+  def recent
+    @transactions=MoneyTransaction.find_with_deleted :all,
+      :order => "ts desc", :limit => TXN_LIMIT
   end
 
   private
@@ -30,7 +36,6 @@ class AcctController < ApplicationController
         :conditions => rec_conditions + [true])
       @unrec_sum=MoneyTransaction.sum(:amount,
         :conditions => rec_conditions + [false])
-      render :template => "acct/transactions"
     end
 
 end
