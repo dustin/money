@@ -10,26 +10,26 @@ class GroupTest < Test::Unit::TestCase
   end
 
   def test_list_users
-    assert_equal([1, 2], Group.find(1).users.map(&:id).sort)
+    assert_equal([1, 2], groups(:one).users.map(&:id).sort)
   end
 
   def test_list_users2
-    assert_equal([1], Group.find(2).users.map(&:id).sort)
+    assert_equal([1], groups(:two).users.map(&:id).sort)
   end
 
   def test_list_accounts
-    assert_equal([1, 2], Group.find(1).accounts.map(&:id).sort)
+    assert_equal([1, 2], groups(:one).accounts.map(&:id).sort)
   end
 
   def test_list_accounts2
-    assert_equal([3], Group.find(2).accounts.map(&:id))
+    assert_equal([3], groups(:two).accounts.map(&:id))
   end
 
   def test_balance
-    assert_equal(481.68, Group.find(1).balance)
+    assert_equal(481.68, groups(:one).balance)
   end
 
   def test_balance_empty
-    assert_equal(0, Group.find(2).balance)
+    assert_equal(0, groups(:two).balance)
   end
 end

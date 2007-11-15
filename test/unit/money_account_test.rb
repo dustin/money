@@ -11,14 +11,22 @@ class MoneyAccountTest < Test::Unit::TestCase
   end
 
   def test_lookup
-    assert_equal(Group.find(1), MoneyAccount.find(1).group)
+    assert_equal(groups(:one), MoneyAccount.find(1).group)
+  end
+
+  def test_transactions
+    assert_equal(2, money_accounts(:one).transactions.length)
+  end
+
+  def test_transactions_from_get
+    assert_equal(2, MoneyAccount.find(1).transactions.length)
   end
 
   def test_balance
-    assert_equal(-18.45, MoneyAccount.find(1).balance)
+    assert_equal(-18.45, money_accounts(:one).balance)
   end
 
   def test_balance_empty
-    assert_equal(0, MoneyAccount.find(3).balance)
+    assert_equal(0, money_accounts(:three).balance)
   end
 end
