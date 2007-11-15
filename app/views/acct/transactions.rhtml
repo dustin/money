@@ -4,7 +4,7 @@
 <thead>
 	<tr>
 		<th>Clear</th>
-		<th>Transaction ID</th>
+		<th>Txn ID</th>
 		<th>Date</th>
 		<th>User</th>
 		<th>Category</th>
@@ -14,16 +14,22 @@
 </thead>
 
 <tbody>
-<% @current_acct.transactions.each_with_index do |t, idx| %>
-  <tr class="<%= idx % 2 == 0 ? 'odd' : 'even'%>">
-		<td>[x]</td>
+<% @transactions.each_with_index do |t, idx| %>
+  <tr class="<%= idx % 2 == 0 ? 'odd' : 'even'%> <%= t.deleted_at ? 'deleted' : '' %>">
+		<td>[<%= t.reconciled ? 'x' : '&nbsp;' %>]</td>
 		<td><%= t.id %></td>
 		<td><%= t.ds %></td>
 		<td><%= t.user.login %></td>
 		<td><%= t.category.name %></td>
-		<td><%= currency_span(t.amount) %></td>
+		<td class="moneycolumn"><%= currency_span(t.amount) %></td>
 		<td><%= t.descr %></td>
 	</tr>
 <% end %>
 </tbody>
 </table>
+
+<p>
+	Ending balance:  <%= currency_span(@txn_sum) %><br>
+	Reconciled balance:  <%= currency_span(@rec_sum) %><br>
+	Unreconciled balance:  <%= currency_span(@unrec_sum) %><br>
+</p>
