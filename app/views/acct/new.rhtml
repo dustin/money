@@ -1,0 +1,14 @@
+<% form_for :money_transaction do |f| %>
+  <fieldset>
+	  <legend>Account</legend>
+		<div><label><span>Category</span>
+			<%= collection_select("job", "category_id" , @categories, "id", "name") %></label>
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>Details</legend>
+		<div><label><span>Description</span> <%= f.text_field :descr %></label></div>
+		<div><label><span>Amount</span> <%= f.text_field :amount %></label></div>
+	</fieldset>
+	<%= submit_tag %>
+<% end %>

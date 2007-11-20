@@ -51,3 +51,8 @@ tr.even {
 	background: #ddf;
 	color: black;
 }
+
+label span {
+	float: left;
+	width: 100px;
+}

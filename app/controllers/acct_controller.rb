@@ -20,6 +20,15 @@ class AcctController < ApplicationController
       :order => "ts desc", :limit => TXN_LIMIT
   end
 
+  def new
+    @current_acct=MoneyAccount.find(params[:id].to_i)
+    @categories=@current_acct.group.categories
+    @txn = MoneyTransaction.new(params[:money_transaction])
+    if request.post?
+      @txn.save
+    end
+  end
+
   private
 
     # Load up some transactions with the approriate transaction find method
