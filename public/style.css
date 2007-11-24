@@ -56,3 +56,13 @@ label span {
 	float: left;
 	width: 100px;
 }
+
+.defaultfield {
+	background: inherit;
+	color: #777;
+}
+
+.flash {
+  background: #fe0;
+  padding: 2px;
+}

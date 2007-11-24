@@ -1,5 +1,6 @@
 class AcctController < ApplicationController
 
+  # The maximum number of transactions that will be displayed
   TXN_LIMIT=50
 
   def index
@@ -21,11 +22,23 @@ class AcctController < ApplicationController
   end
 
   def new
+    @today = Date.today.strftime
     @current_acct=MoneyAccount.find(params[:id].to_i)
     @categories=@current_acct.group.categories
     @txn = MoneyTransaction.new(params[:money_transaction])
+    # Force some fields
+    @txn.user = current_user
+    @txn.account = @current_acct
+    @txn.ts = Time.now
     if request.post?
-      @txn.save
+      # Weird amount handling to make the difference between deposit and withdrawal clear
+      @txn.amount = @txn.amount.abs
+      if params[:withdraw].to_i == 1
+        @txn.amount = 0 - @txn.amount
+      end
+      @txn.save!
+      flash[:saved]="Saved txn for #{@txn.amount}"
+      redirect_to :action => 'new'
     end
   end
 

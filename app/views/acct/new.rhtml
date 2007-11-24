@@ -1,14 +1,49 @@
+<% if flash[:saved] %>
+	<div class="flash"><%= flash[:saved] %></div>
+<% end %>
+
+<h1>Recording a New Transaction in <%= @current_acct.name %></h1>
+
 <% form_for :money_transaction do |f| %>
   <fieldset>
 	  <legend>Account</legend>
 		<div><label><span>Category</span>
-			<%= collection_select("job", "category_id" , @categories, "id", "name") %></label>
+			<%= collection_select("money_transaction", "category_id" , @categories, "id", "name") %></label>
 		</div>
 	</fieldset>
 	<fieldset>
 		<legend>Details</legend>
+		<div><label><span>Date</span> <%= f.text_field :ds %></label></div>
 		<div><label><span>Description</span> <%= f.text_field :descr %></label></div>
-		<div><label><span>Amount</span> <%= f.text_field :amount %></label></div>
+		<div>
+			<label><span>Amount</span> <%= f.text_field :amount %></label>
+			<select id="withdraw_field" name="withdraw">
+				<option value="1">Withdrawal</option>
+				<option value="0">Deposit</option>
+			</select>
+		</div>
 	</fieldset>
 	<%= submit_tag %>
 <% end %>
+
+<script type="text/javascript">
+	function adjust_opt_state() {
+		var f='money_transaction_amount';
+		var swap_class = function(o, n) {
+			Element.removeClassName(f, o);
+			Element.addClassName(f, n);
+		};
+		if($F('withdraw_field') == '0') {
+			swap_class('negative', 'positive');
+		} else {
+			swap_class('positive', 'negative');
+		}
+	};
+	$('withdraw_field').onchange = adjust_opt_state;
+		Event.observe(window, 'load', function() {
+			adjust_opt_state();
+			<% if @txn.ds != '' %>
+				field_blur_behavior('money_transaction_ds', '<%= @today %>');
+			<% end %>
+	});
+</script>
