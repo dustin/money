@@ -62,7 +62,15 @@ label span {
 	color: #777;
 }
 
-.flash {
+.info {
   background: #fe0;
+	color: inherit;
+  padding: 2px;
+}
+
+.error {
+  background: #fe0;
+	color: red;
+	font-weight: bold;
   padding: 2px;
 }

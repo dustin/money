@@ -12,7 +12,8 @@
 <body>
 
 	<div id="maincontent">
-		<% if flash[:saved] %><div class="flash"><%= flash[:saved] %></div><% end %>
+		<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+		<% if flash[:info] %><div class="info"><%= flash[:info] %></div><% end %>
 		<%= yield %>
 	</div>
 

@@ -37,7 +37,7 @@ class AcctController < ApplicationController
         @txn.amount = 0 - @txn.amount
       end
       @txn.save!
-      flash[:saved]="Saved txn for #{@txn.amount}"
+      flash[:info]="Saved txn for #{@txn.amount}"
       @new_id = @txn.id
       redirect_to :action => 'new'
     end
