@@ -11,7 +11,10 @@
 
 <body>
 
-	<div id="maincontent"><%= yield %></div>
+	<div id="maincontent">
+		<% if flash[:saved] %><div class="flash"><%= flash[:saved] %></div><% end %>
+		<%= yield %>
+	</div>
 
 	<div id="footer">
 		<% if current_user && current_user != :false %>

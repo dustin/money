@@ -1,7 +1,3 @@
-<% if flash[:saved] %>
-	<div class="flash"><%= flash[:saved] %></div>
-<% end %>
-
 <h1>Recording a New Transaction in <%= @current_acct.name %></h1>
 
 <% form_for :money_transaction do |f| %>
@@ -25,6 +21,10 @@
 	</fieldset>
 	<%= submit_tag %>
 <% end %>
+
+<p>
+	<%= link_to 'Show Current', :action => 'transactions', :id => @current_acct.id %>
+</p>
 
 <script type="text/javascript">
 	function adjust_opt_state() {

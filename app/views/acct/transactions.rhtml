@@ -33,3 +33,7 @@
 	Reconciled balance:  <%= currency_span(@rec_sum) %><br>
 	Unreconciled balance:  <%= currency_span(@unrec_sum) %><br>
 </p>
+
+<p>
+	<%= link_to 'New Transaction', :action => 'new', :id => @current_acct.id %>
+</p>
