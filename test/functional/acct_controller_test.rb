@@ -78,31 +78,29 @@ class AcctControllerTest < Test::Unit::TestCase
     assert assigns['txn']
   end
 
-  def test_new
-    login_as :dustin
-    acct = MoneyAccount.find 1
-    old_balance = acct.balance
-    post :new, {:id => 1, :withdraw => 1, :money_transaction => {
+  def test_new_withdrawal
+    new_test -19.99, {:id => 1, :withdraw => 1, :money_transaction => {
       :ds => '2007-11-11', :descr => 'Test Transaction',
       :amount => 19.99, :category_id => 2}}
-    assert_response :redirect
-    # Check out the latest transaction
-    txn = MoneyTransaction.find assigns['new_id']
-    assert_in_delta -19.99, txn.amount, 2 ** -20
-    assert_in_delta old_balance - 19.99, acct.balance, 2 ** -20
   end
 
   def test_new_deposit
-    login_as :dustin
-    acct = MoneyAccount.find 1
-    old_balance = acct.balance
-    post :new, {:id => 1, :withdraw => 0, :money_transaction => {
+    new_test 19.99, {:id => 1, :withdraw => 0, :money_transaction => {
       :ds => '2007-11-11', :descr => 'Test Transaction',
       :amount => 19.99, :category_id => 2}}
-    assert_response :redirect
-    # Check out the latest transaction
-    txn = MoneyTransaction.find assigns['new_id']
-    assert_in_delta 19.99, txn.amount, 2 ** -20
-    assert_in_delta old_balance + 19.99, acct.balance, 2 ** -20
   end
+
+  private
+
+    def new_test(offset_expectation, args)
+      login_as :dustin
+      acct = MoneyAccount.find 1
+      old_balance = acct.balance
+      post :new, args
+      assert_response :redirect
+      # Check out the latest transaction
+      txn = MoneyTransaction.find assigns['new_id']
+      assert_in_delta offset_expectation, txn.amount, 2 ** -20
+      assert_in_delta old_balance + offset_expectation, acct.balance, 2 ** -20
+    end
 end
