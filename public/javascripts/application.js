@@ -19,3 +19,10 @@ function field_blur_behavior(field, def) {
 		Event.observe(window, 'unload', f.onfocus);
     f.onblur();
 }
+
+// Remove all children from the given element.
+function clear_children(el) {
+    while(el.hasChildNodes()) {
+        el.removeChild(el.firstChild);
+    }
+}

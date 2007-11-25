@@ -1,4 +1,5 @@
 class AcctController < ApplicationController
+  include AcctHelper
 
   # The maximum number of transactions that will be displayed
   TXN_LIMIT=50
@@ -41,6 +42,39 @@ class AcctController < ApplicationController
       @new_id = @txn.id
       redirect_to :action => 'new'
     end
+  end
+
+  def transfer
+    @today = Date.today.strftime
+    @current_acct=MoneyAccount.find(params[:id].to_i)
+    @categories=@current_acct.group.categories
+
+    if request.post?
+      dest_acct_id=params[:dest_acct].to_i
+      if @current_acct.id == dest_acct_id
+        flash[:error]="Source and destination accounts must be different."
+        redirect_to :action => 'transfer'
+      else
+        # Do stuff
+        dest_acct=MoneyAccount.find dest_acct_id
+        src_cat=Category.find(params[:dest_cat].to_i)
+        dest_cat=Category.find(params[:src][:category_id].to_i)
+
+        details=params[:details]
+        amt=details[:amount].to_f
+
+        do_transfer(current_user, @current_acct,
+          dest_acct, src_cat, dest_cat, details[:ds], amt, details[:descr])
+
+        flash[:info]="Transferred #{amt} from #{@current_acct.name} to #{dest_acct.name}"
+      end
+    end
+  end
+
+  # Get the categories available for the given account ID
+  def cats_for_acct
+    acct = MoneyAccount.find(params[:id].to_i)
+    render :text => acct.group.categories.to_json, :layout => false
   end
 
   private

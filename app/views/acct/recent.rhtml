@@ -8,6 +8,7 @@
 		<th>Date</th>
 		<th>User</th>
 		<th>Group</th>
+		<th>Account</th>
 		<th>Category</th>
 		<th>Amount</th>
 		<th>Description</th>
@@ -22,6 +23,7 @@
 		<td><%= t.ds %></td>
 		<td><%= t.user.login %></td>
 		<td><%= t.category.group.name %></td>
+		<td><%= t.account.name %></td>
 		<td><%= t.category.name %></td>
 		<td class="moneycolumn"><%= currency_span(t.amount) %></td>
 		<td><%= t.descr %></td>
