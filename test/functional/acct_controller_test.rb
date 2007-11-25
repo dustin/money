@@ -149,6 +149,15 @@ class AcctControllerTest < Test::Unit::TestCase
     assert flash[:info]
   end
 
+  # This test just validates the response is successful.
+  def test_cat_list
+    login_as :dustin
+    get :cats_for_acct, {:id => 1}
+    assert_response :success
+    assert_equal '[{attributes: {name: "Cat1", id: "1", group_id: "1", budget: "300.5"}}, ' +
+      '{attributes: {name: "Cat2", id: "2", group_id: "1", budget: null}}]', @response.body
+  end
+
   private
 
     def new_test(offset_expectation, args)
