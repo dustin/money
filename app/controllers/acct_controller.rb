@@ -26,11 +26,11 @@ class AcctController < ApplicationController
     @current_acct=MoneyAccount.find(params[:id].to_i)
     @categories=@current_acct.group.categories
     @txn = MoneyTransaction.new(params[:money_transaction])
-    # Force some fields
-    @txn.user = current_user
-    @txn.account = @current_acct
-    @txn.ts = Time.now
     if request.post?
+      # Force some fields
+      @txn.user = current_user
+      @txn.account = @current_acct
+      @txn.ts = Time.now
       # Weird amount handling to make the difference between deposit and withdrawal clear
       @txn.amount = @txn.amount.abs
       if params[:withdraw].to_i == 1
@@ -38,6 +38,7 @@ class AcctController < ApplicationController
       end
       @txn.save!
       flash[:saved]="Saved txn for #{@txn.amount}"
+      @new_id = @txn.id
       redirect_to :action => 'new'
     end
   end

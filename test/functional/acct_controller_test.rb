@@ -7,7 +7,7 @@ class AcctController; def rescue_action(e) raise e end; end
 class AcctControllerTest < Test::Unit::TestCase
   include AuthenticatedTestHelper
 
-  fixtures :users, :groups
+  fixtures :users, :groups, :money_accounts, :categories
 
   def setup
     @controller = AcctController.new
@@ -67,5 +67,36 @@ class AcctControllerTest < Test::Unit::TestCase
     assert_in_delta 0.0, assigns['txn_sum'], 2 ** -20
     assert_in_delta 0.0, assigns['rec_sum'], 2 ** -20
     assert_in_delta 0.0, assigns['unrec_sum'], 2 ** -20
+  end
+
+  def test_new_form
+    login_as :dustin
+    get :new, {:id => 1}
+    assert_response :success
+    assert assigns['today']
+    assert assigns['current_acct']
+    assert assigns['txn']
+  end
+
+  def test_new
+    login_as :dustin
+    post :new, {:id => 1, :withdraw => 1, :money_transaction => {
+      :ds => '2007-11-11', :descr => 'Test Transaction',
+      :amount => 19.99, :category_id => 2}}
+    assert_response :redirect
+    # Check out the latest transaction
+    txn = MoneyTransaction.find assigns['new_id']
+    assert_in_delta -19.99, txn.amount, 2 ** -20
+  end
+
+  def test_new_deposit
+    login_as :dustin
+    post :new, {:id => 1, :withdraw => 0, :money_transaction => {
+      :ds => '2007-11-11', :descr => 'Test Transaction',
+      :amount => 19.99, :category_id => 2}}
+    assert_response :redirect
+    # Check out the latest transaction
+    txn = MoneyTransaction.find assigns['new_id']
+    assert_in_delta 19.99, txn.amount, 2 ** -20
   end
 end
