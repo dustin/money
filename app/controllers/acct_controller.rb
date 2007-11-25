@@ -27,6 +27,9 @@ class AcctController < ApplicationController
     @current_acct=MoneyAccount.find(params[:id].to_i)
     @categories=@current_acct.group.categories
     @txn = MoneyTransaction.new(params[:money_transaction])
+
+    title "New Transaction in #{@current_acct.name}"
+
     if request.post?
       # Force some fields
       @txn.user = current_user
@@ -48,6 +51,8 @@ class AcctController < ApplicationController
     @today = Date.today.strftime
     @current_acct=MoneyAccount.find(params[:id].to_i)
     @categories=@current_acct.group.categories
+
+    title "Transfer from #{@current_acct.name}"
 
     if request.post?
       dest_acct_id=params[:dest_acct].to_i
@@ -83,6 +88,7 @@ class AcctController < ApplicationController
     # Load up some transactions with the approriate transaction find method
     def do_txn_page(which)
       @current_acct=MoneyAccount.find(params[:id].to_i)
+      title "Transaction list for #{@current_acct.name}"
       conditions=["money_account_id = ?", @current_acct.id]
 
       @transactions=MoneyTransaction.send which, :all,

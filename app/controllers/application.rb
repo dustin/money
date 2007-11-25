@@ -10,4 +10,13 @@ class ApplicationController < ActionController::Base
 
   # Pick a unique cookie name to distinguish our session data from others'
   session :session_key => '_money_session_id'
+
+  def initialize
+    @page_title='Money'
+  end
+
+  # Set the title for a given page.
+  def title(str)
+    @page_title=str
+  end
 end
