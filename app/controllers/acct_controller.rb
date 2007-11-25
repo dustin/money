@@ -67,6 +67,7 @@ class AcctController < ApplicationController
           dest_acct, src_cat, dest_cat, details[:ds], amt, details[:descr])
 
         flash[:info]="Transferred #{amt} from #{@current_acct.name} to #{dest_acct.name}"
+        redirect_to :action => 'transfer'
       end
     end
   end

@@ -6,6 +6,7 @@ class AcctController; def rescue_action(e) raise e end; end
 
 class AcctControllerTest < Test::Unit::TestCase
   include AuthenticatedTestHelper
+  include AcctHelper
 
   fixtures :users, :groups, :money_accounts, :categories
 
@@ -88,6 +89,64 @@ class AcctControllerTest < Test::Unit::TestCase
     new_test 19.99, {:id => 1, :withdraw => 0, :money_transaction => {
       :ds => '2007-11-11', :descr => 'Test Transaction',
       :amount => 19.99, :category_id => 2}}
+  end
+
+  def test_transfer_helper
+    oldbal=Group.find(1).balance
+    txn1, txn2=do_transfer(User.find(1), MoneyAccount.find(1), MoneyAccount.find(2),
+      Category.find(1), Category.find(1), '2007-11-01', 3.11, 'Transfer test')
+
+    assert_in_delta -3.11, txn1.amount, 2 ** -20
+    assert_in_delta 3.11, txn2.amount, 2 ** -20
+
+    # The balance should not change since this is a transfer in-group
+    assert_in_delta oldbal, Group.find(1).balance, 2 ** -20
+  end
+
+  def test_transfer_helper_zero
+    assert_raise(RuntimeError) do
+      do_transfer(User.find(1), MoneyAccount.find(1), MoneyAccount.find(2),
+        Category.find(1), Category.find(1), '2007-11-01', 0, 'Transfer test')
+    end
+  end
+
+  def test_transfer_helper_negative
+    assert_raise(RuntimeError) do
+      do_transfer(User.find(1), MoneyAccount.find(1), MoneyAccount.find(2),
+        Category.find(1), Category.find(1), '2007-11-01', -1.43, 'Transfer test')
+    end
+  end
+
+  def test_transfer_helper_same_cat
+    assert_raise(RuntimeError) do
+      do_transfer(User.find(1), MoneyAccount.find(1), MoneyAccount.find(1),
+        Category.find(1), Category.find(1), '2007-11-01', 1.33, 'Transfer test')
+    end
+  end
+
+  def test_transfer_form
+    login_as :dustin
+    get :transfer, {:id => 1}
+    assert_response :success
+    assert assigns['today']
+    assert assigns['current_acct']
+    assert assigns['categories']
+  end
+
+  def test_transfer_bad_accounts
+    login_as :dustin
+    post :transfer, {:id => 1, :dest_acct => 1}
+    assert_response 302
+    assert flash[:error]
+  end
+
+  def test_transfer
+    login_as :dustin
+    post :transfer, {:id => 1, :dest_acct => 2, :dest_cat => 1,
+      :src => {:category_id => 1},
+      :details => {:ds => '2007-11-25', :amount => 1.33, :descr => 'test'}}
+    assert_response 302
+    assert flash[:info]
   end
 
   private
