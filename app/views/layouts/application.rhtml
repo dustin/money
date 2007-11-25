@@ -23,7 +23,8 @@
 				<% if idx > 0 %>| <% end%><%= g.name %>: <%= currency_span(g.balance) %>
 			<% end %>
 			<br/>
-			<%= link_to 'Logout', :action => 'logout', :controller => 'account'%>
+			<%= link_to 'Home', :action => 'index' %>
+			| <%= link_to 'Logout', :action => 'logout', :controller => 'account'%>
 		<% end %>
 	</div>
 </body>

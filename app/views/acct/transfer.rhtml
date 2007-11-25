@@ -32,6 +32,11 @@
 	<%= submit_tag %>
 </form>
 
+<p>
+	<%= link_to 'Show Current', :action => 'transactions', :id => @current_acct.id %>
+	| <%= link_to 'Withdraw/Deposit', :action => 'new', :id => @current_acct.id %>
+</p>
+
 <script type="text/javascript">
 	field_blur_behavior('details_ds', '<%= @today %>');
 
