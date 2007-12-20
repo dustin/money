@@ -1,3 +1,20 @@
+# == Schema Information
+# Schema version: 8
+#
+# Table name: money_transactions
+#
+#  id               :integer       not null, primary key
+#  user_id          :integer       not null
+#  money_account_id :integer       not null
+#  category_id      :integer       not null
+#  descr            :string(255)   not null
+#  amount           :decimal(6, 2) not null
+#  ds               :date          not null
+#  reconciled       :boolean       not null
+#  deleted_at       :datetime      
+#  ts               :datetime      not null
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
   id: 1

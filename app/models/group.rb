@@ -1,3 +1,12 @@
+# == Schema Information
+# Schema version: 8
+#
+# Table name: groups
+#
+#  id   :integer       not null, primary key
+#  name :string(255)   not null
+#
+
 class Group < ActiveRecord::Base
   has_many :accounts, :class_name => "MoneyAccount"
   has_many :categories, :class_name => "Category"

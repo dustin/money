@@ -1,3 +1,13 @@
+# == Schema Information
+# Schema version: 8
+#
+# Table name: allowance_logs
+#
+#  id                :integer       not null, primary key
+#  allowance_task_id :integer       not null
+#  ts                :datetime      not null
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
   id: 1

@@ -1,3 +1,13 @@
+# == Schema Information
+# Schema version: 8
+#
+# Table name: money_accounts
+#
+#  id       :integer       not null, primary key
+#  group_id :integer       not null
+#  name     :string(255)   not null
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
   id: 1
