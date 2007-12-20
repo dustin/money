@@ -8,7 +8,7 @@ class TransactionStruct < ActionWebService::Struct
  member :descr, :string
 end
 
-class TransactionAPI < ActionWebService::API::Base
+class TransactionApi < ActionWebService::API::Base
  inflect_names false
  api_method :addTransactions,
   :expects => [:string, :string, [TransactionStruct]],

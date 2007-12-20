@@ -13,7 +13,7 @@ class GroupStruct < ActionWebService::Struct
  member :accounts, [AccountStruct]
 end
 
-class AccountAPI < ActionWebService::API::Base
+class AccountApi < ActionWebService::API::Base
  inflect_names false
  api_method :getAccountInfo,
   :expects => [:string, :string],

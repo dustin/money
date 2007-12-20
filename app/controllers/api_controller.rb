@@ -5,7 +5,7 @@ require 'api_helper'
 class AccountService < ActionWebService::Base
   include ApiHelper
 
-  web_service_api AccountAPI
+  web_service_api AccountApi
 
   def getAccountInfo(username, password)
     user=authenticate(username, password)
@@ -16,7 +16,7 @@ end
 class TransactionService < ActionWebService::Base
   include ApiHelper
 
-  web_service_api TransactionAPI
+  web_service_api TransactionApi
 
   def addTransactions(username, password, txns)
     user=authenticate(username, password)
