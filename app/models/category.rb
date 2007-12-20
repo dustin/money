@@ -9,14 +9,6 @@
 #  budget   :decimal(6, 2) 
 #
 
-require 'cache_helpers'
-
 class Category < ActiveRecord::Base
-
-  acts_as_cached
-
-  # belongs_to :group, :class_name => "Group", :foreign_key => "group_id"
-
-  include CacheHelpers::GroupCache
-
+  belongs_to :group, :class_name => "Group", :foreign_key => "group_id"
 end
