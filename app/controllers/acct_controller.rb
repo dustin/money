@@ -87,7 +87,7 @@ class AcctController < ApplicationController
 
     # Load up some transactions with the approriate transaction find method
     def do_txn_page(which)
-      @current_acct=MoneyAccount.find(params[:id].to_i)
+      @current_acct=MoneyAccount.get_cache(params[:id].to_i)
       title "Transaction list for #{@current_acct.name}"
       conditions=["money_account_id = ?", @current_acct.id]
 

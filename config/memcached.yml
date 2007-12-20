@@ -4,9 +4,9 @@ defaults:
   urlencode: false
   c_threshold: 10000
   compression: true
-  debug: false
-  namespace: app
-  sessions: false
+  debug: true
+  namespace: money
+  sessions: true
   session_servers: false
   fragments: false
   memory: 64
@@ -19,9 +19,9 @@ defaults:
 development:
   sessions: false
   fragments: false
+  raise_errors: true
   servers:
-    - purple:11211
-    - red:11211
+    - 127.0.0.1:11211
 
 # turn off caching
 test: 

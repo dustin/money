@@ -8,6 +8,8 @@
 #
 
 class Group < ActiveRecord::Base
+  acts_as_cached
+
   has_many :accounts, :class_name => "MoneyAccount"
   has_many :categories, :class_name => "Category"
   has_and_belongs_to_many :users, :class_name => "User",
