@@ -12,6 +12,14 @@ class MoneyTransactionTest < Test::Unit::TestCase
     assert_equal 3, MoneyTransaction.count
   end
 
+  def test_transaction_count_reconciled
+    assert_equal 1, MoneyTransaction.count(:conditions => ['reconciled = ?', true])
+  end
+
+  def test_transaction_count_not_reconciled
+    assert_equal 2, MoneyTransaction.count(:conditions => ['reconciled = ?', false])
+  end
+
   def test_transaction_list_for_account
     assert_equal(2, MoneyAccount.find(1).transactions.length)
   end

@@ -22,8 +22,9 @@ class MoneyTransaction < ActiveRecord::Base
   belongs_to :category, :class_name => "Category", :foreign_key => "category_id"
 
   # acts_as_paranoid seems to break the count function.  Added a simple one.
-  def self.count
-    MoneyTransaction.find(:all).length
+  def self.count(*args)
+    opts = args.extract_options!
+    MoneyTransaction.find(:all, opts).length
   end
-  
+
 end
