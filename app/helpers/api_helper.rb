@@ -1,5 +1,8 @@
 module ApiHelper
 
+  class AuthorizationException < StandardError
+  end
+
   class IdNameStruct < ActionWebService::Struct
     member :id, :int  
     member :name, :string
@@ -7,7 +10,7 @@ module ApiHelper
 
   def authenticate(username, password)
     user = User.authenticate(username, password)
-    raise "Auth Exception" if user.nil?
+    raise AuthorizationException.new("Auth Exception") if user.nil?
     user
   end
   

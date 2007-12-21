@@ -13,6 +13,9 @@ class AccountService < ActionWebService::Base
   end
 end
 
+class CatAcctMismatchException < StandardError
+end
+
 class TransactionService < ActionWebService::Base
   include ApiHelper
 
@@ -25,7 +28,14 @@ class TransactionService < ActionWebService::Base
       txns.each do |txn|
         cat=Category.find(txn.catid)
         acct=MoneyAccount.find(txn.acctid)
-        raise "Cat doesn't belong to this group." if cat.group != acct.group
+
+        unless user.groups.include?(acct.group)
+          raise AuthorizationException.new("You have no permission to this account.")
+        end
+        if cat.group != acct.group
+          raise CatAcctMismatchException.new("Cat doesn't belong to this group.")
+        end
+
         t=MoneyTransaction.new :category => cat, :ds => txn.date,
           :amount => txn.amt, :descr => txn.descr,
           :money_account_id => acct.id, :ts => Time.now,
