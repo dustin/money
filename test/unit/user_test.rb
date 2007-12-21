@@ -88,7 +88,7 @@ class UserTest < Test::Unit::TestCase
   end
 
   def test_user_role_map2
-    assert_equal([1, 2], User.find(1).roles.map(&:id).sort)
+    assert_equal [1, 2, 3], users(:dustin).roles.map(&:id).sort
   end
 
   def test_creation

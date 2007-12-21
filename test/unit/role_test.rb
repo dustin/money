@@ -6,7 +6,7 @@ class RoleTest < Test::Unit::TestCase
   def test_create
     r=Role.new :name => 'Test Role'
     r.save
-    assert_equal(r, Role.find(3))
+    assert_equal(r, Role.find(r.id))
   end
 
   def test_lookup
