@@ -8,6 +8,10 @@ class MoneyTransactionTest < Test::Unit::TestCase
     assert_equal(3, MoneyTransaction.find(:all).length)
   end
 
+  def test_transaction_count
+    assert_equal 3, MoneyTransaction.count
+  end
+
   def test_transaction_list_for_account
     assert_equal(2, MoneyAccount.find(1).transactions.length)
   end
