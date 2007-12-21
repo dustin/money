@@ -84,23 +84,38 @@ class TxnController < ApplicationController
     @txn.save!
   end
 
+  def set_reconcile
+    @current_acct=MoneyAccount.find params[:acct_id].to_i
+    
+    @txn = MoneyTransaction.find params[:id].to_i
+    @txn.reconciled = (params[:checked].to_i == 1)
+    @txn.save!
+    get_sums
+    render :template => 'txn/update_reconciled'
+  end
+
   private
 
-  # Load up some transactions with the approriate transaction find method
-  def do_txn_page(which)
-    @current_acct=MoneyAccount.find(params[:id].to_i)
-    title "Transaction list for #{@current_acct.name}"
-    conditions=["money_account_id = ?", @current_acct.id]
-
-    @transactions=MoneyTransaction.send which, :all,
-      :conditions => conditions, :order => "ts desc", :limit => TXN_LIMIT
-
+  def get_sums
     @txn_sum=MoneyTransaction.sum(:amount, :conditions => conditions) || 0
     rec_conditions=["money_account_id = ? and reconciled=?", @current_acct.id]
     @rec_sum=MoneyTransaction.sum(:amount,
       :conditions => rec_conditions + [true]) || 0
     @unrec_sum=MoneyTransaction.sum(:amount,
       :conditions => rec_conditions + [false]) || 0
+  end
+
+  def conditions
+    ["money_account_id = ?", @current_acct.id]
+  end
+
+  # Load up some transactions with the approriate transaction find method
+  def do_txn_page(which)
+    @current_acct=MoneyAccount.find(params[:id].to_i)
+    get_sums
+    title "Transaction list for #{@current_acct.name}"
+    @transactions=MoneyTransaction.send which, :all,
+      :conditions => conditions, :order => "ts desc", :limit => TXN_LIMIT
   end
 
 end

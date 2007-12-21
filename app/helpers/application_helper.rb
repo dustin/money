@@ -8,8 +8,9 @@ module ApplicationHelper
     rv
   end
 
-  def currency_span(amt)
-    "<span class=\"#{amt_class(amt)}\">#{number_to_currency(amt)}</span>"
+  def currency_span(amt, id=nil)
+    i=id ? %W(id="#{id}") : ''
+    "<span #{i} class=\"#{amt_class(amt)}\">#{number_to_currency(amt)}</span>"
   end
 
 end

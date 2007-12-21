@@ -1,0 +1,15 @@
+def update_item(page, el, amt)
+  toadd='positive'
+  toremove='negative'
+  if amt < 0
+    toadd='negative'
+    toremove='positive'
+  end
+  page[el].add_class_name(toadd)
+  page[el].remove_class_name(toremove)
+
+  page[el].innerHTML = number_to_currency amt
+end
+
+update_item page, 'reconciled', @rec_sum
+update_item page, 'unreconciled', @unrec_sum

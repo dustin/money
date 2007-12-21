@@ -46,7 +46,7 @@ Rails::Initializer.run do |config|
 end
 
 class Array 
-  def extract_options! 
+  def extract_options!
     self.last.is_a?(Hash) ? pop : {} 
   end 
 end

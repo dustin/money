@@ -4,6 +4,11 @@ require 'txn_controller'
 # Re-raise errors caught by the controller.
 class TxnController; def rescue_action(e) raise e end; end
 
+# Extra method for a test because I can't figure out how to pass arguments in.
+def MoneyTransaction.count_reconciled
+  MoneyTransaction.count :conditions => ['reconciled = ?', true]
+end
+
 class TxnControllerTest < Test::Unit::TestCase
 
   include AuthenticatedTestHelper
@@ -153,8 +158,24 @@ class TxnControllerTest < Test::Unit::TestCase
 
   def test_rjs_undelete
     login_as :dustin
-    assert_difference MoneyTransaction, :count, 1 do
+    assert_difference MoneyTransaction, :count do
       xhr :post, :undelete, :id => 3
+    end
+    assert_response :success
+  end
+
+  def test_rjs_reconcile
+    login_as :dustin
+    assert_difference MoneyTransaction, :count_reconciled do
+      xhr :post, :set_reconcile, :id => 1, :acct_id => 1, :checked => 1
+    end
+    assert_response :success
+  end
+
+  def test_rjs_unreconcile
+    login_as :dustin
+    assert_difference MoneyTransaction, :count_reconciled, -1 do
+      xhr :post, :set_reconcile, :id => 2, :acct_id => 1, :checked => 0
     end
     assert_response :success
   end
