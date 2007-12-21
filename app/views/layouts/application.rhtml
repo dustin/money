@@ -26,6 +26,11 @@
 			<%= link_to 'Home', :action => 'index' %>
 			| <%= link_to 'Logout', :action => 'logout', :controller => 'account'%>
 		<% end %>
+		<% if current_user.roles.map(&:name).include? 'admin' %>
+			<br/>
+			Admin stuff:
+			<%= link_to 'Recent', :action => 'recent', :controller => 'txn' %>
+		<% end %>
 	</div>
 </body>
 </html>

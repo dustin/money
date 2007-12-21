@@ -7,3 +7,6 @@ two:
 three:
   user_id: 2
   role_id: 1
+four:
+  user_id: 1
+  role_id: 3
