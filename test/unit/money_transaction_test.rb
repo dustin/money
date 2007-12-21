@@ -59,6 +59,24 @@ class MoneyTransactionTest < Test::Unit::TestCase
     assert_equal(t, MoneyTransaction.find(5))
   end
 
+  def test_bad_creation
+    a=money_accounts(:three)
+    t=a.transactions.create(:user => users(:dustin),
+      :category => categories(:one),
+      :descr => "Test transaction", :amount => -99.99, :ds => Date.today,
+      :ts => Time.now)
+    assert_raise(ActiveRecord::RecordInvalid) { t.save! }
+  end
+
+  def test_another_bad_creation
+    a=money_accounts(:three)
+    t=a.transactions.create(:user => users(:aaron),
+      :category => categories(:three),
+      :descr => "Test transaction", :amount => -99.99, :ds => Date.today,
+      :ts => Time.now)
+    assert_raise(ActiveRecord::RecordInvalid) { t.save! }
+  end
+
   def test_summation
     s=MoneyTransaction.sum('amount', :conditions => 'money_account_id = 1')
     assert_in_delta(-18.45, s, 2 ** -20)

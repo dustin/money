@@ -27,4 +27,12 @@ class MoneyTransaction < ActiveRecord::Base
     MoneyTransaction.find(:all, opts).length
   end
 
+  def validate
+    unless user.groups.include?(account.group)
+      errors.add("user", "has no permission to account #{money_account_id}")
+    end
+    unless account.group_id == category.group_id
+      errors.add("category", "does not belong to this account")
+    end
+  end
 end
