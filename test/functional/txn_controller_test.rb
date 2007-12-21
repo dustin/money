@@ -9,7 +9,7 @@ class TxnControllerTest < Test::Unit::TestCase
   include AuthenticatedTestHelper
   include TxnHelper
 
-  fixtures :users, :groups, :money_accounts, :categories
+  fixtures :users, :groups, :money_accounts, :categories, :money_transactions
 
   def setup
     @controller = TxnController.new
@@ -141,6 +141,22 @@ class TxnControllerTest < Test::Unit::TestCase
       :details => {:ds => '2007-11-25', :amount => 1.33, :descr => 'test'}}
     assert_response 302
     assert flash[:info]
+  end
+
+  def test_rjs_delete
+    login_as :dustin
+    assert_difference MoneyTransaction, :count, -1 do
+      xhr :post, :delete, :id => 1
+    end
+    assert_response :success
+  end
+
+  def test_rjs_undelete
+    login_as :dustin
+    assert_difference MoneyTransaction, :count, 1 do
+      xhr :post, :undelete, :id => 3
+    end
+    assert_response :success
   end
 
   private

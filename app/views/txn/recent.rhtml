@@ -17,8 +17,14 @@
 
 <tbody>
 <% @transactions.each_with_index do |t, idx| %>
-  <tr class="<%= idx % 2 == 0 ? 'odd' : 'even'%> <%= t.deleted_at ? 'deleted' : '' %>">
-		<td>[<%= t.reconciled ? 'x' : '&nbsp;' %>]</td>
+  <tr id="txntr_<%= t.id %>" class="<%= idx % 2 == 0 ? 'odd' : 'even'%> <%= t.deleted_at ? 'deleted' : '' %>">
+		<td>
+			<form method="post" action="#">
+	      <label>
+	        <input type="checkbox" <%= t.deleted_at ? 'checked="1"' : '' %> id="txn_<%= t.id %>"/>
+	      </label>
+	    </form>
+		</td>
 		<td><%= t.id %></td>
 		<td><%= t.ds %></td>
 		<td><%= t.user.login %></td>
@@ -28,6 +34,15 @@
 		<td class="moneycolumn"><%= currency_span(t.amount) %></td>
 		<td><%= t.descr %></td>
 	</tr>
+	<script type="text/javascript">
+		$('txn_<%= t.id %>').onclick=function() {
+	    if($('txn_<%= t.id %>').checked) {
+	      <%= remote_function :url => {:controller => 'txn', :action => 'delete', :id => t.id} %>
+	    } else {
+	      <%= remote_function :url => {:controller => 'txn', :action => 'undelete', :id => t.id} %>
+	    }
+	  }
+	</script>
 <% end %>
 </tbody>
 </table>

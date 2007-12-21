@@ -73,6 +73,17 @@ class TxnController < ApplicationController
     end
   end
 
+  def delete
+    @txn = MoneyTransaction.find params[:id]
+    @txn.destroy
+  end
+
+  def undelete
+    @txn = MoneyTransaction.find_with_deleted params[:id]
+    @txn.deleted_at = nil
+    @txn.save!
+  end
+
   private
 
   # Load up some transactions with the approriate transaction find method
