@@ -24,7 +24,7 @@ class ApiControllerTest < Test::Unit::TestCase
   end
 
   def test_acct_info_bad_login
-    assert_raise(ApiHelper::AuthorizationException) do
+    assert_raise(ApiHelper::AuthException) do
       result = invoke_layered :accountInfo, :getAccountInfo, 'dustin', 'blah'
     end
   end
@@ -45,7 +45,7 @@ class ApiControllerTest < Test::Unit::TestCase
   end
 
   def test_txn_add_no_acct_auth
-    assert_raise(ApiHelper::AuthorizationException) do
+    assert_raise(ActiveRecord::RecordInvalid) do
       result = invoke_layered :transaction, :addTransactions,
         'aaron', 'test',
         [TransactionStruct.new(:acctid => 3, :catid => 3, :amt => 1.93,
@@ -54,7 +54,7 @@ class ApiControllerTest < Test::Unit::TestCase
   end
 
   def test_txn_cat_acct_mismatch
-    assert_raise(CatAcctMismatchException) do
+    assert_raise(ActiveRecord::RecordInvalid) do
       result = invoke_layered :transaction, :addTransactions,
         'dustin', 'blahblah',
         [TransactionStruct.new(:acctid => 3, :catid => 1, :amt => 1.93,
