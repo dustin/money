@@ -72,6 +72,14 @@ class User < ActiveRecord::Base
     save(false)
   end
 
+  def has_role?(role)
+    roles.map {|r| r.to_s.downcase}.include?(role.to_s.downcase)
+  end
+
+  def admin?
+    has_role?('admin')
+  end
+
   protected
     # before filter 
     def encrypt_password

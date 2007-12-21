@@ -14,6 +14,30 @@ class UserTest < Test::Unit::TestCase
     end
   end
 
+  def test_dustin_is_admin_from_roles_by_string
+    assert users(:dustin).has_role?('admin')
+  end
+
+  def test_dustin_is_admin_from_roles_by_object
+    assert users(:dustin).has_role?(roles(:admin))
+  end
+
+  def test_aaron_is_not_admin_from_roles_by_string
+    assert !users(:aaron).has_role?('admin')
+  end
+
+  def test_aaron_is_not_admin_from_roles_by_object
+    assert !users(:aaron).has_role?(roles(:admin))
+  end
+
+  def test_dustin_is_admin?
+    assert users(:dustin).admin?
+  end
+
+  def test_aaron_is_admin?
+    assert !users(:aaron).admin?
+  end
+
   def test_should_require_login
     assert_no_difference User, :count do
       u = create_user(:login => nil)
