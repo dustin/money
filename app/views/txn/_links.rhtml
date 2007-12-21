@@ -1,0 +1,8 @@
+<% if @type != :unreconciled %>
+	<%= link_to 'Show Unreconciled', :action => 'unreconciled', :id => @current_acct.id %> |
+<% end %>
+<% if @type != :normal %>
+	<%= link_to 'Show All', :action => 'index', :id => @current_acct.id %> |
+<% end %>
+<%= link_to 'Withdraw/Deposit', :controller => 'txn', :action => 'new', :id => @current_acct.id %>
+| <%= link_to 'Transfer',:controller => 'txn', :action => 'transfer', :id => @current_acct.id %>

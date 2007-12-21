@@ -6,16 +6,29 @@ class TxnController < ApplicationController
 
   def index
     do_txn_page :find
+    @type = :normal
+    title "Full transaction list for #{@current_acct.name}"
+  end
+
+  def unreconciled
+    get_acct_from_params
+    do_txn_page :find, ["money_account_id = ? and reconciled = ?", @current_acct.id, false]
+    @type = :unreconciled
+    title "Unreconciled transaction list for #{@current_acct.name}"
+    render :template => "txn/index"
   end
 
   def all
     do_txn_page :find_with_deleted
+    @type = :all
+    title "Full transaction list for #{@current_acct.name} (including deleted)"
     render :template => "txn/index"
   end
 
   def recent
     @transactions=MoneyTransaction.find_with_deleted :all,
       :order => "ts desc", :limit => TXN_LIMIT
+    title "Recent Transactions"
   end
 
   def new
@@ -85,8 +98,7 @@ class TxnController < ApplicationController
   end
 
   def set_reconcile
-    @current_acct=MoneyAccount.find params[:acct_id].to_i
-    
+    get_acct_from_params
     @txn = MoneyTransaction.find params[:id].to_i
     @txn.reconciled = (params[:checked].to_i == 1)
     @txn.save!
@@ -96,7 +108,8 @@ class TxnController < ApplicationController
 
   private
 
-  def get_sums
+  def get_sums(conditions=nil)
+    conditions = conditions.nil? ? default_conditions : conditions
     @txn_sum=MoneyTransaction.sum(:amount, :conditions => conditions) || 0
     rec_conditions=["money_account_id = ? and reconciled=?", @current_acct.id]
     @rec_sum=MoneyTransaction.sum(:amount,
@@ -105,17 +118,24 @@ class TxnController < ApplicationController
       :conditions => rec_conditions + [false]) || 0
   end
 
-  def conditions
+  def default_conditions
     ["money_account_id = ?", @current_acct.id]
   end
 
+  def get_acct_from_params
+    if @current_acct.nil?
+      @current_acct=MoneyAccount.find(params[:id].to_i)
+    end
+  end
+
   # Load up some transactions with the approriate transaction find method
-  def do_txn_page(which)
-    @current_acct=MoneyAccount.find(params[:id].to_i)
-    get_sums
-    title "Transaction list for #{@current_acct.name}"
+  def do_txn_page(which, list_conditions=nil, conditions=nil)
+    get_acct_from_params
+    conditions = conditions.nil? ? default_conditions : conditions
+    list_conditions = list_conditions.nil? ? default_conditions : list_conditions
+    get_sums conditions
     @transactions=MoneyTransaction.send which, :all,
-      :conditions => conditions, :order => "ts desc", :limit => TXN_LIMIT
+      :conditions => list_conditions, :order => "ts desc", :limit => TXN_LIMIT
   end
 
 end

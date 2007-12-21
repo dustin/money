@@ -69,6 +69,13 @@ class TxnControllerTest < Test::Unit::TestCase
     assert_in_delta 0.0, assigns['unrec_sum'], 2 ** -20
   end
 
+  def test_unreconciled
+    login_as :dustin
+    get :unreconciled, {:id => 1}
+    assert_response :success
+    assert_equal 1, assigns['transactions'].length
+  end
+
   def test_new_form
     login_as :dustin
     get :new, {:id => 1}

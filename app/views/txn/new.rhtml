@@ -23,7 +23,8 @@
 <% end %>
 
 <p>
-	<%= link_to 'Show Current', :action => 'index', :id => @current_acct.id %>
+	<%= link_to 'Show Unreconciled', :action => 'unreconciled', :id => @current_acct.id %>
+	| <%= link_to 'Show All', :action => 'index', :id => @current_acct.id %>
 	| <%= link_to 'Transfer', :action => 'transfer', :id => @current_acct.id %>
 </p>
 

@@ -1,4 +1,4 @@
-<h1>Transactions for <%= @current_acct.name %></h1>
+<h1><%= @page_title %></h1>
 
 <table class="transaction_list">
 <thead>
@@ -54,6 +54,5 @@
 </p>
 
 <p>
-	<%= link_to 'Withdraw/Deposit', :controller => 'txn', :action => 'new', :id => @current_acct.id %>
-	| <%= link_to 'Transfer',:controller => 'txn', :action => 'transfer', :id => @current_acct.id %>
+	<%= render :partial => 'links' %>
 </p>
