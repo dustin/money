@@ -11,8 +11,20 @@ class ApiControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  def test_acct_info
+    result = invoke_layered :accountInfo, :getAccountInfo, 'dustin', 'blahblah'
+    assert_equal %w(Group1 Group2), result.map(&:name).sort
   end
+
+  def test_acct_info_aaron
+    result = invoke_layered :accountInfo, :getAccountInfo, 'aaron', 'test'
+    assert_equal %w(Group1), result.map(&:name).sort
+  end
+
+  def test_acct_info_bad_login
+    assert_raise(RuntimeError) do
+      result = invoke_layered :accountInfo, :getAccountInfo, 'dustin', 'blah'
+    end
+  end
+
 end
