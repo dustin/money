@@ -72,8 +72,8 @@ class TxnController < ApplicationController
       else
         # Do stuff
         dest_acct=MoneyAccount.find dest_acct_id
-        src_cat=Category.find(params[:dest_cat].to_i)
-        dest_cat=Category.find(params[:src][:category_id].to_i)
+        dest_cat=Category.find(params[:dest_cat].to_i)
+        src_cat=Category.find(params[:src][:category_id].to_i)
 
         details=params[:details]
         amt=details[:amount].to_f

@@ -32,7 +32,7 @@ class MoneyTransaction < ActiveRecord::Base
       errors.add("user", "has no permission to account #{money_account_id}")
     end
     unless account.group_id == category.group_id
-      errors.add("category", "does not belong to this account")
+      errors.add("category", "#{category.id} does not belong to account #{account.id}")
     end
   end
 end
