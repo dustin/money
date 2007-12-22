@@ -1,5 +1,6 @@
 <h1>Accounts for <%= current_user.name %></h1>
 
+<% cache do %>
 <ul id="accountlist">
 <% @groups.each do |g| %>
 <li><%= g.name %>
@@ -11,3 +12,4 @@
 </li>
 <% end %>
 </ul>
+<% end %>

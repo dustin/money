@@ -17,6 +17,7 @@
 		<%= yield %>
 	</div>
 
+<% cache(:controller => 'acct', :action => 'footer') do %>
 	<div id="footer">
 		<% if current_user && current_user != :false %>
 			<% current_user.groups.each_with_index do |g, idx| %>
@@ -33,5 +34,6 @@
 			<% end %>
 		<% end %>
 	</div>
+<% end %>
 </body>
 </html>
