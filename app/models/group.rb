@@ -18,6 +18,12 @@ class Group < ActiveRecord::Base
     name <=> o.name
   end
 
+  # This is a helper for the transfer page since
+  # option_groups_from_collection_for_select doesn't seem to allow sorting
+  def accounts_sorted
+    accounts.sort
+  end
+
   def balance
     accounts.map(&:balance).inject {|c, i| c + i}
   end

@@ -12,7 +12,8 @@
 		<div>
 			<label><span>Account</span>
 				<select id="dest_acct" name="dest_acct">
-					<%= option_groups_from_collection_for_select(current_user.groups, :accounts, :name, :id, :name) %>
+					<%= option_groups_from_collection_for_select(
+								current_user.groups.sort, :accounts_sorted, :name, :id, :name) %>
 				</select>
 			</label>
 		</div>
