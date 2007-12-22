@@ -47,6 +47,15 @@ tr,th,td {
 	text-decoration: line-through;
 }
 
+.inactive a {
+	background: inherit;
+	color: #bbf;
+}
+
+.inactive :after {
+	content: " (inactive)";
+}
+
 tr.even {
 	background: #ddf;
 	color: black;

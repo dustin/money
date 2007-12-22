@@ -6,7 +6,9 @@
 <li><%= g.name %>
 	<ul>
 		<% g.accounts.each do |a| %>
-			<li><%= link_to a.name, :controller => 'txn', :action => 'new', :id => a.id %></a></li>
+			<li class="<%= a.active ? 'active' : 'inactive' %>">
+				<%= link_to a.name, :controller => 'txn', :action => 'new', :id => a.id %></a>
+			</li>
 		<% end %>
 	</ul>
 </li>
