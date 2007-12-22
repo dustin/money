@@ -3,6 +3,7 @@ class TxnController < ApplicationController
 
   # The maximum number of transactions that will be displayed
   TXN_LIMIT=50
+  BIG_LIMIT=100000
 
   def index
     do_txn_page :find
@@ -12,7 +13,7 @@ class TxnController < ApplicationController
 
   def unreconciled
     get_acct_from_params
-    do_txn_page :find, ["money_account_id = ? and reconciled = ?", @current_acct.id, false]
+    do_txn_page :find, BIG_LIMIT, ["money_account_id = ? and reconciled = ?", @current_acct.id, false]
     @type = :unreconciled
     title "Unreconciled transaction list for #{@current_acct.name}"
     render :template => "txn/index"
@@ -129,13 +130,13 @@ class TxnController < ApplicationController
   end
 
   # Load up some transactions with the approriate transaction find method
-  def do_txn_page(which, list_conditions=nil, conditions=nil)
+  def do_txn_page(which, limit=TXN_LIMIT, list_conditions=nil, conditions=nil)
     get_acct_from_params
     conditions = conditions.nil? ? default_conditions : conditions
     list_conditions = list_conditions.nil? ? default_conditions : list_conditions
     get_sums conditions
     @transactions=MoneyTransaction.send which, :all,
-      :conditions => list_conditions, :order => "ts desc", :limit => TXN_LIMIT
+      :conditions => list_conditions, :order => "ts desc", :limit => limit
   end
 
 end
