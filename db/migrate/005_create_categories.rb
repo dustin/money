@@ -3,7 +3,7 @@ class CreateCategories < ActiveRecord::Migration
     create_table :categories do |t|
       t.column :group_id, :integer, :null => false
       t.column :name, :string, :null => false
-      t.column :budget, :decimal, :precision => 6, :scale => 2, :null => true
+      t.column :budget, :decimal, :precision => 9, :scale => 2, :null => true
     end
     add_index :categories, [:group_id, :name], :unique => true
   end

@@ -6,7 +6,7 @@ class CreateAllowanceTasks < ActiveRecord::Migration
       t.column :creator_id, :integer, :null => false
       t.column :owner_id, :integer, :null => false
       t.column :frequency, :integer, :null => false
-      t.column :value, :decimal, :precision => 6, :scale => 2, :null => false
+      t.column :value, :decimal, :precision => 9, :scale => 2, :null => false
       t.column :from_money_account_id, :integer, :null => false
       t.column :to_money_account_id, :integer, :null => false
       t.column :from_category_id, :integer, :null => false
