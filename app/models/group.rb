@@ -13,6 +13,11 @@ class Group < ActiveRecord::Base
   has_and_belongs_to_many :users, :class_name => "User",
     :join_table => "group_user_map"
 
+  # Natural sort order is alphabetic
+  def <=>(o)
+    name <=> o.name
+  end
+
   def balance
     accounts.map(&:balance).inject {|c, i| c + i}
   end

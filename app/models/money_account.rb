@@ -13,6 +13,11 @@ class MoneyAccount < ActiveRecord::Base
   belongs_to :group, :class_name => "Group", :foreign_key => "group_id"
   has_many :transactions, :class_name => "MoneyTransaction"
 
+  # Natural sort order is alphabetic
+  def <=>(o)
+    name <=> o.name
+  end
+
   def balance
     transactions.sum('amount') || 0
   end

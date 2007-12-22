@@ -80,6 +80,11 @@ class User < ActiveRecord::Base
     has_role?('admin')
   end
 
+  # Natural sort order is alphabetic
+  def <=>(o)
+    name <=> o.name
+  end
+
   protected
     # before filter 
     def encrypt_password
