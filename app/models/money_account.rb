@@ -1,11 +1,12 @@
 # == Schema Information
-# Schema version: 8
+# Schema version: 9
 #
 # Table name: money_accounts
 #
 #  id       :integer       not null, primary key
 #  group_id :integer       not null
 #  name     :string(255)   not null
+#  active   :boolean       
 #
 
 class MoneyAccount < ActiveRecord::Base
