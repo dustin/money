@@ -46,6 +46,9 @@
 <% end %>
 </tbody>
 </table>
+<div class="txnsummary">
+	Showing <%= @transactions.length %> transactions.
+</div>
 
 <p>
 	Ending balance:  <%= currency_span(@txn_sum, 'endingbal') %><br>
