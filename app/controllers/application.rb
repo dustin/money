@@ -19,4 +19,22 @@ class ApplicationController < ActionController::Base
   def title(str)
     @page_title=str
   end
+
+  protected  
+
+  def log_error(exception) 
+    super(exception)
+
+    begin
+      ErrorMailer.deliver_snapshot(
+        exception, 
+        clean_backtrace(exception), 
+        @session.instance_variable_get("@data"), 
+        @params, 
+        @request.env)
+    rescue => e
+      logger.error(e)
+    end
+  end
+
 end
