@@ -1,6 +1,6 @@
 <h1>Accounts for <%= current_user.name %></h1>
 
-<% cache do %>
+<% cache(:action_suffix => current_user.login) do %>
 <ul id="accountlist">
 <% @groups.each do |g| %>
 <li><%= g.name %>

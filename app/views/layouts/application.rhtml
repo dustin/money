@@ -17,7 +17,11 @@
 		<%= yield %>
 	</div>
 
-<% cache(:controller => 'acct', :action => 'footer') do %>
+<%
+	cs = (current_user && current_user != :false) ? current_user.login : ''
+%>
+
+<% cache(:controller => 'acct', :action => 'footer', :action_suffix => cs) do %>
 	<div id="footer">
 		<% if current_user && current_user != :false %>
 			<% current_user.groups.each_with_index do |g, idx| %>
