@@ -2,10 +2,10 @@
 
 <% cache(:action_suffix => current_user.login) do %>
 <ul id="accountlist">
-<% @groups.each do |g| %>
+<% @groups.sort{|a,b| a.name <=> b.name}.each do |g| %>
 <li><%= g.name %>
 	<ul>
-		<% g.accounts.each do |a| %>
+		<% g.accounts.sort{|a,b| a.name <=> b.name}.each do |a| %>
 			<li class="<%= a.active ? 'active' : 'inactive' %>">
 				<%= link_to a.name, :controller => 'txn', :action => 'new', :id => a.id %></a>
 			</li>
