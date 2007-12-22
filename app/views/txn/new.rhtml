@@ -10,7 +10,6 @@
 	<fieldset>
 		<legend>Details</legend>
 		<div><label><span>Date</span> <%= f.text_field :ds %></label></div>
-		<div><label><span>Description</span> <%= f.text_field :descr %></label></div>
 		<div>
 			<label><span>Amount</span> <%= f.text_field :amount %></label>
 			<select id="withdraw_field" name="withdraw">
@@ -18,6 +17,7 @@
 				<option value="0">Deposit</option>
 			</select>
 		</div>
+		<div><label><span>Description</span> <%= f.text_field :descr %></label></div>
 	</fieldset>
 	<%= submit_tag %>
 <% end %>
