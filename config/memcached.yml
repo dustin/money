@@ -5,16 +5,16 @@ defaults:
   c_threshold: 10000
   compression: true
   debug: false
-  namespace: app
-  sessions: false
+  namespace: money
+  sessions: true
   session_servers: false
-  fragments: false
+  fragments: true
   memory: 64
   servers: localhost:11211
   benchmarking: true
   raise_errors: true
   fast_hash: false
-  fastest_hash: false
+  fastest_hash: true
 
 development:
   sessions: false
