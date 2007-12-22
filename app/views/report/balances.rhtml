@@ -1,0 +1,24 @@
+<% current_user.groups.sort.each do |g| %>
+	<h2><%= g.name %></h2>
+	
+	<table>
+		<thead>
+			<tr>
+				<th>Account</th>
+				<th>Balance</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<% g.accounts.sort.each do |a| %>
+				<tr>
+				<td class="<%= a.active ? 'active' : 'inactive' %>">
+					<%= link_to a.name, :controller => 'txn', :action => 'new', :id => a.id %></a>
+				</td>
+				<td>
+					<%= currency_span(a.balance) %>
+				</td>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>
