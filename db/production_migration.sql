@@ -45,3 +45,11 @@ insert into money_transactions(
 			end, ts
 		from public.money_transactions
 ;
+
+-- Update the sequences
+select setval('categories_id_seq', max(id)) from categories;
+select setval('groups_id_seq', max(id)) from groups;
+select setval('money_accounts_id_seq', max(id)) from money_accounts;
+select setval('money_transactions_id_seq', max(id)) from money_transactions;
+select setval('roles_id_seq', max(id)) from roles;
+select setval('users_id_seq', max(id)) from users;
