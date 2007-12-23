@@ -30,9 +30,15 @@ class ReportControllerTest < Test::Unit::TestCase
 
   if %w(staging production).include? RAILS_ENV
     # DB-specific tests that only work in production because I'm lame.
-    def test_flow
+    def test_flow_month
       login_as :dustin
       get :month_flow, :id => 1
+      assert_response :success
+      assert assigns['flow']
+    end
+    def test_flow_year
+      login_as :dustin
+      get :year_flow, :id => 1
       assert_response :success
       assert assigns['flow']
     end

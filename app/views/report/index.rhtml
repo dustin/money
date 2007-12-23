@@ -1,4 +1,7 @@
 <ul>
 	<li><%= link_to 'Balances', :action => :balances %></li>
-	<li><%= link_to 'Flow (monthly)', :action => :month_flow %></li>
+	<li>
+		<%= link_to 'Flow (monthly)', :action => :month_flow %>
+		<%= link_to '(yearly)', :action => :year_flow %>
+	</li>
 </ul>
