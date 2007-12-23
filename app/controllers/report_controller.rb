@@ -24,7 +24,7 @@ class ReportController < ApplicationController
     @flow=[]
     current_user.groups.sort.each do |g|
       gflow=[]
-      ActiveRecord::Base.connection.execute(query g.id).each do |r|
+      ActiveRecord::Base.connection.execute(query.call g.id).each do |r|
         gflow << r
       end
       @flow << [g, gflow]
