@@ -35,7 +35,7 @@ class ReportController < ApplicationController
         name=r[1]
         spent=r[3].to_f
         budget=r[2].to_f
-        diff=budget - spent
+        diff=spent - budget
 
         totspent += spent
         totbudget += budget
