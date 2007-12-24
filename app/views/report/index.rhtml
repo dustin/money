@@ -4,4 +4,13 @@
 		<%= link_to 'Flow (monthly)', :action => :month_flow %>
 		<%= link_to '(yearly)', :action => :year_flow %>
 	</li>
+	<li>
+		<%= link_to "Category Reports Form", :action => :month_cat_form %>
+	</li>
+	<li>
+		<%= link_to "Category Reports (this month)", :action => :month_cat, :date => @first_of_month %>
+	</li>
+	<li>
+		<%= link_to "Category Reports (last month)", :action => :month_cat, :date => @first_of_prev_month %>
+	</li>
 </ul>

@@ -2,6 +2,13 @@ class ReportController < ApplicationController
 
   def index
     title 'Reports'
+    @today = Date.today
+    @first_of_month = Date.new(@today.year, @today.month, 1)
+    @first_of_prev_month = @first_of_month
+    while @first_of_prev_month.month == @first_of_month.month
+      @first_of_prev_month -= 1
+    end
+    @first_of_prev_month = Date.new(@first_of_prev_month.year, @first_of_prev_month.month, 1)
   end
 
   def balances
@@ -37,6 +44,10 @@ class ReportController < ApplicationController
       end
       @cats << [g, totspent, totbudget, totdiff, gcat]
     end
+  end
+
+  def month_cat_form
+    @today = Date.today
   end
 
   def month_cat_txns

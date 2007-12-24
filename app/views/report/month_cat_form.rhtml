@@ -1,0 +1,18 @@
+<%
+	months = %w(January February March April May Jun July August September October November December)
+%>
+<form method="post" action="month_cat">
+	<select name="year">
+		<% @today.year.downto(@today.year - 10) do |y| %>
+			<option><%= y %></option>
+		<% end %>
+	</select>
+
+	<select name="month">
+		<% months.each_with_index do |m, n| %>
+			<option <%= (n+1 == @today.month ? 'selected="selected"' : '') %> value="<%= n+1 %>"><%= m %></option>
+		<% end %>
+	</select>
+
+	<input type="submit" value="Go"/>
+</form>
