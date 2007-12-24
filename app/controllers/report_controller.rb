@@ -30,10 +30,19 @@ class ReportController < ApplicationController
     @cats=[]
     current_user.groups.sort.each do |g|
       gcat=[]
+      totspent=totbudget=totdiff=0.0
       ActiveRecord::Base.connection.execute(month_category_report(year, month, g.id)).each do |r|
-        gcat << r
+        name=r[1]
+        spent=r[3].to_f
+        budget=r[2].to_f
+        diff=budget - spent
+
+        totspent += spent
+        totbudget += budget
+        totdiff += diff
+        gcat << [name, spent, budget, diff]
       end
-      @cats << [g, gcat]
+      @cats << [g, totspent, totbudget, totdiff, gcat]
     end
   end
 
