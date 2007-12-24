@@ -16,7 +16,7 @@
 					<td><%= f[1] %></td>
 					<td><%= currency_span(f[3].to_f) %></td>
 					<td><%= currency_span(f[2].to_f) %></td>
-					<td><%= currency_span(f[2].to_f + f[3].to_f) %></td>
+					<td><%= currency_span(f[3].to_f - f[2].to_f) %></td>
 				</tr>
 			<% end %>
 		</tbody>
