@@ -104,11 +104,11 @@ ENDSQL
         c.budget,
         sum(t.amount) as total
     from
-        categories c join money_transactions t on (c.id = t.id)
+        categories c join money_transactions t on (c.id = t.category_id)
     where
         date(date_trunc('month', ds)) = date(date_trunc('month', '#{year}-#{month}-01'::date))
         and t.deleted_at is null
-        and t.id in ( select id from money_accounts where group_id = #{gid} )
+        and t.money_account_id in ( select id from money_accounts where group_id = #{gid} )
     group by
         c.id,
         c.budget,
