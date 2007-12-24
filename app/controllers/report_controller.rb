@@ -16,6 +16,27 @@ class ReportController < ApplicationController
     get_flow('Year', Proc.new {|gid| year_flow_query gid})
   end
 
+  def month_cat
+    year=month=0
+    if params[:date]
+      parts=params[:date].split /-/
+      year=parts[0].to_i
+      month=parts[1].to_i
+    else
+      year = params[:year].to_i
+      month = params[:month].to_i
+    end
+    title "Reports - Category report for #{year}/#{month}"
+    @cats=[]
+    current_user.groups.sort.each do |g|
+      gcat=[]
+      ActiveRecord::Base.connection.execute(month_category_report(year, month, g.id)).each do |r|
+        gcat << r
+      end
+      @cats << [g, gcat]
+    end
+  end
+
   protected
 
   def get_flow(type, query)
@@ -24,7 +45,7 @@ class ReportController < ApplicationController
     @flow=[]
     current_user.groups.sort.each do |g|
       gflow=[]
-      ActiveRecord::Base.connection.execute(query.call g.id).each do |r|
+      ActiveRecord::Base.connection.execute(query.call(g.id)).each do |r|
         gflow << r
       end
       @flow << [g, gflow]
@@ -33,6 +54,7 @@ class ReportController < ApplicationController
   end
 
   def month_flow_query(gid)
+    validate_num gid
     query=<<ENDSQL
     select
         date(date_trunc('month', ds)) as theDate,
@@ -52,6 +74,7 @@ ENDSQL
   end
 
   def year_flow_query(gid)
+    validate_num gid
     query=<<ENDSQL
     select
         date(date_trunc('year', ds)) as theDate,
@@ -68,6 +91,36 @@ ENDSQL
         theDate desc
 ENDSQL
     query
+  end
+
+  def month_category_report(year, month, gid)
+    validate_num year
+    validate_num month
+    validate_num gid
+    query=<<ENDSQL
+    select
+        c.id,
+        c.name,
+        c.budget,
+        sum(t.amount) as total
+    from
+        categories c join money_transactions t on (c.id = t.id)
+    where
+        date(date_trunc('month', ds)) = date(date_trunc('month', '#{year}-#{month}-01'::date))
+        and t.deleted_at is null
+        and t.id in ( select id from money_accounts where group_id = #{gid} )
+    group by
+        c.id,
+        c.budget,
+        c.name
+    order by
+        total
+ENDSQL
+    query
+  end
+
+  def validate_num(n)
+    raise "#{n} is not a number" if n.class != Fixnum
   end
 
   def authorized?

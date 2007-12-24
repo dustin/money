@@ -30,15 +30,30 @@ class ReportControllerTest < Test::Unit::TestCase
 
   def test_flow_month
     login_as :dustin
-    get :month_flow, :id => 1
+    get :month_flow
     assert_response :success
     assert assigns['flow']
   end
+
   def test_flow_year
     login_as :dustin
-    get :year_flow, :id => 1
+    get :year_flow
     assert_response :success
     assert assigns['flow']
+  end
+
+  def test_month_cat
+    login_as :dustin
+    get :month_cat, :year => 2007, :month => 11
+    assert_response :success
+    assert assigns['cats']
+  end
+
+  def test_month_cat_by_date
+    login_as :dustin
+    get :month_cat, :date => '2007-11-01'
+    assert_response :success
+    assert assigns['cats']
   end
 
   def test_unauthorized_index

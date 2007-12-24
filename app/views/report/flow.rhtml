@@ -6,7 +6,9 @@
 		<tbody>
 			<% flow.each do |f| %>
 				<tr>
-					<td><%= f[0] %></td>
+					<td>
+						<%= link_to f[0], :action => :month_cat, :date => f[0] %>
+					</td>
 					<td><%= currency_span(f[1].to_f) %></td>
 				</tr>
 			<% end %>
