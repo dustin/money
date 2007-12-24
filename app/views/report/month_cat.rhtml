@@ -13,10 +13,11 @@
 		<tbody>
 			<% cats.each do |f| %>
 				<tr>
-					<td><%= f[0] %></td>
-					<td><%= currency_span(f[1]) %></td>
+					<td><%= link_to f[1], :action => :month_cat_txns,
+						:date => "#{@year}-#{@month}-01", :cat => f[0] %></td>
 					<td><%= currency_span(f[2]) %></td>
 					<td><%= currency_span(f[3]) %></td>
+					<td><%= currency_span(f[4]) %></td>
 				</tr>
 			<% end %>
 			<tr><td colspan="4">&nbsp;</td></tr>

@@ -17,21 +17,14 @@ class ReportController < ApplicationController
   end
 
   def month_cat
-    year=month=0
-    if params[:date]
-      parts=params[:date].split /-/
-      year=parts[0].to_i
-      month=parts[1].to_i
-    else
-      year = params[:year].to_i
-      month = params[:month].to_i
-    end
-    title "Reports - Category report for #{year}/#{month}"
+    parse_month_params
+    title "Reports - Category report for #{@year}/#{@month}"
     @cats=[]
     current_user.groups.sort.each do |g|
       gcat=[]
       totspent=totbudget=totdiff=0.0
-      ActiveRecord::Base.connection.execute(month_category_report(year, month, g.id)).each do |r|
+      ActiveRecord::Base.connection.execute(month_category_report(@year, @month, g.id)).each do |r|
+        catid=r[0]
         name=r[1]
         spent=r[3].to_f
         budget=r[2].to_f
@@ -40,13 +33,48 @@ class ReportController < ApplicationController
         totspent += spent
         totbudget += budget
         totdiff += diff
-        gcat << [name, spent, budget, diff]
+        gcat << [catid, name, spent, budget, diff]
       end
       @cats << [g, totspent, totbudget, totdiff, gcat]
     end
   end
 
+  def month_cat_txns
+    parse_month_params
+    beginning = "#{@year}-#{@month}-01"
+    ending = end_of @year, @month
+
+    @txns=MoneyTransaction.find(:all,
+      :conditions => ["category_id = ? and ds between ? and ?", params[:cat], beginning, ending])
+
+    @txn_sum = @txns.inject(0.0) {|c, t| t.amount + c}
+    @rec_sum = @txns.reject {|t| t.reconciled }.inject(0.0) {|c, t| t.amount + c}
+    @unrec_sum = @txns.reject {|t| !t.reconciled }.inject(0.0) {|c, t| t.amount + c}
+  end
+
   protected
+
+  def end_of(year, mon)
+    # Lame way to find the end of the month
+    current = Date.new(year, mon, 1)
+    while current.succ.mon == current.mon
+      current = current.succ
+    end
+    current
+  end
+
+  def parse_month_params
+    @year=@month=0
+    if params[:date]
+      parts=params[:date].split /-/
+      @year=parts[0].to_i
+      @month=parts[1].to_i
+    else
+      @year = params[:year].to_i
+      @month = params[:month].to_i
+    end
+  end
+  
 
   def get_flow(type, query)
     title "Reports - Flow for #{current_user.name}"
