@@ -28,8 +28,9 @@ class AcctControllerTest < Test::Unit::TestCase
     login_as :dustin
     get :cats_for_acct, {:id => 1}
     assert_response :success
-    assert_equal '[{attributes: {name: "Cat1", id: "1", group_id: "1", budget: "300.5"}}, ' +
-      '{attributes: {name: "Cat2", id: "2", group_id: "1", budget: null}}]', @response.body
+    assert @response.body.include?('Cat1')
+    assert @response.body.include?('Cat1')
+    assert !@response.body.include?('Cat3')
   end
 
 end

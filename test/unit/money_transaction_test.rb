@@ -46,7 +46,7 @@ class MoneyTransactionTest < Test::Unit::TestCase
       :ts => Time.now
     t.save
     
-    assert_equal(t, MoneyTransaction.find(5))
+    assert_equal(t, MoneyTransaction.find(t.id))
   end
 
   def test_alt_creation
@@ -56,7 +56,7 @@ class MoneyTransactionTest < Test::Unit::TestCase
       :descr => "Test transaction", :amount => -99.99, :ds => Date.today,
       :ts => Time.now)
 
-    assert_equal(t, MoneyTransaction.find(5))
+    assert_equal(t, MoneyTransaction.find(t.id))
   end
 
   def test_bad_creation

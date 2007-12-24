@@ -4,7 +4,7 @@ class AllowanceTaskTest < Test::Unit::TestCase
   fixtures :allowance_tasks, :groups, :users, :categories, :money_accounts
 
   def test_lookup
-    t=AllowanceTask.find :first
+    t=AllowanceTask.find :first, :order => ['id']
     assert_equal("Do Stuff", t.name)
     assert_equal("Do all the stuff.", t.description)
     assert_equal(User.find(1), t.creator)

@@ -7,14 +7,14 @@ class CategoryTest < Test::Unit::TestCase
     c=Category.new :name => 'Test Cat', :budget => 37.25,
       :group => Group.find(1)
     c.save
-    assert_equal(Group.find(1), Category.find(4).group)
+    assert_equal(Group.find(1), Category.find(c.id).group)
   end
 
   def test_create2
     g=Group.find(1)
     c=g.categories.create(:name => 'Test Cat', :budget => 37.25)
     c.save
-    assert_equal(g, Category.find(4).group)
+    assert_equal(g, Category.find(c.id).group)
   end
 
   def test_lookup
