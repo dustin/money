@@ -3,6 +3,7 @@ class AcctController < ApplicationController
 
   def index
     @groups=current_user.groups
+    @tasks=AllowanceTask.find_available current_user
   end
 
   # Get the categories available for the given account ID

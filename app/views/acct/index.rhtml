@@ -1,3 +1,31 @@
+<% if !@tasks.empty? %>
+	<h1>Available Tasks</h1>
+
+	<form method="post" action="/allowance/complete">
+		<table>
+			<thead>
+				<tr>
+					<th>Done</th><th>Task</th><th>Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @tasks.each do |t| %>
+					<tr>
+						<td>
+							<input type="checkbox" name="task[<%= t.id %>]">
+						</td>
+						<td><%= t.name %></td>
+						<td><%= currency_span(t.value) %>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+		<p>
+			<input type="submit" value="Mark Complete"/>
+		</p>
+	</form>
+<% end %>
+
 <h1>Accounts for <%= current_user.name %></h1>
 
 <% cache(:action_suffix => current_user.login) do %>
