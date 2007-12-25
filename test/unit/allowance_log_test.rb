@@ -4,8 +4,8 @@ class AllowanceLogTest < Test::Unit::TestCase
   fixtures :allowance_logs, :allowance_tasks, :users
 
   def test_latest
-    l=AllowanceLog.find_latest AllowanceTask.find(1)
-    assert_equal(2, l.id)
+    l=AllowanceLog.find_latest allowance_tasks(:one)
+    assert_equal 2, l.id
   end
 
 end
