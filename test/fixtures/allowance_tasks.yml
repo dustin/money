@@ -26,10 +26,10 @@ one:
   owner_id: 2
   frequency: 7
   value: 0.25
-  from_money_account_id: 1
-  to_money_account_id: 3
-  from_category_id: 1
-  to_category_id: 3
+  from_money_account_id: 3
+  to_money_account_id: 1
+  from_category_id: 3
+  to_category_id: 1
   deleted: false
 two:
   id: 2
@@ -39,8 +39,21 @@ two:
   owner_id: 2
   frequency: 7
   value: 0.10
-  from_money_account_id: 1
-  to_money_account_id: 3
-  from_category_id: 1
-  to_category_id: 3
+  from_money_account_id: 3
+  to_money_account_id: 1
+  from_category_id: 3
+  to_category_id: 1
+  deleted: false
+three:
+  id: 3
+  name: Never Done Thing
+  description: Something you've never done.
+  creator_id: 1
+  owner_id: 2
+  frequency: 7
+  value: 1.00
+  from_money_account_id: 3
+  to_money_account_id: 1
+  from_category_id: 3
+  to_category_id: 1
   deleted: false

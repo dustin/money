@@ -20,4 +20,4 @@ two:
 three:
   id: 3
   allowance_task_id: 2
-  ts: 2007-11-09 22:45:19
+  ts: <%= Time.now %>
