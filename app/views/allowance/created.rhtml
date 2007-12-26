@@ -1,0 +1,26 @@
+<h1>Tasks You've Created</h1>
+
+<form method="post" action="#">
+	<table>
+		<thead>
+			<tr>
+				<th>Active</th>
+				<th>Name</th>
+				<th>Owner</th>
+				<th>Frequency</th>
+				<th>Value</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @tasks.each do |t| %>
+				<tr>
+					<td><input type="checkbox" <%= t.deleted ? 'checked="checked"' : '' %> /></td>
+					<td><%= t.name %></td>
+					<td><%= t.owner.login %></td>
+					<td><%= t.frequency %></td>
+					<td><%= currency_span(t.value) %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</form>
