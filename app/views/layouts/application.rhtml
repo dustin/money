@@ -30,6 +30,7 @@
 			<br/>
 			<%= link_to 'Home', :action => 'index' %>
 			| <%= link_to 'Logout', :action => 'logout', :controller => 'account'%>
+			| <%= link_to 'Change Password', :action => 'change_password', :controller => 'account' %>
 
 			<% if current_user.admin? %>
 				<br/>

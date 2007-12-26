@@ -114,9 +114,41 @@ class AccountControllerTest < Test::Unit::TestCase
     assert !@controller.send(:logged_in?)
   end
 
-  def test_reset_password
-    login_as :dustin
-    
+  def test_change_password_form
+    login_as :aaron
+    get :change_password
+    assert_response :success
+    assert_template 'account/change_password'
+  end
+
+  def test_change_password_bad_current
+    login_as :aaron
+    post :change_password, {:current_password => 'blah',
+      :password => 'blahblah2', :password_confirmation => 'blahblah2'}
+    assert_response :success
+    assert_equal flash[:error], 'Incorrect old password.'
+    # Validate old password still works
+    assert User.authenticate('aaron', 'test')
+  end
+
+  def test_change_password_bad_confirmation
+    login_as :aaron
+    post :change_password, {:current_password => 'test',
+      :password => 'blahblah2', :password_confirmation => 'blahblah3'}
+    assert_response :success
+    assert_equal flash[:error], "Validation failed: Password doesn't match confirmation"
+    # Validate old password still works
+    assert User.authenticate('aaron', 'test')
+  end
+
+  def test_change_password_success
+    login_as :aaron
+    post :change_password, {:current_password => 'test',
+      :password => 'blahblah2', :password_confirmation => 'blahblah2'}
+    assert_response :redirect
+    assert_equal flash[:info], 'Password changed.'
+    # Validate old password still works
+    assert User.authenticate('aaron', 'blahblah2')
   end
 
   protected

@@ -24,6 +24,25 @@ class AccountController < ApplicationController
     end
   end
 
+  def change_password
+    if request.post?
+      user = User.authenticate current_user.login, params[:current_password]
+      if user
+        user.password = params[:password]
+        user.password_confirmation = params[:password_confirmation]
+        begin
+          user.save!
+          flash[:info] = 'Password changed.'
+          redirect_to :controller => :acct, :action => :index
+        rescue ActiveRecord::RecordInvalid => e
+          flash[:error] = e.message
+        end
+      else
+        flash[:error] = 'Incorrect old password.'
+      end
+    end
+  end
+
   def signup
     @user = User.new(params[:user])
     return unless request.post?
