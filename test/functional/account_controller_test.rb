@@ -114,6 +114,11 @@ class AccountControllerTest < Test::Unit::TestCase
     assert !@controller.send(:logged_in?)
   end
 
+  def test_reset_password
+    login_as :dustin
+    
+  end
+
   protected
     def create_user(options = {})
       post :signup, :user => { :login => 'quire', :name => 'blah', :email => 'quire@example.com', 
