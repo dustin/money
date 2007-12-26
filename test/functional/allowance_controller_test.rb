@@ -31,4 +31,11 @@ class AllowanceControllerTest < Test::Unit::TestCase
     end
   end
 
+  def test_created
+    login_as :dustin
+    get :created
+    assert_response :success
+    assert_equal [2, 1, 3], assigns['tasks'].map(&:id)
+  end
+
 end

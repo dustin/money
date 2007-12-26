@@ -1,5 +1,9 @@
 class AllowanceController < ApplicationController
 
+  def created
+    @tasks=AllowanceTask.find_all_by_creator_id current_user.id, :order => 'name'
+  end
+
   def complete
     tids = params['task'].keys.map(&:to_i)
     # To prevent fraud, only include task IDs from those available.
