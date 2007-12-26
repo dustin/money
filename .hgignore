@@ -1,4 +1,4 @@
 ^db/schema.rb$
-^coverage/$
-^tmp/$
+^coverage/
+^tmp/
 ^log/.*\.log$
