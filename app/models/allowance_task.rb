@@ -25,6 +25,27 @@ class AllowanceTask < ActiveRecord::Base
   belongs_to :from_category, :class_name => "Category", :foreign_key => "from_category_id"
   belongs_to :to_category, :class_name => "Category", :foreign_key => "to_category_id"
 
+  def validate
+    unless creator.groups.include?(from_account.group)
+      errors.add("creator", "#{creator.login} has no permission to account #{from_account}")
+    end
+    unless owner.groups.include?(to_account.group)
+      errors.add("owner", "#{owner.login} has no permission to account #{to_account}")
+    end
+    unless from_account.group_id == from_category.group_id
+      errors.add("category", "#{from_category.id} does not belong to account #{from_account.id}")
+    end
+    unless to_account.group_id == to_category.group_id
+      errors.add("category", "#{to_category.id} does not belong to account #{to_account.id}")
+    end
+    unless value > 0
+      errors.add "value", "should be greater than zero"
+    end
+    unless frequency > 0
+      errors.add "frequency", "should be greater than zero"
+    end
+  end
+
   # Perform this task.
   def perform!
     fromuser = User.find creator_id
