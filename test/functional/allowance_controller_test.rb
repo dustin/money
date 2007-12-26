@@ -38,4 +38,42 @@ class AllowanceControllerTest < Test::Unit::TestCase
     assert_equal [2, 1, 3], assigns['tasks'].map(&:id)
   end
 
+  def test_new_form
+    login_as :dustin
+    get :new
+    assert_response :success
+    assert !assigns['users'].map(&:id).include?(users(:dustin).id)
+
+    assert_equal [1,2], assigns['categories'].keys
+    assert_equal [1,2], assigns['accounts'].keys
+
+    assert_equal [1,2], assigns['accounts'][1].map(&:id)
+    assert_equal [3], assigns['accounts'][2].map(&:id)
+
+    assert_equal [1,2], assigns['categories'][1].map(&:id)
+    assert_equal [3], assigns['categories'][2].map(&:id)
+  end
+
+  def test_new_form_aaron
+    login_as :aaron
+    get :new
+    assert_response :success
+    assert !assigns['users'].map(&:id).include?(users(:aaron).id)
+    assert_equal [1], assigns['categories'].keys
+    assert_equal [1], assigns['accounts'].keys
+  end
+
+  def test_new
+    login_as :dustin
+    assert_difference AllowanceTask, :count do
+      post :new, :allowance_task => {
+        :name => 'Test Task', :description => 'A test task.', :owner_id => 2,
+        :frequency => 2, :value => 1.29,
+        :from_money_account_id => 3, :from_category_id => 3,
+        :to_money_account_id => 1, :to_category_id => 1
+        }
+      assert_response :redirect
+    end
+  end
+
 end

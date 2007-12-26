@@ -14,11 +14,14 @@ one:
   id: 1
   group_id: 1
   name: Acct1
+  active: true
 two:
   id: 2
   group_id: 1
   name: Acct2
+  active: true
 three:
   id: 3
   group_id: 2
   name: Acct1(2)
+  active: true

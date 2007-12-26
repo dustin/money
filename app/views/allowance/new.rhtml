@@ -1,0 +1,31 @@
+<h1>Creating a New Allowance Task</h1>
+
+<% form_for :allowance_task do |f| %>
+	<fieldset><legend>User</legend>
+		<%= collection_select("account_task", "user_id" , @users, "id", "name") %>
+	</fieldset>
+	<p>
+		Groups:  <span id="xxx">?</span>.
+	</p>
+<% end %>
+
+
+<script type="text/javascript">
+	var accounts=<%= @accounts.to_json %>;
+	var categories=<%= @categories.to_json %>;
+	var users={
+		<% @users.each do |u| -%>
+			<%= u.id %>: [<%= u.groups.map(&:id).join ', ' %>],
+		<% end %>
+	};
+
+	function set_cats_and_accounts() {
+		// Get the groups available for this user.
+		var groups=users[parseInt($F('account_task_user_id'))];
+		$('xxx').innerHTML=groups;
+	}
+
+	Event.observe(window, 'load', function() {
+		set_cats_and_accounts();
+	});
+</script>
