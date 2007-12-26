@@ -25,6 +25,7 @@ class AccountController < ApplicationController
   end
 
   def change_password
+    title "Password change."
     if request.post?
       user = User.authenticate current_user.login, params[:current_password]
       if user

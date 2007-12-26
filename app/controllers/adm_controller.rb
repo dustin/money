@@ -1,9 +1,8 @@
 class AdmController < ApplicationController
 
   def index
-    # Show the form.
+    title "Reset a user's password"
   end
-  
 
   def reset_password
     user=User.find_by_login params[:user]
@@ -12,6 +11,7 @@ class AdmController < ApplicationController
     user.password = @newpass
     user.password_confirmation = @newpass
     user.save!
+    title "Changed #{user.login}'s password"
   end
 
   protected
