@@ -1,0 +1,4 @@
+^db/schema.rb$
+^coverage/$
+^tmp/$
+^log/.*\.log$
