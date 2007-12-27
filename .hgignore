@@ -1,4 +1,6 @@
 ^db/schema.rb$
 ^coverage/
 ^tmp/
-^log/.*\.log$
+^log/
+^REVISION
+^public/system/
