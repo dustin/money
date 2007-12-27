@@ -35,7 +35,7 @@
 	<ul>
 		<% g.accounts.sort.each do |a| %>
 			<li class="<%= a.active ? 'active' : 'inactive' %>">
-				<%= link_to a.name, :controller => 'txn', :action => 'new', :id => a.id %></a>
+				<%= link_to a.name, :controller => 'txn', :action => 'new', :id => a.id %>
 			</li>
 		<% end %>
 	</ul>
