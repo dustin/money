@@ -21,8 +21,8 @@
 	cs = (current_user && current_user != :false) ? current_user.login : ''
 %>
 
-<% cache(:controller => 'acct', :action => 'footer', :action_suffix => cs) do %>
-	<div id="footer">
+<div id="footer">
+	<% cache(:controller => 'acct', :action => 'footer', :action_suffix => cs) do %>
 		<% if current_user && current_user != :false %>
 			<% current_user.groups.sort.each_with_index do |g, idx| %>
 				<% if idx > 0 %>| <% end%><%= g.name %>: <%= currency_span(g.balance) %>
@@ -41,8 +41,8 @@
 				| <%= link_to 'PW Reset', :action => :index, :controller => :adm %>
 			<% end %>
 		<% end %>
-		<br/>Version:  <%= TREE_VERSION %>
-	</div>
-<% end %>
+	<% end %>
+	<br/>Version:  <%= TREE_VERSION %>
+</div>
 </body>
 </html>
