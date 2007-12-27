@@ -26,12 +26,6 @@ class TxnController < ApplicationController
     render :template => "txn/index"
   end
 
-  def recent
-    @transactions=MoneyTransaction.find_with_deleted :all,
-      :order => "id desc", :limit => TXN_LIMIT
-    title "Recent Transactions"
-  end
-
   def new
     @today = Date.today.strftime
     @current_acct=MoneyAccount.find(params[:id].to_i)
@@ -85,17 +79,6 @@ class TxnController < ApplicationController
         redirect_to :action => 'transfer'
       end
     end
-  end
-
-  def delete
-    @txn = MoneyTransaction.find params[:id]
-    @txn.destroy
-  end
-
-  def undelete
-    @txn = MoneyTransaction.find_with_deleted params[:id]
-    @txn.deleted_at = nil
-    @txn.save!
   end
 
   def set_reconcile

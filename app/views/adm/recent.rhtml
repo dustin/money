@@ -37,9 +37,9 @@
 	<script type="text/javascript">
 		$('txn_<%= t.id %>').onclick=function() {
 	    if($('txn_<%= t.id %>').checked) {
-	      <%= remote_function :url => {:controller => 'txn', :action => 'delete', :id => t.id} %>
+	      <%= remote_function :url => {:controller => 'adm', :action => 'delete', :id => t.id} %>
 	    } else {
-	      <%= remote_function :url => {:controller => 'txn', :action => 'undelete', :id => t.id} %>
+	      <%= remote_function :url => {:controller => 'adm', :action => 'undelete', :id => t.id} %>
 	    }
 	  }
 	</script>

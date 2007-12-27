@@ -1,5 +1,7 @@
 class AdmController < ApplicationController
 
+  TXN_LIMIT=TxnController::TXN_LIMIT
+
   def index
     title "Reset a user's password"
   end
@@ -12,6 +14,23 @@ class AdmController < ApplicationController
     user.password_confirmation = @newpass
     user.save!
     title "Changed #{user.login}'s password"
+  end
+
+  def recent
+    @transactions=MoneyTransaction.find_with_deleted :all,
+      :order => "id desc", :limit => TXN_LIMIT
+    title "Recent Transactions"
+  end
+
+  def delete
+    @txn = MoneyTransaction.find params[:id]
+    @txn.destroy
+  end
+
+  def undelete
+    @txn = MoneyTransaction.find_with_deleted params[:id]
+    @txn.deleted_at = nil
+    @txn.save!
   end
 
   protected
