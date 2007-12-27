@@ -13,13 +13,7 @@ role :app, "basket.west.spy.net"
 role :web, "basket.west.spy.net"
 role :db,  "basket.west.spy.net", :primary => true
 
-desc "Starting happens via lighttpd"
+desc "Starting happens via lighttpd.  Just need to stop here."
 deploy.task :start do
-  deploy.restart
+  deploy.stop
 end
-# deploy.task :stop do
-#   pids=[]
-#   run "ps axww | egrep 'web.*rails.*money.*dispatch.fcgi' | grep -v grep | awk '{print $1}' " do |ch, st, data|
-#     logger.info "Data:  #{data}"
-#   end
-# end
