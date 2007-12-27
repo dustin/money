@@ -42,19 +42,7 @@
 	field_blur_behavior('details_ds', '<%= @today %>');
 
 	$('dest_acct').onchange=function() {
-		var url="/acct/cats_for_acct/" + $F('dest_acct');
-		new Ajax.Request(url, {method: 'get',
-			onSuccess: function(req) {
-				var l=$('dest_cat_list');
-				clear_children(l);
-				var json=eval(req.responseText);
-				$A(json).each(function(i) {
-					var o=document.createElement("option");
-					o.value=i.attributes.id;
-					o.appendChild(document.createTextNode(i.attributes.name));
-					l.appendChild(o);
-				});
-			}
+		load_cats_for_acct($F('dest_acct'), 'dest_cat_list');
 		});
 	};
 

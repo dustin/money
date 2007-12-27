@@ -26,3 +26,22 @@ function clear_children(el) {
         el.removeChild(el.firstChild);
     }
 }
+
+// Load the categories applicable to the given account
+// into the given select list element.
+function load_cats_for_acct(acct, listel) {
+	listel=$(listel);
+	var url="/acct/cats_for_acct/" + acct;
+	new Ajax.Request(url, {method: 'get',
+		onSuccess: function(req) {
+			clear_children(listel);
+			var json=eval(req.responseText);
+			$A(json).each(function(i) {
+				var o=document.createElement("option");
+				o.value=i.attributes.id;
+				o.appendChild(document.createTextNode(i.attributes.name));
+				listel.appendChild(o);
+			});
+		}
+	});
+}

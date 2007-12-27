@@ -7,26 +7,27 @@ class AllowanceController < ApplicationController
 
   def new
     title "Create an allowance task"
+    @users=User.find :all, :conditions => ["id != ?", current_user.id], :order => 'name'
+    @accounts = Hash.new {|h,k| h[k] = []}
+    MoneyAccount.find(:all, :conditions => ["active = ?", true], :order => 'name').each do |a|
+      if current_user.groups.include? a.group
+        @accounts[a.group_id] << a
+      end
+    end
+    @categories = Hash.new {|h,k| h[k] = []}
+    Category.find(:all, :order => 'name').each do |c|
+      if current_user.groups.include? c.group
+        @categories[c.group_id] << c
+      end
+    end
+    @groups = current_user.groups
+
     if request.post?
       @task=AllowanceTask.new params[:allowance_task]
       @task.creator = current_user
       @task.save!
       flash[:info] = "Created new task:  #{@task.name}"
       redirect_to :action => :created
-    else
-      @users=User.find :all, :conditions => ["id != ?", current_user.id], :order => 'name'
-      @accounts = Hash.new {|h,k| h[k] = []}
-      MoneyAccount.find(:all, :conditions => ["active = ?", true], :order => 'name').each do |a|
-        if current_user.groups.include? a.group
-          @accounts[a.group_id] << a
-        end
-      end
-      @categories = Hash.new {|h,k| h[k] = []}
-      Category.find(:all, :order => 'name').each do |c|
-        if current_user.groups.include? c.group
-          @categories[c.group_id] << c
-        end
-      end
     end
   end
 

@@ -1,14 +1,65 @@
 <h1>Creating a New Allowance Task</h1>
 
 <% form_for :allowance_task do |f| %>
-	<fieldset><legend>User</legend>
-		<%= collection_select("account_task", "user_id" , @users, "id", "name") %>
-	</fieldset>
-	<p>
-		Groups:  <span id="xxx">?</span>.
-	</p>
-<% end %>
 
+	<fieldset><legend>Source<legend>
+		<div>
+			<label>
+				<span>Account</span>
+				<select id="src_acct" name="allowance_task[from_money_account_id]">
+					<%= option_groups_from_collection_for_select(
+								@groups.sort, :accounts_sorted, :name, :id, :name) %>
+				</select>
+			</label>
+		</div>
+		<div>
+			<label><span>Category</span>
+				<select id="src_cat_list" name="allowance_task[from_category_id]">
+					<option id="-1">Choose an Account</option>
+				</select>
+			</label>
+		</div>
+	</fieldset>
+
+	<fieldset><legend>Destination<legend>
+		<div>
+			<label><span>User</span>
+				<%= collection_select("allowance_task", "owner_id" , @users, "id", "name") %>
+			</label>
+		</div>
+		<div>
+			<label><span>Account</span>
+				<select id="dest_acct" name="allowance_task[to_money_account_id]">
+					<option id="-1">Choose a User</option>
+				</select>
+			</label>
+		</div>
+		<label><span>Category</span>
+			<select id="dest_cat_list" name="allowance_task[to_category_id]">
+				<option id="-1">Choose an Account</option>
+			</select>
+		</label>
+	</fieldset>
+
+	<fieldset><legend>Details</legend>
+		<div>
+			<label><span>Name</span><%= f.text_field :name %></label>
+		</div>
+		<div>
+			<label><span>Amount</span><%= f.text_field :value %></label>
+		</div>
+		<div>
+			<label><span>Frequency</span><%= f.text_field :frequency %></label>
+		</div>
+		<div>
+			<label><span>Description</span><%= f.text_area :description, :rows => 4 %></label>
+		</div>
+		<div>
+			<%= submit_tag 'Add Task' %>
+		</div>
+	</fieldset>
+
+<% end %>
 
 <script type="text/javascript">
 	var accounts=<%= @accounts.to_json %>;
@@ -18,14 +69,41 @@
 			<%= u.id %>: [<%= u.groups.map(&:id).join ', ' %>],
 		<% end %>
 	};
+	var groups = {
+		<% @groups.each do |g| -%>
+			<%= g.id %>: "<%= g.name %>",
+		<% end %>
+	};
 
-	function set_cats_and_accounts() {
-		// Get the groups available for this user.
-		var groups=users[parseInt($F('account_task_user_id'))];
-		$('xxx').innerHTML=groups;
+	$('src_acct').onchange = function() {
+		load_cats_for_acct($F('src_acct'), 'src_cat_list');
+	}
+
+	$('allowance_task_owner_id').onchange = function() {
+		var dest=$('dest_acct');
+		clear_children(dest);
+		$A(users[$F('allowance_task_owner_id')]).each(function(gid) {
+			var og=document.createElement('optgroup');
+			og.label=groups[gid];
+			$A(accounts[gid]).each(function(cat){
+				var o=document.createElement("option");
+				o.value=cat.attributes.id;
+				o.appendChild(document.createTextNode(cat.attributes.name));
+				og.appendChild(o);
+			});
+			
+			dest.appendChild(og);
+		});
+
+		$('dest_acct').onchange();
+	}
+
+	$('dest_acct').onchange = function() {
+		load_cats_for_acct($F('dest_acct'), 'dest_cat_list');
 	}
 
 	Event.observe(window, 'load', function() {
-		set_cats_and_accounts();
+		$('src_acct').onchange();
+		$('allowance_task_owner_id').onchange();
 	});
 </script>
