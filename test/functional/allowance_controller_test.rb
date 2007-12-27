@@ -1,8 +1,15 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'allowance_controller'
+require 'allowance_task'
 
 # Re-raise errors caught by the controller.
 class AllowanceController; def rescue_action(e) raise e end; end
+
+class AllowanceTask
+  def AllowanceTask.count_active
+    count :conditions => ['deleted = ?', false]
+  end
+end
 
 class AllowanceControllerTest < Test::Unit::TestCase
 
@@ -35,7 +42,7 @@ class AllowanceControllerTest < Test::Unit::TestCase
     login_as :dustin
     get :created
     assert_response :success
-    assert_equal [2, 1, 3], assigns['tasks'].map(&:id)
+    assert_equal [2, 1, 4, 3], assigns['tasks'].map(&:id)
   end
 
   def test_new_form
@@ -73,6 +80,24 @@ class AllowanceControllerTest < Test::Unit::TestCase
         :to_money_account_id => 1, :to_category_id => 1
         }
       assert_response :redirect
+    end
+  end
+
+  def test_deactivation
+    login_as :dustin
+    assert_difference AllowanceTask, :count_active, -1 do
+      xhr :post, :task_toggle, :id => 1, :active => 'false'
+      assert_response :success
+      assert_template 'allowance/deactivate'
+    end
+  end
+
+  def test_activation
+    login_as :dustin
+    assert_difference AllowanceTask, :count_active do
+      xhr :post, :task_toggle, :id => 4, :active => 'true'
+      assert_response :success
+      assert_template 'allowance/activate'
     end
   end
 

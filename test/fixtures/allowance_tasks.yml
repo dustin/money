@@ -57,3 +57,16 @@ three:
   from_category_id: 3
   to_category_id: 1
   deleted: false
+four:
+  id: 4
+  name: Inactive task.
+  description: Something you shouldn't be allowed to do.
+  creator_id: 1
+  owner_id: 2
+  frequency: 7
+  value: 1.00
+  from_money_account_id: 3
+  to_money_account_id: 1
+  from_category_id: 3
+  to_category_id: 1
+  deleted: true

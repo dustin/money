@@ -1,0 +1,1 @@
+page["task_#{params[:id]}"].add_class_name(:deleted)

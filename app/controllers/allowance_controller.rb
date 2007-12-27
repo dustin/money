@@ -31,6 +31,15 @@ class AllowanceController < ApplicationController
     end
   end
 
+  # Toggle the active state of a task
+  def task_toggle
+    task=AllowanceTask.find params[:id].to_i
+    active = (params[:active] == 'true')
+    task.deleted = !active
+    task.save!
+    render :action => (active ? :activate : :deactivate)
+  end
+
   def complete
     tids = params['task'].keys.map(&:to_i)
     # To prevent fraud, only include task IDs from those available.
