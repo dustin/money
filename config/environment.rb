@@ -10,6 +10,8 @@ RAILS_GEM_VERSION = '1.2.6' unless defined? RAILS_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
+TREE_VERSION=`hg identify`
+
 Rails::Initializer.run do |config|
 
   # Settings in config/environments/* take precedence over those specified here
