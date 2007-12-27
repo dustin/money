@@ -17,3 +17,7 @@ desc "Starting happens via lighttpd.  Just need to stop here."
 deploy.task :start do
   deploy.stop
 end
+desc "Starting happens via lighttpd.  Just need to stop here."
+deploy.task :restart do
+  deploy.stop
+end
