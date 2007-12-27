@@ -125,7 +125,8 @@ class TxnController < ApplicationController
 
   def get_acct_from_params
     if @current_acct.nil?
-      @current_acct=MoneyAccount.find(params[:id].to_i)
+      id = params[:acct_id] || params[:id]
+      @current_acct=MoneyAccount.find id.to_i
     end
   end
 
