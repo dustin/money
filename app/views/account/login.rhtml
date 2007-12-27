@@ -1,14 +1,15 @@
 <% form_tag do -%>
-<p><label for="login">Login</label><br/>
-<%= text_field_tag 'login' %></p>
+<p>
+	<label><span>Login</span>
+		<%= text_field_tag 'login' %>
+	</label>
+</p>
 
-<p><label for="password">Password</label><br/>
-<%= password_field_tag 'password' %></p>
-
-<!-- Uncomment this if you want this functionality
-<p><label for="remember_me">Remember me:</label>
-<%= check_box_tag 'remember_me' %></p>
--->
+<p>
+	<label><span>Password</span>
+		<%= password_field_tag 'password' %>
+	</label>
+</p>
 
 <p><%= submit_tag 'Log in' %></p>
 <% end -%>
