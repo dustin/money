@@ -22,6 +22,13 @@ class AdmControllerTest < Test::Unit::TestCase
     assert_equal 4, assigns['transactions'].length
   end
 
+  def test_reset_password_form
+    login_as :dustin
+    get :reset_password
+    assert_response :success
+    assert_template 'reset_password_form'
+  end
+
   def test_reset_password
     assert User.authenticate('aaron', 'test')
     login_as :dustin
@@ -38,7 +45,6 @@ class AdmControllerTest < Test::Unit::TestCase
     login_as :aaron
     post :reset_password, :user => 'dustin'
   end
-
 
   def test_rjs_delete
     login_as :dustin

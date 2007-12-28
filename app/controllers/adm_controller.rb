@@ -3,14 +3,18 @@ class AdmController < ApplicationController
   TXN_LIMIT=TxnController::TXN_LIMIT
 
   def index
-    title "Reset a user's password"
   end
 
   def reset_password
-    @user=User.find_by_login params[:user]
-    set_user_pw @user
-    @user.save!
-    title "Changed #{@user.login}'s password"
+    title "Reset a user's password"
+    if request.post?
+      @user=User.find_by_login params[:user]
+      set_user_pw @user
+      @user.save!
+      title "Changed #{@user.login}'s password"
+    else
+      render :action => :reset_password_form
+    end
   end
 
   def new_user
