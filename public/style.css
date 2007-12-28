@@ -13,6 +13,11 @@ body {
 	font-size: smaller;
 }
 
+.cleanlist {
+	list-style: none;
+	padding-left: 0;
+}
+
 table {
 	border-width: 2px;
 	border-style: outset;

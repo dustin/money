@@ -56,4 +56,28 @@ class AdmControllerTest < Test::Unit::TestCase
     assert_response :success
   end
 
+  def test_new_user_form
+    login_as :dustin
+    get :new_user
+    assert_response :success
+    assert_template 'adm/new_user'
+    assert assigns['groups']
+    assert assigns['user']
+  end
+
+  def test_new_user
+    login_as :dustin
+    assert_difference User, :count do
+      post :new_user, :user => {:login => 'dtest', :name => 'D Test', :email => 'dtest@spy.net'},
+        :group => {1 => 1, 2 => 2}
+    end
+    u=User.find_by_login 'dtest'
+    assert_equal [1, 2], u.groups.map(&:id).sort
+    assert_response :success
+    assert_template 'adm/reset_password'
+    assert assigns['groups']
+    assert assigns['user']
+    assert assigns['newpass']
+  end
+
 end
