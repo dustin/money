@@ -2,7 +2,8 @@ class AllowanceController < ApplicationController
 
   def created
     title "Allowance Tasks You've Created"
-    @tasks=AllowanceTask.find_all_by_creator_id current_user.id, :order => 'name'
+    @tasks=AllowanceTask.find_all_by_creator_id current_user.id,
+      :order => 'allowance_tasks.name', :include => :owner
   end
 
   def new
