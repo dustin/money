@@ -1,0 +1,7 @@
+<p>Granted <%= @user.login %> access to the following groups:</p>
+
+<ul>
+	<% @user.groups.each do |g| %>
+		<li><%= g.name %></li>
+	<% end %>
+</ul>

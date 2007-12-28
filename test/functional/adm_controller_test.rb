@@ -69,7 +69,7 @@ class AdmControllerTest < Test::Unit::TestCase
     login_as :dustin
     assert_difference User, :count do
       post :new_user, :user => {:login => 'dtest', :name => 'D Test', :email => 'dtest@spy.net'},
-        :group => {1 => 1, 2 => 2}
+        :group => {1 => 1, 2 => 1}
     end
     u=User.find_by_login 'dtest'
     assert_equal [1, 2], u.groups.map(&:id).sort
@@ -78,6 +78,33 @@ class AdmControllerTest < Test::Unit::TestCase
     assert assigns['groups']
     assert assigns['user']
     assert assigns['newpass']
+  end
+
+  def test_set_groups_form
+    login_as :dustin
+    get :set_groups
+    assert_response :success
+    assert_template 'adm/set_groups'
+    assert assigns['groups']
+  end
+
+  def test_set_groups
+    login_as :dustin
+    assert_equal [1], User.find_by_login('aaron').groups.map(&:id).sort
+    post :set_groups, :user => 'aaron', :group => { 2 => 1 }
+    assert_equal [2], User.find_by_login('aaron').groups.map(&:id).sort
+    assert_response :success
+    assert_template 'adm/finished_set_groups'
+    assert assigns['groups']
+    assert assigns['user']
+  end
+
+  def test_set_groups_invalid_group
+    login_as :dustin
+    post :set_groups, :user => 'nobody', :group => { 2 => 1 }
+    assert_response :success
+    assert_template 'adm/set_groups'
+    assert assigns['groups']
   end
 
 end

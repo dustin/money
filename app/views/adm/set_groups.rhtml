@@ -1,0 +1,22 @@
+<form method="post" action="/adm/set_groups">
+	<fieldset><legend>User</legend>
+		<div>
+			<label><span>User</span><input name="user" value="<%= params[:user] %>"/>
+		</div>
+	</fieldset>
+	<fieldset><legend>Group Access</legend>
+		<ul class="cleanlist">
+			<% @groups.each do |g| %>
+				<li>
+					<label>
+						<%= check_box :group, g.id %>
+						<%= g.name %>
+					<label>
+				</li>
+			<% end %>
+		</ul>
+	</fieldset>
+	<div>
+		<%= submit_tag 'Set Groups'%>
+	</div>
+</form>

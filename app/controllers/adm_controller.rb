@@ -26,6 +26,23 @@ class AdmController < ApplicationController
     end
   end
 
+  def set_groups
+    title "Setting Groups for a User"
+    @groups = Group.find :all, :order => 'name'
+    if request.post?
+      @user=User.find_by_login params[:user]
+      if @user.nil?
+        flash[:error] = "No such user:  #{params[:user]}"
+      else
+        @user.groups = Group.find params[:group].keys.map(&:to_i)
+        @user.save!
+        title "Set Groups for #{@user.login}"
+        render :action => :finished_set_groups
+        
+      end
+    end
+  end
+
   def recent
     @transactions=MoneyTransaction.find_with_deleted :all,
       :order => "id desc", :limit => TXN_LIMIT
