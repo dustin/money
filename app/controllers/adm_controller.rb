@@ -5,9 +5,14 @@ class AdmController < ApplicationController
   def index
   end
 
+  def users
+    title "User List"
+    @users=User.find :all, :order => 'login'
+  end
+
   def reset_password
     title "Reset a user's password"
-    if request.post?
+    if params[:user]
       @user=User.find_by_login params[:user]
       set_user_pw @user
       @user.save!
