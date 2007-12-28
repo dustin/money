@@ -92,6 +92,7 @@ class AdmControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'adm/set_groups'
     assert assigns['groups']
+    assert assigns['user_gids']
   end
 
   def test_set_groups
@@ -103,6 +104,7 @@ class AdmControllerTest < Test::Unit::TestCase
     assert_template 'adm/finished_set_groups'
     assert assigns['groups']
     assert assigns['user']
+    assert assigns['user_gids']
   end
 
   def test_set_groups_empty
@@ -114,14 +116,16 @@ class AdmControllerTest < Test::Unit::TestCase
     assert_template 'adm/finished_set_groups'
     assert assigns['groups']
     assert assigns['user']
+    assert assigns['user_gids']
   end
 
-  def test_set_groups_invalid_group
+  def test_set_groups_invalid_user
     login_as :dustin
     post :set_groups, :user => 'nobody', :group => { 2 => 1 }
     assert_response :success
     assert_template 'adm/set_groups'
     assert assigns['groups']
+    assert assigns['user_gids']
   end
 
 end

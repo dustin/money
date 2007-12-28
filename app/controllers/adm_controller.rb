@@ -38,9 +38,10 @@ class AdmController < ApplicationController
   def set_groups
     title "Setting Groups for a User"
     @groups = Group.find :all, :order => 'name'
+    @user_gids = []
     if params[:user]
       @user=User.find_by_login params[:user]
-      @user_gids=@user.groups.map(&:id)
+      @user_gids=@user.groups.map(&:id) unless @user.nil?
     end
     if request.post?
       if @user.nil?

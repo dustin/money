@@ -36,9 +36,9 @@
 			<% if current_user.admin? %>
 				<br/>
 				Admin stuff:
-				<%= link_to 'Recent', :controller => :adm :action => :recent %>
-				| <%= link_to 'Reports', :controller => :report :action => :index %>
-				| <%= link_to 'Users', :controller => :adm :action => :users %>
+				<%= link_to 'Recent', :controller => :adm, :action => :recent %>
+				| <%= link_to 'Reports', :controller => :report, :action => :index %>
+				| <%= link_to 'Users', :controller => :adm, :action => :users %>
 			<% end %>
 		<% end %>
 	<% end %>

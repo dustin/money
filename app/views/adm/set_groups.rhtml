@@ -1,7 +1,7 @@
 <form method="post" action="/adm/set_groups">
 	<fieldset><legend>User</legend>
 		<div>
-			<label><span>User</span><input name="user" value="<%= @user.login %>"/>
+			<label><span>User</span><input name="user" value="<%= params[:user] %>"/>
 		</div>
 	</fieldset>
 	<fieldset><legend>Group Access</legend>
