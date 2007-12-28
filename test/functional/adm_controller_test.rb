@@ -97,8 +97,19 @@ class AdmControllerTest < Test::Unit::TestCase
   def test_set_groups
     login_as :dustin
     assert_equal [1], User.find_by_login('aaron').groups.map(&:id).sort
-    post :set_groups, :user => 'aaron', :group => { 2 => 1 }
+    post :set_groups, :user => 'aaron', :group => { 1 => 0, 2 => 1 }
     assert_equal [2], User.find_by_login('aaron').groups.map(&:id).sort
+    assert_response :success
+    assert_template 'adm/finished_set_groups'
+    assert assigns['groups']
+    assert assigns['user']
+  end
+
+  def test_set_groups_empty
+    login_as :dustin
+    assert_equal [1], User.find_by_login('aaron').groups.map(&:id).sort
+    post :set_groups, :user => 'aaron'
+    assert_equal [], User.find_by_login('aaron').groups.map(&:id).sort
     assert_response :success
     assert_template 'adm/finished_set_groups'
     assert assigns['groups']

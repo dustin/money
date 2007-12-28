@@ -43,11 +43,16 @@ class AdmController < ApplicationController
       if @user.nil?
         flash[:error] = "No such user:  #{params[:user]}"
       else
-        @user.groups = Group.find params[:group].keys.map(&:to_i)
+        gids = []
+        if params[:group]
+          params[:group].each do |k,v|
+            gids << k if v.to_i == 1
+          end
+        end
+        @user.groups = gids.empty? ? [] : Group.find(gids)
         @user.save!
         title "Set Groups for #{@user.login}"
         render :action => :finished_set_groups
-        
       end
     end
   end
