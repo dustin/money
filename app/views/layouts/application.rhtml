@@ -28,17 +28,17 @@
 				<% if idx > 0 %>| <% end%><%= g.name %>: <%= currency_span(g.balance) %>
 			<% end %>
 			<br/>
-			<%= link_to 'Home', :action => :index %>
-			| <%= link_to 'Logout', :action => :logout, :controller => :account %>
-			| <%= link_to 'Change Password', :action => :change_password, :controller => :account %>
-			| <%= link_to 'Created Tasks', :action => :created, :controller => :allowance%>
+			<%= link_to 'Home', :controller => :acct, :action => :index %>
+			| <%= link_to 'Logout', :controller => :account, :action => :logout %>
+			| <%= link_to 'Change Password', :controller => :account, :action => :change_password %>
+			| <%= link_to 'Created Tasks', :controller => :allowance, :action => :created %>
 
 			<% if current_user.admin? %>
 				<br/>
 				Admin stuff:
-				<%= link_to 'Recent', :action => :recent, :controller => :adm %>
-				| <%= link_to 'Reports', :action => :index, :controller => :report %>
-				| <%= link_to 'Users', :action => :users, :controller => :adm %>
+				<%= link_to 'Recent', :controller => :adm :action => :recent %>
+				| <%= link_to 'Reports', :controller => :report :action => :index %>
+				| <%= link_to 'Users', :controller => :adm :action => :users %>
 			<% end %>
 		<% end %>
 	<% end %>
