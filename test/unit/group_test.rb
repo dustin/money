@@ -7,7 +7,7 @@ class GroupTest < Test::Unit::TestCase
   def test_create
     g=Group.new :name => "Test Group"
     g.save
-    assert_equal(g, Group.find(3))
+    assert_equal(g, Group.find(4))
   end
 
   def test_list_users
@@ -32,5 +32,9 @@ class GroupTest < Test::Unit::TestCase
 
   def test_balance_empty
     assert_equal(0, groups(:two).balance)
+  end
+
+  def test_balance_empty_group
+    assert_equal(0, groups(:empty).balance)
   end
 end

@@ -25,6 +25,6 @@ class Group < ActiveRecord::Base
   end
 
   def balance
-    accounts.map(&:balance).inject {|c, i| c + i}
+    accounts.map(&:balance).inject {|c, i| c + i} || 0.0
   end
 end

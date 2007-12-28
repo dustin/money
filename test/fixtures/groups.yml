@@ -14,3 +14,6 @@ one:
 two:
   id: 2
   name: Group2
+empty:
+  id: 3
+  name: Unused/Empty Group
