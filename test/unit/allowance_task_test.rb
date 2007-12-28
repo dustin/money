@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class AllowanceTaskTest < Test::Unit::TestCase
   include AuthenticatedTestHelper
 
-  fixtures :allowance_tasks, :groups, :users, :categories, :money_accounts
+  fixtures :allowance_tasks, :groups, :users, :categories, :money_accounts, :group_user_map
 
   def test_lookup
     t=AllowanceTask.find :first, :order => ['id']
