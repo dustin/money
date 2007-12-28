@@ -120,7 +120,8 @@ class TxnController < ApplicationController
     list_conditions = list_conditions.nil? ? default_conditions : list_conditions
     get_sums conditions
     @transactions=MoneyTransaction.send which, :all,
-      :conditions => list_conditions, :order => "ds desc, id desc", :limit => limit
+      :conditions => list_conditions, :order => "money_transactions.ds desc, money_transactions.id desc",
+      :limit => limit, :include => [:user, :category]
   end
 
 end

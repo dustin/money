@@ -63,7 +63,8 @@ class AdmController < ApplicationController
 
   def recent
     @transactions=MoneyTransaction.find_with_deleted :all,
-      :order => "id desc", :limit => TXN_LIMIT
+      :order => "money_transactions.id desc", :limit => TXN_LIMIT,
+      :include => [:user, :account, {:category => :group}]
     title "Recent Transactions"
   end
 
