@@ -38,8 +38,11 @@ class AdmController < ApplicationController
   def set_groups
     title "Setting Groups for a User"
     @groups = Group.find :all, :order => 'name'
-    if request.post?
+    if params[:user]
       @user=User.find_by_login params[:user]
+      @user_gids=@user.groups.map(&:id)
+    end
+    if request.post?
       if @user.nil?
         flash[:error] = "No such user:  #{params[:user]}"
       else

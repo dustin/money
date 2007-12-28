@@ -1,7 +1,7 @@
 <form method="post" action="/adm/set_groups">
 	<fieldset><legend>User</legend>
 		<div>
-			<label><span>User</span><input name="user" value="<%= params[:user] %>"/>
+			<label><span>User</span><input name="user" value="<%= @user.login %>"/>
 		</div>
 	</fieldset>
 	<fieldset><legend>Group Access</legend>
@@ -9,7 +9,7 @@
 			<% @groups.each do |g| %>
 				<li>
 					<label>
-						<%= check_box :group, g.id %>
+						<%= check_box :group, g.id, :checked => (@user_gids.include?(g.id) ? 'checked' : '') %>
 						<%= g.name %>
 					<label>
 				</li>
