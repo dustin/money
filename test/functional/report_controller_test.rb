@@ -42,6 +42,12 @@ class ReportControllerTest < Test::Unit::TestCase
     assert assigns['flow']
   end
 
+  def test_month_cat_form
+    login_as :dustin
+    get :month_cat_form
+    assert_equal Date.today, assigns['today']
+  end
+
   def test_month_cat
     login_as :dustin
     get :month_cat, :year => 2007, :month => 11

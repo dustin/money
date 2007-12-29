@@ -22,6 +22,13 @@ class AdmControllerTest < Test::Unit::TestCase
     assert_equal 4, assigns['transactions'].length
   end
 
+  def test_users
+    login_as :dustin
+    get :users
+    assert_response :success
+    assert_equal [1, 2], assigns['users'].map(&:id).sort
+  end
+
   def test_reset_password_form
     login_as :dustin
     get :reset_password

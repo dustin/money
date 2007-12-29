@@ -2,10 +2,10 @@ class AccountController < ApplicationController
   skip_before_filter :login_required
 
   def index
-    if logged_in? || User.count > 0
-      redirect_to(:controller => '/acct', :action => 'index')
+    if logged_in?
+      redirect_to :controller => :acct, :action => :index
     else
-      redirect_to(:action => 'login')
+      redirect_to :action => :login
     end
   end
 
@@ -17,10 +17,10 @@ class AccountController < ApplicationController
         self.current_user.remember_me
         cookies[:auth_token] = { :value => self.current_user.remember_token,
           :expires => self.current_user.remember_token_expires_at }
-        redirect_to :controller => '/acct', :action => 'index'
       end
-      redirect_back_or_default(:controller => '/acct', :action => 'index')
+
       flash[:notice] = "Logged in successfully"
+      redirect_back_or_default :controller => :acct, :action => :index
     end
   end
 

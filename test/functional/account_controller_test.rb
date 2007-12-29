@@ -20,7 +20,7 @@ class AccountControllerTest < Test::Unit::TestCase
   def test_should_login_and_redirect
     post :login, :login => 'dustin', :password => 'blahblah'
     assert session[:user]
-    assert_response :redirect
+    assert_redirected_to :controller => :acct, :action => :index
   end
 
   def test_should_fail_login_and_not_redirect
@@ -72,12 +72,12 @@ class AccountControllerTest < Test::Unit::TestCase
     login_as :dustin
     get :logout
     assert_nil session[:user]
-    assert_response :redirect
+    assert_redirected_to :action => :login
   end
 
-  # This test doesn't pass.  I don't actually need it, but it's curious.
-  def do_not_test_should_remember_me
-    post :login, :login => 'dustin', :password => 'test', :remember_me => "1"
+  def test_should_remember_me
+    post :login, :login => 'dustin', :password => 'blahblah', :remember_me => "1"
+    assert_redirected_to :controller => :acct, :action => :index
     assert_not_nil @response.cookies["auth_token"]
   end
 
@@ -92,11 +92,17 @@ class AccountControllerTest < Test::Unit::TestCase
     assert_equal @response.cookies["auth_token"], []
   end
 
+  def test_index_without_login
+    get :index
+    assert_redirected_to :action => :login
+  end
+
   def test_should_login_with_cookie
     users(:dustin).remember_me
     @request.cookies["auth_token"] = cookie_for(:dustin)
     get :index
     assert @controller.send(:logged_in?)
+    assert_redirected_to :controller => :acct, :action => :index
   end
 
   def test_should_fail_expired_cookie_login
