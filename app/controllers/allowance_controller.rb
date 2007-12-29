@@ -4,6 +4,7 @@ class AllowanceController < ApplicationController
     title "Allowance Tasks You've Created"
     @tasks=AllowanceTask.find_all_by_creator_id current_user.id,
       :order => 'allowance_tasks.name', :include => :owner
+    @weekly_sum = @tasks.inject(0.0) {|c,i| c + i.weekly_value}
   end
 
   def new

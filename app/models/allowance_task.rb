@@ -46,6 +46,10 @@ class AllowanceTask < ActiveRecord::Base
     end
   end
 
+  def weekly_value
+    (7.0 / frequency.to_f) * value
+  end
+
   # Perform this task.
   def perform!
     fromuser = User.find creator_id

@@ -12,7 +12,7 @@ class AllowanceTaskTest < Test::Unit::TestCase
     assert_equal users(:dustin), t.creator
     assert_equal users(:aaron), t.owner
     assert_equal 7, t.frequency
-    assert_in_delta(0.25, t.value, 2 ** -20)
+    assert_in_delta 0.25, t.value, 2 ** -20
     assert_equal money_accounts(:three), t.from_account
     assert_equal money_accounts(:one), t.to_account
     assert_equal categories(:three), t.from_category
@@ -22,6 +22,26 @@ class AllowanceTaskTest < Test::Unit::TestCase
 
   def test_available
     assert_equal [1,3], available_ids
+  end
+
+  def test_weekly_value_daily
+    t=AllowanceTask.new :frequency => 1, :value => 0.50
+    assert_in_delta 3.5, t.weekly_value, 2 ** -20
+  end
+
+  def test_weekly_value_weekly
+    t=AllowanceTask.new :frequency => 7, :value => 0.50
+    assert_in_delta 0.5, t.weekly_value, 2 ** -20
+  end
+
+  def test_weekly_value_bi_daily
+    t=AllowanceTask.new :frequency => 2, :value => 0.50
+    assert_in_delta 1.75, t.weekly_value, 2 ** -20
+  end
+
+  def test_weekly_value_fortnightly
+    t=AllowanceTask.new :frequency => 14, :value => 0.50
+    assert_in_delta 0.25, t.weekly_value, 2 ** -20
   end
 
   def test_creation

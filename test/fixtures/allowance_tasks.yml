@@ -50,7 +50,7 @@ three:
   description: Something you've never done.
   creator_id: 1
   owner_id: 2
-  frequency: 7
+  frequency: 1
   value: 1.00
   from_money_account_id: 3
   to_money_account_id: 1
