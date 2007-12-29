@@ -28,7 +28,7 @@
 				<% if idx > 0 %>| <% end%><%= g.name %>: <%= currency_span(g.balance) %>
 			<% end %>
 			<br/>
-			<%= link_to 'Home', :controller => :acct, :action => :index %>
+			<%= link_to 'Home', home_path %>
 			| <%= link_to 'Logout', :controller => :account, :action => :logout %>
 			| <%= link_to 'Change Password', :controller => :account, :action => :change_password %>
 			| <%= link_to 'Created Tasks', :controller => :allowance, :action => :created %>
