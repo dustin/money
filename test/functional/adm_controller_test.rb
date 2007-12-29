@@ -51,6 +51,9 @@ class AdmControllerTest < Test::Unit::TestCase
   def test_reset_not_admin
     login_as :aaron
     post :reset_password, :user => 'dustin'
+    assert_response :success
+    assert_template 'report/access_denied'
+    assert User.authenticate('dustin', 'blahblah'), 'Password changed!'
   end
 
   def test_rjs_delete

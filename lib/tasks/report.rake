@@ -2,11 +2,11 @@ namespace :test do
   namespace :report do
     task :rcov_units_params do
         RCOV_PARAMS = ENV['RCOV_PARAMS'] = "--sort=name"
-        SHOW_ONLY = ENV['SHOW_ONLY'] = "app/models|lib"  
+        SHOW_ONLY = ENV['SHOW_ONLY'] = "app/models"  
     end
     task :rcov_functionals_params do
       RCOV_PARAMS = ENV['RCOV_PARAMS'] = "--sort=name"
-      SHOW_ONLY = ENV['SHOW_ONLY'] = "app/controllers|app/helpers"
+      SHOW_ONLY = ENV['SHOW_ONLY'] = "app/controllers|app/helpers|lib"
     end
     desc 'Measures test coverage'
     task :coverage => [ 'test:units:rcov', 'test:functionals:rcov' ] 

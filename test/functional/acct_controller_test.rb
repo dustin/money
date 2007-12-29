@@ -16,6 +16,11 @@ class AcctControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
+  def test_unauthenticated_index
+    get :index
+    assert_redirected_to :controller => :account, :action => :login
+  end
+
   def test_index
     login_as :dustin
     get :index

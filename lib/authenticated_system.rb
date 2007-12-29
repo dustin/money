@@ -67,11 +67,11 @@ module AuthenticatedSystem
           store_location
           redirect_to :controller => '/account', :action => 'login'
         end
-        accepts.xml do
-          headers["Status"]           = "Unauthorized"
-          headers["WWW-Authenticate"] = %(Basic realm="Web Password")
-          render :text => "Could't authenticate you", :status => '401 Unauthorized'
-        end
+        # accepts.xml do
+        #   headers["Status"]           = "Unauthorized"
+        #   headers["WWW-Authenticate"] = %(Basic realm="Web Password")
+        #   render :text => "Could't authenticate you", :status => '401 Unauthorized'
+        # end
       end
       false
     end  
