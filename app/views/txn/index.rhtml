@@ -47,7 +47,7 @@
 </tbody>
 </table>
 <div class="txnsummary">
-	Showing <%= @transactions.length %> transactions.
+	Showing <%= @transactions.length %> <%= maybe_singular(@transactions.length, "transactions") %>.
 </div>
 
 <p>

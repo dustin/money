@@ -13,4 +13,8 @@ module ApplicationHelper
     "<span #{i} class=\"#{amt_class(amt)}\">#{number_to_currency(amt)}</span>"
   end
 
+  # Singularize a word if the count is 1.
+  def maybe_singular(cnt, word)
+    cnt == 1 ? word.singularize : word
+  end
 end
