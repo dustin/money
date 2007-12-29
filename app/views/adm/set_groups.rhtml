@@ -1,4 +1,4 @@
-<form method="post" action="/adm/set_groups">
+<% form_tag do %>
 	<fieldset><legend>User</legend>
 		<div>
 			<label><span>User</span><input name="user" value="<%= params[:user] %>"/>
@@ -19,4 +19,4 @@
 	<div>
 		<%= submit_tag 'Set Groups'%>
 	</div>
-</form>
+<% end %>

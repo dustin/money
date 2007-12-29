@@ -1,7 +1,7 @@
 <% if !@tasks.empty? %>
 	<h1>Available Tasks</h1>
 
-	<form method="post" action="/allowance/complete">
+	<% form_tag :controller => :allowance, :action => :complete do %>
 		<table>
 			<thead>
 				<tr>
@@ -23,7 +23,7 @@
 		<p>
 			<input type="submit" value="Mark Complete"/>
 		</p>
-	</form>
+	<% end %>
 <% end %>
 
 <h1>Accounts for <%= current_user.name %></h1>

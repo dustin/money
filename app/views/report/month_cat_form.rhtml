@@ -1,7 +1,7 @@
 <%
 	months = %w(January February March April May Jun July August September October November December)
 %>
-<form method="post" action="month_cat">
+<% form_tag :action => :month_cat do %>
 	<select name="year">
 		<% @today.year.downto(@today.year - 10) do |y| %>
 			<option><%= y %></option>
@@ -15,4 +15,4 @@
 	</select>
 
 	<input type="submit" value="Go"/>
-</form>
+<% end %>

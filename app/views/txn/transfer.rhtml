@@ -1,6 +1,6 @@
 <h1>Transferring from <%= @current_acct.name %></h1>
 
-<form method="post" action="/txn/transfer/<%= @current_acct.id %>">
+<% form_tag :action => :transfer, :id => @current_acct.id do %>
 	<fieldset>
 	  <legend>Source</legend>
 		<div><label><span>Category</span>
@@ -31,7 +31,7 @@
 		<div><label><span>Description</span><%= text_field "details", "descr" %></label></div>
 	</fieldset>
 	<%= submit_tag %>
-</form>
+<% end %>
 
 <p>
 	<%= link_to 'Show Current', :action => 'index', :id => @current_acct.id %>
