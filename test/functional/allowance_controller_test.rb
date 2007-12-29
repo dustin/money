@@ -43,7 +43,7 @@ class AllowanceControllerTest < Test::Unit::TestCase
     get :created
     assert_response :success
     assert_equal [2, 1, 4, 3], assigns['tasks'].map(&:id)
-    assert_equal 8.35, assigns['weekly_sum']
+    assert_equal 7.35, assigns['weekly_sum']
   end
 
   def test_new_form
