@@ -1,19 +1,21 @@
 <h1>Tasks You've Created</h1>
 
+<% @tasks.each do |owner, tasks| %>
+<h2>Owned by <%= owner.name %> (<%= owner.login %>)</h2>
+
 <form method="post" action="#">
 	<table>
 		<thead>
 			<tr>
 				<th>Active</th>
 				<th>Name</th>
-				<th>Owner</th>
 				<th>Frequency</th>
 				<th>Value</th>
 				<th>Weekly Value</th>
 			</tr>
 		</thead>
 		<tbody>
-			<% @tasks.each do |t| %>
+			<% tasks.each do |t| %>
 				<tr id="task_<%= t.id %>" <%= t.deleted ? 'class="deleted"' : '' %>>
 					<td>
 		        <%= content_tag :input, '', :type => :checkbox,
@@ -25,19 +27,19 @@
 		                                    :checked => 'checked' %>
 					</td>
 					<td><%= t.name %></td>
-					<td><%= t.owner.login %></td>
 					<td><%= t.frequency %></td>
 					<td><%= currency_span(t.value) %></td>
 					<td><%= currency_span(t.weekly_value) %></td>
 				</tr>
 			<% end %>
 			<tr>
-				<td colspan="5"><b>Weekly Sum</b></td>
-				<td><%= currency_span(@weekly_sum) %></td>
+				<td colspan="4"><b>Weekly Sum</b></td>
+				<td><%= currency_span(@weekly_sums[owner]) %></td>
 			<tr>
 		</tbody>
 	</table>
 </form>
+<% end %>
 
 <p>
 	<%= link_to 'New Task', :action => :new %>

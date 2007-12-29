@@ -2,9 +2,12 @@ class AllowanceController < ApplicationController
 
   def created
     title "Allowance Tasks You've Created"
-    @tasks=AllowanceTask.find_all_by_creator_id current_user.id,
-      :order => 'allowance_tasks.name', :include => :owner
-    @weekly_sum = @tasks.reject(&:deleted).inject(0.0) {|c,i| c + i.weekly_value}
+    @tasks=AllowanceTask.find_all_by_creator_id(current_user.id,
+      :order => 'allowance_tasks.name', :include => :owner).group_by(&:owner)
+    @weekly_sums = {}
+    @tasks.each do |owner,tasks|
+      @weekly_sums[owner] = tasks.reject(&:deleted).inject(0.0) {|c,i| c + i.weekly_value}
+    end
   end
 
   def new

@@ -42,8 +42,9 @@ class AllowanceControllerTest < Test::Unit::TestCase
     login_as :dustin
     get :created
     assert_response :success
-    assert_equal [2, 1, 4, 3], assigns['tasks'].map(&:id)
-    assert_equal 7.35, assigns['weekly_sum']
+    assert_equal [2, 1, 4, 3], assigns['tasks'][users(:aaron)].map(&:id)
+    assert_equal 7.35, assigns['weekly_sums'][users(:aaron)]
+    assert_equal ['aaron'], assigns['tasks'].keys.map(&:login)
   end
 
   def test_new_form
