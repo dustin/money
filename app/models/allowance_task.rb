@@ -27,10 +27,10 @@ class AllowanceTask < ActiveRecord::Base
 
   def validate
     unless creator.groups.include?(from_account.group)
-      errors.add("creator", "#{creator.login} has no permission to account #{from_account}")
+      errors.add("creator", "#{creator.login} has no permission to account #{from_account.id}")
     end
     unless owner.groups.include?(to_account.group)
-      errors.add("owner", "#{owner.login} has no permission to account #{to_account}")
+      errors.add("owner", "#{owner.login} has no permission to account #{to_account.id}")
     end
     unless from_account.group_id == from_category.group_id
       errors.add("category", "#{from_category.id} does not belong to account #{from_account.id}")

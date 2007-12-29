@@ -24,6 +24,101 @@ class AllowanceTaskTest < Test::Unit::TestCase
     assert_equal [1,3], available_ids
   end
 
+  def test_creation
+    t=AllowanceTask.new
+    t.name = 'Test'
+    t.description = 'test'
+    t.creator = users(:dustin)
+    t.owner = users(:aaron)
+    t.frequency = 3
+    t.value = 3.99
+    t.from_account = money_accounts(:three)
+    t.from_category = categories(:three)
+    t.to_account = money_accounts(:one)
+    t.to_category = categories(:one)
+    assert t.save
+  end
+
+  def test_invalid_amount
+    t=AllowanceTask.new
+    t.name = 'Test'
+    t.description = 'test'
+    t.creator = users(:dustin)
+    t.owner = users(:aaron)
+    t.frequency = 3
+    t.value = -3.99
+    t.from_account = money_accounts(:three)
+    t.from_category = categories(:three)
+    t.to_account = money_accounts(:one)
+    t.to_category = categories(:one)
+    assert !t.valid?
+    assert_equal "should be greater than zero", t.errors[:value]
+  end
+
+  def test_invalid_frequency
+    t=AllowanceTask.new
+    t.name = 'Test'
+    t.description = 'test'
+    t.creator = users(:dustin)
+    t.owner = users(:aaron)
+    t.frequency = 0
+    t.value = 3.99
+    t.from_account = money_accounts(:three)
+    t.from_category = categories(:three)
+    t.to_account = money_accounts(:one)
+    t.to_category = categories(:one)
+    assert !t.valid?
+    assert_equal "should be greater than zero", t.errors[:frequency]
+  end
+
+  def test_creation_inaccessible_creator_account
+    t=AllowanceTask.new
+    t.name = 'Test'
+    t.description = 'test'
+    t.creator = users(:aaron)
+    t.owner = users(:dustin)
+    t.frequency = 3
+    t.value = 3.99
+    t.from_account = money_accounts(:three)
+    t.from_category = categories(:three)
+    t.to_account = money_accounts(:one)
+    t.to_category = categories(:one)
+    assert !t.valid?
+    assert_equal "aaron has no permission to account 3", t.errors[:creator]
+  end
+
+  def test_creation_inaccessible_recipient_account
+    t=AllowanceTask.new
+    t.name = 'Test'
+    t.description = 'test'
+    t.creator = users(:dustin)
+    t.owner = users(:aaron)
+    t.frequency = 3
+    t.value = 3.99
+    t.from_account = money_accounts(:one)
+    t.from_category = categories(:one)
+    t.to_account = money_accounts(:three)
+    t.to_category = categories(:three)
+    assert !t.valid?
+    assert_equal "aaron has no permission to account 3", t.errors[:owner]
+  end
+
+  def test_creation_invalid_categories
+    t=AllowanceTask.new
+    t.name = 'Test'
+    t.description = 'test'
+    t.creator = users(:dustin)
+    t.owner = users(:aaron)
+    t.frequency = 3
+    t.value = 3.99
+    t.from_account = money_accounts(:three)
+    t.from_category = categories(:two)
+    t.to_account = money_accounts(:one)
+    t.to_category = categories(:three)
+    assert !t.valid?
+    assert_equal ["2 does not belong to account 3", "3 does not belong to account 1"], t.errors[:category]
+  end
+
   # Perform a task, make sure money gets transferred and the task is no longer available.
   def test_perform
     assert_difference MoneyTransaction, :count, 2 do

@@ -84,6 +84,7 @@ class UserTest < Test::Unit::TestCase
     users(:dustin).remember_me
     assert_not_nil users(:dustin).remember_token
     assert_not_nil users(:dustin).remember_token_expires_at
+    assert users(:dustin).remember_token?
   end
 
   def test_should_unset_remember_token
@@ -91,8 +92,8 @@ class UserTest < Test::Unit::TestCase
     assert_not_nil users(:dustin).remember_token
     users(:dustin).forget_me
     assert_nil users(:dustin).remember_token
+    assert !users(:dustin).remember_token?
   end
-  
 
   # My tests...
   def test_user_list_length
@@ -128,6 +129,10 @@ class UserTest < Test::Unit::TestCase
   def test_lookup_by_name
     u=User.find_by_login('dustin')
     assert_equal(1, u.id)
+  end
+
+  def test_sorting
+    assert_equal [2, 1], User.find(:all).sort.map(&:id)
   end
 
   protected
