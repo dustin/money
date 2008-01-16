@@ -20,6 +20,8 @@ class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 
+  attr_accessible :login, :name, :email, :password, :password_confirmation
+
   has_and_belongs_to_many :groups, :class_name => "Group",
     :join_table => "group_user_map"
   has_and_belongs_to_many :roles, :class_name => "Role",
