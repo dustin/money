@@ -4,8 +4,8 @@ class MoneyAccountTest < Test::Unit::TestCase
   fixtures :money_accounts, :groups, :money_transactions
 
   def test_create
-    a=MoneyAccount.new :name => "Test Account",
-      :group => Group.find(1)
+    a=MoneyAccount.new :name => "Test Account";
+    a.group = groups(:one)
     a.save
     assert_equal(a, MoneyAccount.find(4))
   end
