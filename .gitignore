@@ -1,0 +1,6 @@
+db/schema.rb
+coverage/
+tmp/
+log/
+REVISION
+public/system/
