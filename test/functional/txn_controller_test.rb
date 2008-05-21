@@ -172,28 +172,28 @@ class TxnControllerTest < Test::Unit::TestCase
   def test_rjs_reconcile
     login_as :dustin
     assert_difference MoneyTransaction, :count_reconciled do
-      xhr :post, :set_reconcile, :id => 1, :acct_id => 1, :checked => 1
+      xhr :put, :update, :id => 1, :checked => 1
     end
     assert_response :success
-    assert_equal 1, assigns['current_acct'].id
+    assert_equal 1, assigns(:current_acct).id
   end
 
   def test_rjs_reconcile_four
     login_as :dustin
     assert_difference MoneyTransaction, :count_reconciled do
-      xhr :post, :set_reconcile, :id => 4, :acct_id => 1, :checked => 1
+      xhr :put, :update, :id => 4, :checked => 1
     end
     assert_response :success
-    assert_equal 1, assigns['current_acct'].id
+    assert_equal 2, assigns(:current_acct).id
   end
 
   def test_rjs_unreconcile
     login_as :dustin
     assert_difference MoneyTransaction, :count_reconciled, -1 do
-      xhr :post, :set_reconcile, :id => 2, :acct_id => 1, :checked => 0
+      xhr :put, :update, :id => 2, :checked => 0
     end
     assert_response :success
-    assert_equal 1, assigns['current_acct'].id
+    assert_equal 1, assigns(:current_acct).id
   end
 
   private

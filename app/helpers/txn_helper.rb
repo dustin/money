@@ -18,6 +18,12 @@ module TxnHelper
     [txn1, txn2]
   end
 
+  def make_txn_checkbox_callback(tid, acct, checked)
+    remote_function :url => {
+      :controller => 'txn', :action => 'set_reconcile', :id => tid,
+      :acct_id => acct.id, :checked => checked }
+  end
+
   private
     def make_txn(user, acct, cat, ds, amt, descr)
       MoneyTransaction.new :category_id => cat.id, :ds => ds, :amount => amt, :descr => descr,

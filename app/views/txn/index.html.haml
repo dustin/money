@@ -1,0 +1,57 @@
+%h1= @page_title
+
+%table.transaction_list
+  %thead
+    %tr
+      %th Clear
+      %th Txn ID
+      %th Date
+      %th User
+      %th Category
+      %th Amount
+      %th Description
+  %tbody
+    - @transactions.each_with_index do |t, idx|
+      %tr{:class => (idx % 2 == 0 ? 'odd' : 'even') + (t.deleted_at ? ' deleted' : '') }
+        %td
+          %form{:method => "put", :action => '#'}
+            - checked = t.reconciled ? {:checked => "1"} : {}
+            %input{checked.merge(:type => "checkbox", :id => "txn_#{t.id}")}
+        %td= t.id
+        %td= t.ds
+        %td= t.user.login
+        %td= t.category.name
+        %td.moneycolumn= currency_span(t.amount)
+        %td= t.descr
+
+.txnsummary
+  Showing
+  = @transactions.length
+  == #{maybe_singular(@transactions.length, "transactions")}.
+
+%p
+  Ending balance:
+  = currency_span(@txn_sum, 'endingbal')
+  %br
+  Reconciled balance:
+  = currency_span(@rec_sum, 'reconciled')
+  %br
+  Unreconciled balance:
+  = currency_span(@unrec_sum, 'unreconciled')
+
+%p= render :partial => 'links'
+
+%script{:type => "text/javascript"}
+  :plain
+    function setup_reconciler(id) {
+      $('txn_' + id).onclick=function() {
+        new Ajax.Request('/txn/update/' + id, {
+          method: "post",
+          asynchronous:true,
+          evalScripts:true,
+          data: { checked: ($('txn_' + id).checked) ? 1 : 0 }
+        });
+      }
+    }
+  - @transactions.each do |t|
+    == setup_reconciler(#{t.id});
