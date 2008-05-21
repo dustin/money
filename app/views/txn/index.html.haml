@@ -45,11 +45,11 @@
   :plain
     function setup_reconciler(id) {
       $('txn_' + id).onclick=function() {
-        new Ajax.Request('/txn/update/' + id, {
+        var checked = ($('txn_' + id).checked) ? 1 : 0;
+        new Ajax.Request('/txn/update/' + id + "?checked=" + checked, {
           method: "post",
           asynchronous:true,
-          evalScripts:true,
-          data: { checked: ($('txn_' + id).checked) ? 1 : 0 }
+          evalScripts:true
         });
       }
     }
