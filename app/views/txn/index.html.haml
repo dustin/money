@@ -22,7 +22,8 @@
         %td= t.user.login
         %td= t.category.name
         %td.moneycolumn= currency_span(t.amount)
-        %td= t.descr
+        %td
+          %span{:id => "txn_desc_#{t.id}"}= t.descr
 
 .txnsummary
   Showing
@@ -42,16 +43,19 @@
 %p= render :partial => 'links'
 
 %script{:type => "text/javascript"}
+  - rec_url = "/txn/current_reconciled/#{@current_acct.id}"
+  == function updateReconciled() { new Ajax.Request('#{rec_url}' + "?" + Math.random(), {evalScripts: true}) }
+
   :plain
     function setup_reconciler(id) {
       $('txn_' + id).onclick=function() {
         var checked = ($('txn_' + id).checked) ? 1 : 0;
-        new Ajax.Request('/txn/update/' + id + "?checked=" + checked, {
+        new Ajax.Request('/txn/update/' + id + "?f=reconciled&value=" + checked, {
           method: "post",
-          asynchronous:true,
-          evalScripts:true
+          onSuccess: updateReconciled
         });
       }
     }
   - @transactions.each do |t|
     == setup_reconciler(#{t.id});
+    == new Ajax.InPlaceEditor('txn_desc_#{t.id}', '/txn/update/#{t.id}?f=descr');

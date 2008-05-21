@@ -80,9 +80,18 @@ class TxnController < ApplicationController
 
   def update
     @txn = MoneyTransaction.find params[:id]
-    @txn.reconciled = (params[:checked].to_i == 1)
+    case params[:f]
+    when 'reconciled'
+      @txn.reconciled = (params[:value].to_i == 1)
+    when 'descr'
+      @txn.descr = params[:value]
+    end
     @txn.save!
-    @current_acct = @txn.account
+    render :text => params[:value]
+  end
+
+  def current_reconciled
+    get_acct_from_params
     get_sums
     render :template => 'txn/update_reconciled'
   end

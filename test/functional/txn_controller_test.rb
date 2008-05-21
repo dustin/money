@@ -169,31 +169,40 @@ class TxnControllerTest < Test::Unit::TestCase
     assert flash[:info]
   end
 
+  def test_descr_update
+    login_as :dustin
+    xhr :put, :update, :id => 1, :f => 'descr', :value => 'Changed Stuff'
+    assert_equal 'Changed Stuff', MoneyTransaction.find(1).descr
+  end
+
   def test_rjs_reconcile
     login_as :dustin
     assert_difference MoneyTransaction, :count_reconciled do
-      xhr :put, :update, :id => 1, :checked => 1
+      xhr :put, :update, :id => 1, :f => 'reconciled', :value => 1
     end
     assert_response :success
-    assert_equal 1, assigns(:current_acct).id
   end
 
   def test_rjs_reconcile_four
     login_as :dustin
     assert_difference MoneyTransaction, :count_reconciled do
-      xhr :put, :update, :id => 4, :checked => 1
+      xhr :put, :update, :id => 4, :f => 'reconciled', :value => 1
     end
     assert_response :success
-    assert_equal 2, assigns(:current_acct).id
   end
 
   def test_rjs_unreconcile
     login_as :dustin
     assert_difference MoneyTransaction, :count_reconciled, -1 do
-      xhr :put, :update, :id => 2, :checked => 0
+      xhr :put, :update, :id => 2, :f => 'reconciled', :value => 0
     end
     assert_response :success
-    assert_equal 1, assigns(:current_acct).id
+  end
+
+  def test_current_reconciled
+    login_as :dustin
+    xhr :get, :current_reconciled, :id => 2
+    assert_equal 2, assigns(:current_acct).id
   end
 
   private
