@@ -49,17 +49,7 @@
 
   == var known_cats = [ #{@current_acct.group.categories.map{|c| "'#{c.name}'"}.join(", ")} ];
 
-  :plain
-    function setup_reconciler(id) {
-      $('txn_' + id).onclick=function() {
-        var checked = ($('txn_' + id).checked) ? 1 : 0;
-        new Ajax.Request('/txn/update/' + id + "?f=reconciled&value=" + checked, {
-          method: "post",
-          onSuccess: updateReconciled
-        });
-      }
-    }
+  function setuptxedit(id) { setup_txn_editors(id, known_cats, updateReconciled) }
+
   - @transactions.each do |t|
-    == setup_reconciler(#{t.id});
-    == new Ajax.InPlaceEditor('txn_desc_#{t.id}', '/txn/update/#{t.id}?f=descr');
-    == new Ajax.InPlaceCollectionEditor('txn_cat_#{t.id}', '/txn/update/#{t.id}?f=cat', { collection: known_cats });
+    == setuptxedit(#{t.id});

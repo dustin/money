@@ -45,3 +45,18 @@ function load_cats_for_acct(acct, listel) {
         }
     });
 }
+
+// Set up transaction editors in places that have transaction lists.
+// Requires a variable called ``known_cats'' to contain an array of cat names
+function setup_txn_editors(id, cats, recSuccess) {
+  $('txn_' + id).onclick=function() {
+    var checked = ($('txn_' + id).checked) ? 1 : 0;
+    new Ajax.Request('/txn/update/' + id + "?f=reconciled&value=" + checked, {
+      method: "post",
+      onSuccess: recSuccess
+    });
+  }
+  new Ajax.InPlaceEditor('txn_desc_' + id, '/txn/update/' + id + '?f=descr');
+  new Ajax.InPlaceCollectionEditor('txn_cat_' + id,
+    '/txn/update/' + id + '?f=cat', { collection: cats });
+}
