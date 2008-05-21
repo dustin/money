@@ -2,8 +2,8 @@ class TxnController < ApplicationController
   include TxnHelper
 
   # The maximum number of transactions that will be displayed
-  TXN_LIMIT=50
-  BIG_LIMIT=100000
+  TXN_LIMIT=50 unless defined? TXN_LIMIT
+  BIG_LIMIT=100000 unless defined? BIG_LIMIT
 
   def index
     do_txn_page :find
