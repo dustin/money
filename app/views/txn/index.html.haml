@@ -11,8 +11,8 @@
       %th Amount
       %th Description
   %tbody
-    - @transactions.each_with_index do |t, idx|
-      %tr{:class => (idx % 2 == 0 ? 'odd' : 'even') + (t.deleted_at ? ' deleted' : '') }
+    - @transactions.each do |t|
+      %tr{:class => cycle('odd', 'even') + (t.deleted_at ? ' deleted' : '') }
         %td
           %form{:method => "put", :action => '#'}
             - checked = t.reconciled ? {:checked => "1"} : {}
