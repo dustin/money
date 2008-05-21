@@ -1,0 +1,48 @@
+!!! XML
+!!!
+
+%head{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en"}
+%head
+  %title= @page_title
+  = javascript_include_tag :defaults
+  %link{:rel => "stylesheet", :type => "text/css", :href => "/style.css"}
+
+%body
+  .maincontent
+    - if flash[:error]
+      .error= flash[:error]
+    - if flash[:info]
+      .info= flash[:info]
+    = yield
+
+  - cs = (logged_in?) ? current_user.login : ''
+
+  #footer
+    - cache(:controller => 'acct', :action => 'footer', :action_suffix => cs) do
+      - if logged_in?
+        - current_user.groups.sort.each_with_index do |g, idx|
+          - if idx > 0
+            |
+          == #{g.name}:
+          = currency_span(g.balance)
+        %br
+        = link_to 'Home', home_path
+        |
+        = link_to 'Logout', :controller => :account, :action => :logout
+        |
+        = link_to 'Change Password', :controller => :account, :action => :change_password
+        |
+        = link_to 'Created Tasks', :controller => :allowance, :action => :created
+
+        - if current_user.admin?
+          %br
+          Admin stuff:
+          = link_to 'Recent', :controller => :adm, :action => :recent
+          |
+          = link_to 'Reports', :controller => :report, :action => :index
+          |
+          = link_to 'Users', :controller => :adm, :action => :users
+
+    %br
+    Version:
+    = TREE_VERSION
