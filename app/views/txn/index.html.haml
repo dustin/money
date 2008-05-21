@@ -49,7 +49,7 @@
     == function updateReconciled() { new Ajax.Request('#{rec_url}' + "?" + Math.random(), {evalScripts: true}) }
   - else
     updateReconciled = false
-  == var known_cats = [ #{@current_group.categories.map{|c| "'#{c.name}'"}.join(", ")} ];
+  == var known_cats = [ #{@current_group.categories.map{|c| "'#{c.name}'"}.sort.join(", ")} ];
 
   function setuptxedit(id) { setup_txn_editors(id, known_cats, updateReconciled) }
 
