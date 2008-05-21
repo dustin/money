@@ -55,12 +55,14 @@ class ReportController < ApplicationController
     beginning = "#{@year}-#{@month}-01"
     ending = end_of @year, @month
 
-    @txns=MoneyTransaction.find(:all,
+    @transactions=MoneyTransaction.find(:all,
       :conditions => ["category_id = ? and ds between ? and ?", params[:cat], beginning, ending])
 
-    @txn_sum = @txns.inject(0.0) {|c, t| t.amount + c}
-    @rec_sum = @txns.reject {|t| t.reconciled }.inject(0.0) {|c, t| t.amount + c}
-    @unrec_sum = @txns.reject {|t| !t.reconciled }.inject(0.0) {|c, t| t.amount + c}
+    @txn_sum = @transactions.inject(0.0) {|c, t| t.amount + c}
+    @rec_sum = @transactions.reject {|t| t.reconciled }.inject(0.0) {|c, t| t.amount + c}
+    @unrec_sum = @transactions.reject {|t| !t.reconciled }.inject(0.0) {|c, t| t.amount + c}
+    @current_group = Category.find(params[:cat]).group
+    render :template => '/txn/index'
   end
 
   protected

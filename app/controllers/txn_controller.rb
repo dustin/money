@@ -127,6 +127,7 @@ class TxnController < ApplicationController
     if @current_acct.nil?
       id = params[:acct_id] || params[:id]
       @current_acct=MoneyAccount.find id.to_i
+      @current_group=@current_acct.group
     end
   end
 

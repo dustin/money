@@ -70,7 +70,7 @@ class ReportControllerTest < Test::Unit::TestCase
     login_as :dustin
     get :month_cat_txns, :date => '2007-11-01', :cat => 1
     assert_response :success
-    assert assigns['txns']
+    assert assigns['transactions']
     assert assigns['year'] == 2007
     assert assigns['month'] == 11
   end

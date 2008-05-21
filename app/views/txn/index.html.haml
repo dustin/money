@@ -44,10 +44,12 @@
 %p= render :partial => 'links'
 
 %script{:type => "text/javascript"}
-  - rec_url = "/txn/current_reconciled/#{@current_acct.id}"
-  == function updateReconciled() { new Ajax.Request('#{rec_url}' + "?" + Math.random(), {evalScripts: true}) }
-
-  == var known_cats = [ #{@current_acct.group.categories.map{|c| "'#{c.name}'"}.join(", ")} ];
+  - if @current_acct
+    - rec_url = "/txn/current_reconciled/#{@current_acct.id}"
+    == function updateReconciled() { new Ajax.Request('#{rec_url}' + "?" + Math.random(), {evalScripts: true}) }
+  - else
+    updateReconciled = false
+  == var known_cats = [ #{@current_group.categories.map{|c| "'#{c.name}'"}.join(", ")} ];
 
   function setuptxedit(id) { setup_txn_editors(id, known_cats, updateReconciled) }
 
