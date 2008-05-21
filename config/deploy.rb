@@ -21,6 +21,7 @@ depend :remote, :gem, "SyslogLogger", ">= 1.4"
 depend :remote, :gem, "memcache-client", ">= 1.5"
 depend :remote, :gem, "sqlite3-ruby", "> 1.2"
 depend :remote, :gem, "god", ">= 0.6"
+depend :remote, :gem, "haml", ">= 1.8.2"
 # Older version of rails required for web services
 depend :remote, :gem, "actionpack", "= 1.13.6"
 depend :remote, :gem, "activerecord", "= 1.15.6"
