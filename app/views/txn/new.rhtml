@@ -1,6 +1,6 @@
 <h1>Recording a New Transaction in <%= @current_acct.name %></h1>
 
-<% form_for :money_transaction do |f| %>
+<% form_for :money_transaction, :url => { :action => :create } do |f| %>
   <fieldset>
 	  <legend>Account</legend>
 		<div><label><span>Category</span>

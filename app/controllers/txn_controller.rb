@@ -13,7 +13,7 @@ class TxnController < ApplicationController
 
   def unreconciled
     get_acct_from_params
-    do_txn_page :find, BIG_LIMIT, ["money_account_id = ? and reconciled = ?", @current_acct.id, false]
+    do_txn_page :find, BIG_LIMIT, default_conditions.merge(:reconciled => false)
     @type = :unreconciled
     title "Unreconciled transaction list for #{@current_acct.name}"
     render :template => "txn/index"
@@ -27,28 +27,25 @@ class TxnController < ApplicationController
   end
 
   def new
-    @today = Date.today.strftime
-    @current_acct=MoneyAccount.find(params[:id].to_i)
-    @categories=@current_acct.group.categories
-    @txn = MoneyTransaction.new(params[:money_transaction])
-
+    setup_form_vars
     title "New Transaction in #{@current_acct.name}"
+  end
 
-    if request.post?
-      # Force some fields
-      @txn.user = current_user
-      @txn.account = @current_acct
-      @txn.ts = Time.now
-      # Weird amount handling to make the difference between deposit and withdrawal clear
-      @txn.amount = @txn.amount.abs
-      if params[:withdraw].to_i == 1
-        @txn.amount = 0 - @txn.amount
-      end
-      @txn.save!
-      flash[:info]="Saved txn for #{@txn.amount}"
-      @new_id = @txn.id
-      redirect_to :action => 'new'
+  def create
+    setup_form_vars
+    # Force some fields
+    @txn.user = current_user
+    @txn.account = @current_acct
+    @txn.ts = Time.now
+    # Weird amount handling to make the difference between deposit and withdrawal clear
+    @txn.amount = @txn.amount.abs
+    if params[:withdraw].to_i == 1
+      @txn.amount = 0 - @txn.amount
     end
+    @txn.save!
+    flash[:info]="Saved txn for #{@txn.amount}"
+    @new_id = @txn.id
+    redirect_to :action => 'new'
   end
 
   def transfer
@@ -92,6 +89,13 @@ class TxnController < ApplicationController
 
   private
 
+  def setup_form_vars
+    @today = Date.today.strftime
+    @current_acct=MoneyAccount.find(params[:id].to_i)
+    @categories=@current_acct.group.categories
+    @txn = MoneyTransaction.new(params[:money_transaction])
+  end
+
   def get_sums(conditions=nil)
     conditions = conditions.nil? ? default_conditions : conditions
     @txn_sum=MoneyTransaction.sum(:amount, :conditions => conditions) || 0
@@ -103,7 +107,7 @@ class TxnController < ApplicationController
   end
 
   def default_conditions
-    ["money_account_id = ?", @current_acct.id]
+    { :money_account_id => @current_acct }
   end
 
   def get_acct_from_params

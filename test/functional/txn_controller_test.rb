@@ -202,7 +202,7 @@ class TxnControllerTest < Test::Unit::TestCase
       login_as :dustin
       acct = MoneyAccount.find 1
       old_balance = acct.balance
-      post :new, args
+      post :create, args
       assert_response :redirect
       # Check out the latest transaction
       txn = MoneyTransaction.find assigns['new_id']
