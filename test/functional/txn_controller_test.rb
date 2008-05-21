@@ -172,7 +172,24 @@ class TxnControllerTest < Test::Unit::TestCase
   def test_descr_update
     login_as :dustin
     xhr :put, :update, :id => 1, :f => 'descr', :value => 'Changed Stuff'
+    assert_response :success
     assert_equal 'Changed Stuff', MoneyTransaction.find(1).descr
+  end
+
+  def test_unhandled_field
+    login_as :dustin
+    begin
+      xhr :put, :update, :id => 1, :f => 'somecrap', :value => 'Changed Stuff'
+    rescue RuntimeError => e
+      assert_equal 'Unhandled field:  somecrap', e.message
+    end
+  end
+
+  def test_cat_update
+    login_as :dustin
+    xhr :put, :update, :id => 1, :f => 'cat', :value => 'Cat2'
+    assert_response :success
+    assert_equal Category.find_by_name('Cat2'), MoneyTransaction.find(1).category
   end
 
   def test_rjs_reconcile

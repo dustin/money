@@ -20,7 +20,8 @@
         %td= t.id
         %td= t.ds
         %td= t.user.login
-        %td= t.category.name
+        %td
+          %span{:id => "txn_cat_#{t.id}"}= t.category.name
         %td.moneycolumn= currency_span(t.amount)
         %td
           %span{:id => "txn_desc_#{t.id}"}= t.descr
@@ -46,6 +47,8 @@
   - rec_url = "/txn/current_reconciled/#{@current_acct.id}"
   == function updateReconciled() { new Ajax.Request('#{rec_url}' + "?" + Math.random(), {evalScripts: true}) }
 
+  == var known_cats = [ #{@current_acct.group.categories.map{|c| "'#{c.name}'"}.join(", ")} ];
+
   :plain
     function setup_reconciler(id) {
       $('txn_' + id).onclick=function() {
@@ -59,3 +62,4 @@
   - @transactions.each do |t|
     == setup_reconciler(#{t.id});
     == new Ajax.InPlaceEditor('txn_desc_#{t.id}', '/txn/update/#{t.id}?f=descr');
+    == new Ajax.InPlaceCollectionEditor('txn_cat_#{t.id}', '/txn/update/#{t.id}?f=cat', { collection: known_cats });

@@ -85,6 +85,10 @@ class TxnController < ApplicationController
       @txn.reconciled = (params[:value].to_i == 1)
     when 'descr'
       @txn.descr = params[:value]
+    when 'cat'
+      @txn.category = Category.find_by_name params[:value]
+    else
+      raise "Unhandled field:  #{params[:f]}"
     end
     @txn.save!
     render :text => params[:value]
