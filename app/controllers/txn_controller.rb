@@ -86,7 +86,7 @@ class TxnController < ApplicationController
     when 'descr'
       @txn.descr = params[:value]
     when 'cat'
-      @txn.category = Category.find_by_name params[:value]
+      @txn.category = Category.find_by_name_and_group_id params[:value], @txn.account.group.id
     else
       raise "Unhandled field:  #{params[:f]}"
     end
