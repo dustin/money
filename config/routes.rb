@@ -3,10 +3,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
   map.resource :session
 
-  map.transfer '/acct/:acct_id/transfer', :controller => '/txn', :action => :transfer
-
   map.resources :acct, :controller => '/money_accounts' do |acct|
     acct.resources :txn, :controller => '/txn', :path_prefix => '/acct/:acct_id'
+    acct.resources :transfers
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

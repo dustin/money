@@ -79,7 +79,7 @@ class AllowanceTask < ActiveRecord::Base
 
   private
 
-  include TxnHelper
+  include TransfersHelper
 
   def AllowanceTask.available_query(user)
     query=<<ENDSQL

@@ -22,26 +22,6 @@ class TxnControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
-  def test_transactions_all
-    login_as :quentin
-    get :index, :acct_id => 1, :which => 'all'
-    assert_response :success
-    assert_equal 3, assigns['transactions'].length
-    assert_in_delta -18.45, assigns['txn_sum'], 2 ** -20
-    assert_in_delta -5.0, assigns['rec_sum'], 2 ** -20
-    assert_in_delta -13.45, assigns['unrec_sum'], 2 ** -20
-  end
-
-  def test_index
-    login_as :quentin
-    get :index, :acct_id => 1
-    assert_response :success
-    assert_equal 2, assigns['transactions'].length
-    assert_in_delta -18.45, assigns['txn_sum'], 2 ** -20
-    assert_in_delta -5.0, assigns['rec_sum'], 2 ** -20
-    assert_in_delta -13.45, assigns['unrec_sum'], 2 ** -20
-  end
-
   def test_transactions2
     login_as :quentin
     get :index, :acct_id => 2
@@ -60,6 +40,26 @@ class TxnControllerTest < Test::Unit::TestCase
     assert_in_delta 0.0, assigns['txn_sum'], 2 ** -20
     assert_in_delta 0.0, assigns['rec_sum'], 2 ** -20
     assert_in_delta 0.0, assigns['unrec_sum'], 2 ** -20
+  end
+
+  def test_transactions_all
+    login_as :quentin
+    get :index, :acct_id => 1, :which => 'all'
+    assert_response :success
+    assert_equal 3, assigns['transactions'].length
+    assert_in_delta -18.45, assigns['txn_sum'], 2 ** -20
+    assert_in_delta -5.0, assigns['rec_sum'], 2 ** -20
+    assert_in_delta -13.45, assigns['unrec_sum'], 2 ** -20
+  end
+
+  def test_index
+    login_as :quentin
+    get :index, :acct_id => 1
+    assert_response :success
+    assert_equal 2, assigns['transactions'].length
+    assert_in_delta -18.45, assigns['txn_sum'], 2 ** -20
+    assert_in_delta -5.0, assigns['rec_sum'], 2 ** -20
+    assert_in_delta -13.45, assigns['unrec_sum'], 2 ** -20
   end
 
   def test_unreconciled
@@ -88,85 +88,6 @@ class TxnControllerTest < Test::Unit::TestCase
     new_test 19.99, {:acct_id => 1, :withdraw => 0, :money_transaction => {
       :ds => '2007-11-11', :descr => 'Test Transaction',
       :amount => 19.99, :category_id => 2}}
-  end
-
-  def test_transfer_helper
-    oldbal=Group.find(1).balance
-    txn1, txn2=do_transfer(User.find(1), MoneyAccount.find(1), MoneyAccount.find(2),
-      Category.find(1), Category.find(1), '2007-11-01', 3.11, 'Transfer test')
-
-    assert_in_delta -3.11, txn1.amount, 2 ** -20
-    assert_in_delta 3.11, txn2.amount, 2 ** -20
-
-    # The balance should not change since this is a transfer in-group
-    assert_in_delta oldbal, Group.find(1).balance, 2 ** -20
-  end
-
-  def test_cross_group_transfer_through_helper
-    oldbal=groups(:one).balance
-    txn1, txn2=do_transfer(users(:quentin), money_accounts(:one), money_accounts(:three),
-      categories(:one), categories(:three), '2007-11-01', 3.11, 'Transfer test')
-
-    assert_in_delta -3.11, txn1.amount, 2 ** -20
-    assert_in_delta 3.11, txn2.amount, 2 ** -20
-
-    # The balance should not change since this is a transfer in-group
-    assert_in_delta oldbal - 3.11, groups(:one).balance, 2 ** -20
-  end
-
-  def test_transfer_helper_zero
-    assert_raise(RuntimeError) do
-      do_transfer(User.find(1), MoneyAccount.find(1), MoneyAccount.find(2),
-        Category.find(1), Category.find(1), '2007-11-01', 0, 'Transfer test')
-    end
-  end
-
-  def test_transfer_helper_negative
-    assert_raise(RuntimeError) do
-      do_transfer(User.find(1), MoneyAccount.find(1), MoneyAccount.find(2),
-        Category.find(1), Category.find(1), '2007-11-01', -1.43, 'Transfer test')
-    end
-  end
-
-  def test_transfer_helper_same_cat
-    assert_raise(RuntimeError) do
-      do_transfer(User.find(1), MoneyAccount.find(1), MoneyAccount.find(1),
-        Category.find(1), Category.find(1), '2007-11-01', 1.33, 'Transfer test')
-    end
-  end
-
-  def test_transfer_form
-    login_as :quentin
-    get :transfer, {:acct_id => 1}
-    assert_response :success
-    assert assigns['today']
-    assert assigns['current_acct']
-    assert assigns['categories']
-  end
-
-  def test_transfer_bad_accounts
-    login_as :quentin
-    post :transfer, {:acct_id => 1, :dest_acct => 1}
-    assert_response 302
-    assert flash[:error]
-  end
-
-  def test_transfer
-    login_as :quentin
-    post :transfer, {:acct_id => 1, :dest_acct => 2, :dest_cat => 1,
-      :src => {:category_id => 1},
-      :details => {:ds => '2007-11-25', :amount => 1.33, :descr => 'test'}}
-    assert_response 302
-    assert flash[:info]
-  end
-
-  def test_transfer_across_groups
-    login_as :quentin
-    post :transfer, {:acct_id => 1, :dest_acct => 3, :dest_cat => 3,
-      :src => {:category_id => 1},
-      :details => {:ds => '2007-11-25', :amount => 1.33, :descr => 'test'}}
-    assert_response 302
-    assert flash[:info]
   end
 
   def test_descr_update
