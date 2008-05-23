@@ -1,4 +1,4 @@
-class AcctController < ApplicationController
+class MoneyAccountsController < ApplicationController
   include AcctHelper
 
   def index

@@ -1,17 +1,17 @@
 require File.dirname(__FILE__) + '/../test_helper'
-require 'acct_controller'
+require 'money_accounts_controller'
 
 # Re-raise errors caught by the controller.
-class AcctController; def rescue_action(e) raise e end; end
+class MoneyAccountsController; def rescue_action(e) raise e end; end
 
-class AcctControllerTest < Test::Unit::TestCase
+class MoneyAccountsControllerTest < Test::Unit::TestCase
   include AuthenticatedTestHelper
   include AcctHelper
 
   fixtures :users, :groups, :money_accounts, :categories
 
   def setup
-    @controller = AcctController.new
+    @controller = MoneyAccountsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
