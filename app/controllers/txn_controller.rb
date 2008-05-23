@@ -45,7 +45,7 @@ class TxnController < ApplicationController
     @txn.save!
     flash[:info]="Saved txn for #{@txn.amount}"
     @new_id = @txn.id
-    redirect_to :action => 'new'
+    redirect_to :action => 'new', :id => @current_acct.id
   end
 
   def transfer
