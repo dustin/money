@@ -1,0 +1,28 @@
+- @cats.each do |g, totspent, totbudget, totdiff, cats|
+  %h2
+    Category Report for
+    = g.name
+
+  %table
+    %thead
+      %tr
+        %th Category
+        %th Balance
+        %th Budget
+        %th Difference
+    %tbody
+      - cats.each do |f|
+        %tr
+          %td= link_to f[1], :action => :month_cat_txns, :date => "#{@year}-#{@month}-01", :cat => f[0]
+          %td= currency_span(f[2])
+          %td= currency_span(f[3])
+          %td= currency_span(f[4])
+      %tr
+        %td{:colspan => 4} &nbsp;
+
+      %tr
+        %td
+          %b Total
+        %td= currency_span(totspent)
+        %td= currency_span(totbudget)
+        %td= currency_span(totdiff)
