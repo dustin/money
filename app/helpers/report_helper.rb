@@ -4,6 +4,10 @@ module ReportHelper
 
   def pie_chart(data, labels, opts = {})
     if data.size > 1
+      if data.size > 10
+        data = data.first(10) << (data[10..-1].sum)
+        labels = labels.first(10) << 'Other'
+      end
       width = opts.delete(:width) || 400
       height = opts.delete(:height) || 200
       tag :img, :alt => "pie",

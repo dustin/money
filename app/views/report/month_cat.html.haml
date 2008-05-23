@@ -4,7 +4,7 @@
     = g.name
 
   - chartable = cats.reject{|x| x[2] > 0}
-  .chart= bar_chart(chartable.map{|f| f[2].abs}, chartable.map{|f| f[1]})
+  .chart= pie_chart(chartable.map{|f| f[2].abs}, chartable.map{|f| f[1]})
 
   %table
     %thead
