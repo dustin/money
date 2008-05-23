@@ -31,15 +31,15 @@ function clear_children(el) {
 // into the given select list element.
 function load_cats_for_acct(acct, listel) {
     listel=$(listel);
-    var url="/acct/cats_for_acct/" + acct;
+    var url="/categories?acct_id=" + acct;
     new Ajax.Request(url, {method: 'get',
         onSuccess: function(req) {
             clear_children(listel);
             var json=eval(req.responseText);
             $A(json).each(function(i) {
                 var o=document.createElement("option");
-                o.value=i.attributes.id;
-                o.appendChild(document.createTextNode(i.attributes.name));
+                o.value=i.id;
+                o.appendChild(document.createTextNode(i.name));
                 listel.appendChild(o);
             });
         }

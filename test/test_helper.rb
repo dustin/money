@@ -31,4 +31,7 @@ class Test::Unit::TestCase
   self.use_instantiated_fixtures  = false
 
   # Add more helper methods to be used by all tests here...
+  include AuthenticatedTestHelper
+
+  fixtures :users
 end
