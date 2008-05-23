@@ -2,11 +2,13 @@ require 'gchart'
 
 module ReportHelper
 
+  MAX_PIE_SIZE=7 unless defined? MAX_PIE_SIZE
+
   def pie_chart(data, labels, opts = {})
     if data.size > 1
-      if data.size > 10
-        data = data.first(10) << (data[10..-1].sum)
-        labels = labels.first(10) << 'Other'
+      if data.size > MAX_PIE_SIZE
+        data = data.first(MAX_PIE_SIZE) << (data[MAX_PIE_SIZE..-1].sum)
+        labels = labels.first(MAX_PIE_SIZE) << 'Other'
       end
       width = opts.delete(:width) || 400
       height = opts.delete(:height) || 200
