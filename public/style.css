@@ -94,3 +94,7 @@ label span {
   background: inherit;
   color: gray;
 }
+
+.chart {
+    float: right;
+}
