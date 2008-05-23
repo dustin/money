@@ -1,0 +1,33 @@
+- unless @tasks.empty?
+  %h1 Available Tasks
+
+  - form_tag :controller => :allowance, :action => :complete do
+    %table
+      %thead
+        %tr
+          %th Done
+          %th Task
+          %th Value
+      %body
+        - @tasks.each do |t|
+          %tr
+            %td
+              %input{:type => 'checkbox', :name => "task[#{t.id}]"}
+            %td= t.name
+            %td= currency_span(t.value)
+    %p
+      %input{:type => 'submit', :value => 'Mark Complete'}
+
+%h1
+  Accounts for
+  = current_user.name
+
+- cache(:action_suffix => current_user.login) do
+  %ul#accountlist
+    - @groups.sort.each do |g|
+      %li
+        = g.name
+        %ul
+          - g.accounts.sort.each do |a|
+            %li{:class => a.active ? 'active' : 'inactive'}
+              = link_to a.name, :controller => 'txn', :action => 'new', :id => a.id
