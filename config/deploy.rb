@@ -22,6 +22,7 @@ depend :remote, :gem, "memcache-client", ">= 1.5"
 depend :remote, :gem, "sqlite3-ruby", "> 1.2"
 depend :remote, :gem, "god", ">= 0.6"
 depend :remote, :gem, "haml", ">= 1.8.2"
+depend :remote, :gem, "matta-googlecharts", ">= 1.3.1"
 
 desc "Starting and stopping via god."
 deploy.task :start do
