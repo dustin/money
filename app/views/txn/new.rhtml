@@ -2,50 +2,50 @@
 
 <% form_for :money_transaction, :url => { :action => :create } do |f| %>
   <fieldset>
-	  <legend>Account</legend>
-		<div><label><span>Category</span>
-			<%= collection_select("money_transaction", "category_id" , @categories, "id", "name") %></label>
-		</div>
-	</fieldset>
-	<fieldset>
-		<legend>Details</legend>
-		<div><label><span>Date</span> <%= f.text_field :ds %></label></div>
-		<div>
-			<label><span>Amount</span> <%= f.text_field :amount %></label>
-			<select id="withdraw_field" name="withdraw">
-				<option value="1">Withdrawal</option>
-				<option value="0">Deposit</option>
-			</select>
-		</div>
-		<div><label><span>Description</span> <%= f.text_field :descr %></label></div>
-	</fieldset>
-	<%= submit_tag %>
+    <legend>Account</legend>
+    <div><label><span>Category</span>
+      <%= collection_select("money_transaction", "category_id" , @categories, "id", "name") %></label>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Details</legend>
+    <div><label><span>Date</span> <%= f.text_field :ds %></label></div>
+    <div>
+      <label><span>Amount</span> <%= f.text_field :amount %></label>
+      <select id="withdraw_field" name="withdraw">
+        <option value="1">Withdrawal</option>
+        <option value="0">Deposit</option>
+      </select>
+    </div>
+    <div><label><span>Description</span> <%= f.text_field :descr %></label></div>
+  </fieldset>
+  <%= submit_tag %>
 <% end %>
 
 <p>
-	<%= link_to 'Show Unreconciled', :action => 'unreconciled', :id => @current_acct.id %>
-	| <%= link_to 'Show All', :action => 'index', :id => @current_acct.id %>
-	| <%= link_to 'Transfer', :action => 'transfer', :id => @current_acct.id %>
+  <%= link_to 'Show Unreconciled', :action => 'unreconciled', :id => @current_acct.id %>
+  | <%= link_to 'Show All', :action => 'index', :id => @current_acct.id %>
+  | <%= link_to 'Transfer', :action => 'transfer', :id => @current_acct.id %>
 </p>
 
 <script type="text/javascript">
-	function adjust_opt_state() {
-		var f='money_transaction_amount';
-		var swap_class = function(o, n) {
-			Element.removeClassName(f, o);
-			Element.addClassName(f, n);
-		};
-		if($F('withdraw_field') == '0') {
-			swap_class('negative', 'positive');
-		} else {
-			swap_class('positive', 'negative');
-		}
-	};
-	$('withdraw_field').onchange = adjust_opt_state;
-		Event.observe(window, 'load', function() {
-			adjust_opt_state();
-			<% if @txn.ds != '' %>
-				field_blur_behavior('money_transaction_ds', '<%= @today %>');
-			<% end %>
-	});
+  function adjust_opt_state() {
+    var f='money_transaction_amount';
+    var swap_class = function(o, n) {
+      Element.removeClassName(f, o);
+      Element.addClassName(f, n);
+    };
+    if($F('withdraw_field') == '0') {
+      swap_class('negative', 'positive');
+    } else {
+      swap_class('positive', 'negative');
+    }
+  };
+  $('withdraw_field').onchange = adjust_opt_state;
+    Event.observe(window, 'load', function() {
+      adjust_opt_state();
+      <% if @txn.ds != '' %>
+        field_blur_behavior('money_transaction_ds', '<%= @today %>');
+      <% end %>
+  });
 </script>
