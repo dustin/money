@@ -16,21 +16,21 @@ class AdmControllerTest < Test::Unit::TestCase
   end
 
   def test_recent
-    login_as :dustin
+    login_as :quentin
     get :recent
     assert_response :success
     assert_equal 4, assigns['transactions'].length
   end
 
   def test_users
-    login_as :dustin
+    login_as :quentin
     get :users
     assert_response :success
     assert_equal [1, 2], assigns['users'].map(&:id).sort
   end
 
   def test_reset_password_form
-    login_as :dustin
+    login_as :quentin
     get :reset_password
     assert_response :success
     assert_template 'reset_password_form'
@@ -38,7 +38,7 @@ class AdmControllerTest < Test::Unit::TestCase
 
   def test_reset_password
     assert User.authenticate('aaron', 'test')
-    login_as :dustin
+    login_as :quentin
     post :reset_password, :user => 'aaron'
     assert_response :success
     assert_template "reset_password"
@@ -50,30 +50,30 @@ class AdmControllerTest < Test::Unit::TestCase
 
   def test_reset_not_admin
     login_as :aaron
-    post :reset_password, :user => 'dustin'
+    post :reset_password, :user => 'quentin'
     assert_response :success
     assert_template 'report/access_denied'
-    assert User.authenticate('dustin', 'blahblah'), 'Password changed!'
+    assert User.authenticate('quentin', 'test'), 'Password changed!'
   end
 
   def test_rjs_delete
-    login_as :dustin
-    assert_difference MoneyTransaction, :count, -1 do
+    login_as :quentin
+    assert_difference 'MoneyTransaction.count', -1 do
       xhr :post, :delete, :id => 1
     end
     assert_response :success
   end
 
   def test_rjs_undelete
-    login_as :dustin
-    assert_difference MoneyTransaction, :count do
+    login_as :quentin
+    assert_difference 'MoneyTransaction.count' do
       xhr :post, :undelete, :id => 3
     end
     assert_response :success
   end
 
   def test_new_user_form
-    login_as :dustin
+    login_as :quentin
     get :new_user
     assert_response :success
     assert_template 'adm/new_user'
@@ -82,8 +82,8 @@ class AdmControllerTest < Test::Unit::TestCase
   end
 
   def test_new_user
-    login_as :dustin
-    assert_difference User, :count do
+    login_as :quentin
+    assert_difference 'User.count' do
       post :new_user, :user => {:login => 'dtest', :name => 'D Test', :email => 'dtest@spy.net'},
         :group => {1 => 1, 2 => 1}
     end
@@ -97,7 +97,7 @@ class AdmControllerTest < Test::Unit::TestCase
   end
 
   def test_set_groups_form
-    login_as :dustin
+    login_as :quentin
     get :set_groups
     assert_response :success
     assert_template 'adm/set_groups'
@@ -106,7 +106,7 @@ class AdmControllerTest < Test::Unit::TestCase
   end
 
   def test_set_groups
-    login_as :dustin
+    login_as :quentin
     assert_equal [1], User.find_by_login('aaron').groups.map(&:id).sort
     post :set_groups, :user => 'aaron', :group => { 1 => 0, 2 => 1 }
     assert_equal [2], User.find_by_login('aaron').groups.map(&:id).sort
@@ -118,7 +118,7 @@ class AdmControllerTest < Test::Unit::TestCase
   end
 
   def test_set_groups_empty
-    login_as :dustin
+    login_as :quentin
     assert_equal [1], User.find_by_login('aaron').groups.map(&:id).sort
     post :set_groups, :user => 'aaron'
     assert_equal [], User.find_by_login('aaron').groups.map(&:id).sort
@@ -130,7 +130,7 @@ class AdmControllerTest < Test::Unit::TestCase
   end
 
   def test_set_groups_invalid_user
-    login_as :dustin
+    login_as :quentin
     post :set_groups, :user => 'nobody', :group => { 2 => 1 }
     assert_response :success
     assert_template 'adm/set_groups'

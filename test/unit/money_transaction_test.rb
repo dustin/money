@@ -61,7 +61,7 @@ class MoneyTransactionTest < Test::Unit::TestCase
 
   def test_bad_creation
     a=money_accounts(:three)
-    t=a.transactions.create(:user => users(:dustin),
+    t=a.transactions.create(:user => users(:quentin),
       :category => categories(:one),
       :descr => "Test transaction", :amount => -99.99, :ds => Date.today,
       :ts => Time.now)

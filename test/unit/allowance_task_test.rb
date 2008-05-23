@@ -9,7 +9,7 @@ class AllowanceTaskTest < Test::Unit::TestCase
     t=AllowanceTask.find :first, :order => ['id']
     assert_equal "Do Stuff", t.name
     assert_equal "Do all the stuff.", t.description
-    assert_equal users(:dustin), t.creator
+    assert_equal users(:quentin), t.creator
     assert_equal users(:aaron), t.owner
     assert_equal 7, t.frequency
     assert_in_delta 0.25, t.value, 2 ** -20
@@ -48,7 +48,7 @@ class AllowanceTaskTest < Test::Unit::TestCase
     t=AllowanceTask.new
     t.name = 'Test'
     t.description = 'test'
-    t.creator = users(:dustin)
+    t.creator = users(:quentin)
     t.owner = users(:aaron)
     t.frequency = 3
     t.value = 3.99
@@ -63,7 +63,7 @@ class AllowanceTaskTest < Test::Unit::TestCase
     t=AllowanceTask.new
     t.name = 'Test'
     t.description = 'test'
-    t.creator = users(:dustin)
+    t.creator = users(:quentin)
     t.owner = users(:aaron)
     t.frequency = 3
     t.value = -3.99
@@ -79,7 +79,7 @@ class AllowanceTaskTest < Test::Unit::TestCase
     t=AllowanceTask.new
     t.name = 'Test'
     t.description = 'test'
-    t.creator = users(:dustin)
+    t.creator = users(:quentin)
     t.owner = users(:aaron)
     t.frequency = 0
     t.value = 3.99
@@ -96,7 +96,7 @@ class AllowanceTaskTest < Test::Unit::TestCase
     t.name = 'Test'
     t.description = 'test'
     t.creator = users(:aaron)
-    t.owner = users(:dustin)
+    t.owner = users(:quentin)
     t.frequency = 3
     t.value = 3.99
     t.from_account = money_accounts(:three)
@@ -111,7 +111,7 @@ class AllowanceTaskTest < Test::Unit::TestCase
     t=AllowanceTask.new
     t.name = 'Test'
     t.description = 'test'
-    t.creator = users(:dustin)
+    t.creator = users(:quentin)
     t.owner = users(:aaron)
     t.frequency = 3
     t.value = 3.99
@@ -127,7 +127,7 @@ class AllowanceTaskTest < Test::Unit::TestCase
     t=AllowanceTask.new
     t.name = 'Test'
     t.description = 'test'
-    t.creator = users(:dustin)
+    t.creator = users(:quentin)
     t.owner = users(:aaron)
     t.frequency = 3
     t.value = 3.99
@@ -141,7 +141,7 @@ class AllowanceTaskTest < Test::Unit::TestCase
 
   # Perform a task, make sure money gets transferred and the task is no longer available.
   def test_perform
-    assert_difference MoneyTransaction, :count, 2 do
+    assert_difference 'MoneyTransaction.count', 2 do
       assert_equal [1,3], available_ids
       allowance_tasks(:three).perform!
       assert_equal [1], available_ids

@@ -26,20 +26,20 @@ class AllowanceControllerTest < Test::Unit::TestCase
 
   def test_complete
     login_as :aaron
-    assert_difference MoneyTransaction, :count, 4 do
+    assert_difference 'MoneyTransaction.count', 4 do
       post :complete, :task => {"1" => "on", "3" => "on"}
     end
   end
 
   def test_redoing_unavailable
     login_as :aaron
-    assert_difference MoneyTransaction, :count, 0 do
+    assert_difference 'MoneyTransaction.count', 0 do
       post :complete, :task => {"2" => "on"}
     end
   end
 
   def test_created
-    login_as :dustin
+    login_as :quentin
     get :created
     assert_response :success
     assert_equal [2, 1, 4, 3], assigns['tasks'][users(:aaron)].map(&:id)
@@ -48,10 +48,10 @@ class AllowanceControllerTest < Test::Unit::TestCase
   end
 
   def test_new_form
-    login_as :dustin
+    login_as :quentin
     get :new
     assert_response :success
-    assert !assigns['users'].map(&:id).include?(users(:dustin).id)
+    assert !assigns['users'].map(&:id).include?(users(:quentin).id)
 
     assert_equal [1,2], assigns['categories'].keys
     assert_equal [1,2], assigns['accounts'].keys
@@ -73,8 +73,8 @@ class AllowanceControllerTest < Test::Unit::TestCase
   end
 
   def test_new
-    login_as :dustin
-    assert_difference AllowanceTask, :count do
+    login_as :quentin
+    assert_difference 'AllowanceTask.count' do
       post :new, :allowance_task => {
         :name => 'Test Task', :description => 'A test task.', :owner_id => 2,
         :frequency => 2, :value => 1.29,
@@ -86,8 +86,8 @@ class AllowanceControllerTest < Test::Unit::TestCase
   end
 
   def test_deactivation
-    login_as :dustin
-    assert_difference AllowanceTask, :count_active, -1 do
+    login_as :quentin
+    assert_difference 'AllowanceTask.count_active', -1 do
       xhr :post, :task_toggle, :id => 1, :active => 'false'
       assert_response :success
       assert_template 'allowance/deactivate'
@@ -95,8 +95,8 @@ class AllowanceControllerTest < Test::Unit::TestCase
   end
 
   def test_activation
-    login_as :dustin
-    assert_difference AllowanceTask, :count_active do
+    login_as :quentin
+    assert_difference 'AllowanceTask.count_active' do
       xhr :post, :task_toggle, :id => 4, :active => 'true'
       assert_response :success
       assert_template 'allowance/activate'

@@ -18,19 +18,19 @@ class AcctControllerTest < Test::Unit::TestCase
 
   def test_unauthenticated_index
     get :index
-    assert_redirected_to :controller => :account, :action => :login
+    assert_redirected_to :controller => :session, :action => :new
   end
 
   def test_index
-    login_as :dustin
+    login_as :quentin
     get :index
     assert_response :success
-    assert_equal users(:dustin).groups, assigns['groups']
+    assert_equal users(:quentin).groups, assigns['groups']
   end
 
   # This test just validates the response is successful.
   def test_cat_list
-    login_as :dustin
+    login_as :quentin
     get :cats_for_acct, {:id => 1}
     assert_response :success
     assert @response.body.include?('Cat1')

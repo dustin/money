@@ -23,7 +23,7 @@ class TxnControllerTest < Test::Unit::TestCase
   end
 
   def test_transactions_all
-    login_as :dustin
+    login_as :quentin
     get :all, {:id => 1}
     assert_response :success
     assert_equal 3, assigns['transactions'].length
@@ -33,7 +33,7 @@ class TxnControllerTest < Test::Unit::TestCase
   end
 
   def test_index
-    login_as :dustin
+    login_as :quentin
     get :index, {:id => 1}
     assert_response :success
     assert_equal 2, assigns['transactions'].length
@@ -43,7 +43,7 @@ class TxnControllerTest < Test::Unit::TestCase
   end
 
   def test_transactions2
-    login_as :dustin
+    login_as :quentin
     get :index, {:id => 2}
     assert_response :success
     assert_equal 1, assigns['transactions'].length
@@ -53,7 +53,7 @@ class TxnControllerTest < Test::Unit::TestCase
   end
 
   def test_transactions3
-    login_as :dustin
+    login_as :quentin
     get :index, {:id => 3}
     assert_response :success
     assert_equal 0, assigns['transactions'].length
@@ -63,14 +63,14 @@ class TxnControllerTest < Test::Unit::TestCase
   end
 
   def test_unreconciled
-    login_as :dustin
+    login_as :quentin
     get :unreconciled, {:id => 1}
     assert_response :success
     assert_equal 1, assigns['transactions'].length
   end
 
   def test_new_form
-    login_as :dustin
+    login_as :quentin
     get :new, {:id => 1}
     assert_response :success
     assert assigns['today']
@@ -104,7 +104,7 @@ class TxnControllerTest < Test::Unit::TestCase
 
   def test_cross_group_transfer_through_helper
     oldbal=groups(:one).balance
-    txn1, txn2=do_transfer(users(:dustin), money_accounts(:one), money_accounts(:three),
+    txn1, txn2=do_transfer(users(:quentin), money_accounts(:one), money_accounts(:three),
       categories(:one), categories(:three), '2007-11-01', 3.11, 'Transfer test')
 
     assert_in_delta -3.11, txn1.amount, 2 ** -20
@@ -136,7 +136,7 @@ class TxnControllerTest < Test::Unit::TestCase
   end
 
   def test_transfer_form
-    login_as :dustin
+    login_as :quentin
     get :transfer, {:id => 1}
     assert_response :success
     assert assigns['today']
@@ -145,14 +145,14 @@ class TxnControllerTest < Test::Unit::TestCase
   end
 
   def test_transfer_bad_accounts
-    login_as :dustin
+    login_as :quentin
     post :transfer, {:id => 1, :dest_acct => 1}
     assert_response 302
     assert flash[:error]
   end
 
   def test_transfer
-    login_as :dustin
+    login_as :quentin
     post :transfer, {:id => 1, :dest_acct => 2, :dest_cat => 1,
       :src => {:category_id => 1},
       :details => {:ds => '2007-11-25', :amount => 1.33, :descr => 'test'}}
@@ -161,7 +161,7 @@ class TxnControllerTest < Test::Unit::TestCase
   end
 
   def test_transfer_across_groups
-    login_as :dustin
+    login_as :quentin
     post :transfer, {:id => 1, :dest_acct => 3, :dest_cat => 3,
       :src => {:category_id => 1},
       :details => {:ds => '2007-11-25', :amount => 1.33, :descr => 'test'}}
@@ -170,14 +170,14 @@ class TxnControllerTest < Test::Unit::TestCase
   end
 
   def test_descr_update
-    login_as :dustin
+    login_as :quentin
     xhr :put, :update, :id => 1, :f => 'descr', :value => 'Changed Stuff'
     assert_response :success
     assert_equal 'Changed Stuff', MoneyTransaction.find(1).descr
   end
 
   def test_unhandled_field
-    login_as :dustin
+    login_as :quentin
     begin
       xhr :put, :update, :id => 1, :f => 'somecrap', :value => 'Changed Stuff'
     rescue RuntimeError => e
@@ -186,38 +186,38 @@ class TxnControllerTest < Test::Unit::TestCase
   end
 
   def test_cat_update
-    login_as :dustin
+    login_as :quentin
     xhr :put, :update, :id => 1, :f => 'cat', :value => 'Cat2'
     assert_response :success
     assert_equal Category.find_by_name('Cat2'), MoneyTransaction.find(1).category
   end
 
   def test_rjs_reconcile
-    login_as :dustin
-    assert_difference MoneyTransaction, :count_reconciled do
+    login_as :quentin
+    assert_difference 'MoneyTransaction.count_reconciled' do
       xhr :put, :update, :id => 1, :f => 'reconciled', :value => 1
     end
     assert_response :success
   end
 
   def test_rjs_reconcile_four
-    login_as :dustin
-    assert_difference MoneyTransaction, :count_reconciled do
+    login_as :quentin
+    assert_difference 'MoneyTransaction.count_reconciled' do
       xhr :put, :update, :id => 4, :f => 'reconciled', :value => 1
     end
     assert_response :success
   end
 
   def test_rjs_unreconcile
-    login_as :dustin
-    assert_difference MoneyTransaction, :count_reconciled, -1 do
+    login_as :quentin
+    assert_difference 'MoneyTransaction.count_reconciled', -1 do
       xhr :put, :update, :id => 2, :f => 'reconciled', :value => 0
     end
     assert_response :success
   end
 
   def test_current_reconciled
-    login_as :dustin
+    login_as :quentin
     xhr :get, :current_reconciled, :id => 2
     assert_equal 2, assigns(:current_acct).id
   end
@@ -225,7 +225,7 @@ class TxnControllerTest < Test::Unit::TestCase
   private
 
     def new_test(offset_expectation, args)
-      login_as :dustin
+      login_as :quentin
       acct = MoneyAccount.find 1
       old_balance = acct.balance
       post :create, args

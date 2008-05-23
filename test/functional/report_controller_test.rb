@@ -17,39 +17,39 @@ class ReportControllerTest < Test::Unit::TestCase
   end
 
   def test_index
-    login_as :dustin
+    login_as :quentin
     get :index
     assert_response :success
   end
 
   def test_balances
-    login_as :dustin
+    login_as :quentin
     get :balances
     assert_response :success
   end
 
   def test_flow_month
-    login_as :dustin
+    login_as :quentin
     get :month_flow
     assert_response :success
     assert assigns['flow']
   end
 
   def test_flow_year
-    login_as :dustin
+    login_as :quentin
     get :year_flow
     assert_response :success
     assert assigns['flow']
   end
 
   def test_month_cat_form
-    login_as :dustin
+    login_as :quentin
     get :month_cat_form
     assert_equal Date.today, assigns['today']
   end
 
   def test_month_cat
-    login_as :dustin
+    login_as :quentin
     get :month_cat, :year => 2007, :month => 11
     assert_response :success
     assert assigns['cats']
@@ -58,7 +58,7 @@ class ReportControllerTest < Test::Unit::TestCase
   end
 
   def test_month_cat_by_date
-    login_as :dustin
+    login_as :quentin
     get :month_cat, :date => '2007-11-01'
     assert_response :success
     assert assigns['cats']
@@ -67,7 +67,7 @@ class ReportControllerTest < Test::Unit::TestCase
   end
 
   def test_month_cat_txns
-    login_as :dustin
+    login_as :quentin
     get :month_cat_txns, :date => '2007-11-01', :cat => 1
     assert_response :success
     assert assigns['transactions']
