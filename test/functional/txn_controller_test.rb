@@ -24,7 +24,7 @@ class TxnControllerTest < Test::Unit::TestCase
 
   def test_transactions_all
     login_as :quentin
-    get :all, {:id => 1}
+    get :index, :acct_id => 1, :which => 'all'
     assert_response :success
     assert_equal 3, assigns['transactions'].length
     assert_in_delta -18.45, assigns['txn_sum'], 2 ** -20
@@ -34,7 +34,7 @@ class TxnControllerTest < Test::Unit::TestCase
 
   def test_index
     login_as :quentin
-    get :index, {:id => 1}
+    get :index, :acct_id => 1
     assert_response :success
     assert_equal 2, assigns['transactions'].length
     assert_in_delta -18.45, assigns['txn_sum'], 2 ** -20
@@ -44,7 +44,7 @@ class TxnControllerTest < Test::Unit::TestCase
 
   def test_transactions2
     login_as :quentin
-    get :index, {:id => 2}
+    get :index, :acct_id => 2
     assert_response :success
     assert_equal 1, assigns['transactions'].length
     assert_in_delta 500.13, assigns['txn_sum'], 2 ** -20
@@ -54,7 +54,7 @@ class TxnControllerTest < Test::Unit::TestCase
 
   def test_transactions3
     login_as :quentin
-    get :index, {:id => 3}
+    get :index, :acct_id => 3
     assert_response :success
     assert_equal 0, assigns['transactions'].length
     assert_in_delta 0.0, assigns['txn_sum'], 2 ** -20
@@ -64,14 +64,14 @@ class TxnControllerTest < Test::Unit::TestCase
 
   def test_unreconciled
     login_as :quentin
-    get :unreconciled, {:id => 1}
+    get :index, :acct_id => 1, :which => 'unreconciled'
     assert_response :success
     assert_equal 1, assigns['transactions'].length
   end
 
   def test_new_form
     login_as :quentin
-    get :new, {:id => 1}
+    get :new, {:acct_id => 1}
     assert_response :success
     assert assigns['today']
     assert assigns['current_acct']
@@ -79,13 +79,13 @@ class TxnControllerTest < Test::Unit::TestCase
   end
 
   def test_new_withdrawal
-    new_test -19.99, {:id => 1, :withdraw => 1, :money_transaction => {
+    new_test -19.99, {:acct_id => 1, :withdraw => 1, :money_transaction => {
       :ds => '2007-11-11', :descr => 'Test Transaction',
       :amount => 19.99, :category_id => 2}}
   end
 
   def test_new_deposit
-    new_test 19.99, {:id => 1, :withdraw => 0, :money_transaction => {
+    new_test 19.99, {:acct_id => 1, :withdraw => 0, :money_transaction => {
       :ds => '2007-11-11', :descr => 'Test Transaction',
       :amount => 19.99, :category_id => 2}}
   end
@@ -137,7 +137,7 @@ class TxnControllerTest < Test::Unit::TestCase
 
   def test_transfer_form
     login_as :quentin
-    get :transfer, {:id => 1}
+    get :transfer, {:acct_id => 1}
     assert_response :success
     assert assigns['today']
     assert assigns['current_acct']
@@ -146,14 +146,14 @@ class TxnControllerTest < Test::Unit::TestCase
 
   def test_transfer_bad_accounts
     login_as :quentin
-    post :transfer, {:id => 1, :dest_acct => 1}
+    post :transfer, {:acct_id => 1, :dest_acct => 1}
     assert_response 302
     assert flash[:error]
   end
 
   def test_transfer
     login_as :quentin
-    post :transfer, {:id => 1, :dest_acct => 2, :dest_cat => 1,
+    post :transfer, {:acct_id => 1, :dest_acct => 2, :dest_cat => 1,
       :src => {:category_id => 1},
       :details => {:ds => '2007-11-25', :amount => 1.33, :descr => 'test'}}
     assert_response 302
@@ -162,7 +162,7 @@ class TxnControllerTest < Test::Unit::TestCase
 
   def test_transfer_across_groups
     login_as :quentin
-    post :transfer, {:id => 1, :dest_acct => 3, :dest_cat => 3,
+    post :transfer, {:acct_id => 1, :dest_acct => 3, :dest_cat => 3,
       :src => {:category_id => 1},
       :details => {:ds => '2007-11-25', :amount => 1.33, :descr => 'test'}}
     assert_response 302
@@ -171,7 +171,7 @@ class TxnControllerTest < Test::Unit::TestCase
 
   def test_descr_update
     login_as :quentin
-    xhr :put, :update, :id => 1, :f => 'descr', :value => 'Changed Stuff'
+    xhr :put, :update, :id => 1, :acct_id => 1, :f => 'descr', :value => 'Changed Stuff'
     assert_response :success
     assert_equal 'Changed Stuff', MoneyTransaction.find(1).descr
   end
@@ -179,7 +179,7 @@ class TxnControllerTest < Test::Unit::TestCase
   def test_unhandled_field
     login_as :quentin
     begin
-      xhr :put, :update, :id => 1, :f => 'somecrap', :value => 'Changed Stuff'
+      xhr :put, :update, :id => 1, :acct_id => 1, :f => 'somecrap', :value => 'Changed Stuff'
     rescue RuntimeError => e
       assert_equal 'Unhandled field:  somecrap', e.message
     end
@@ -187,7 +187,7 @@ class TxnControllerTest < Test::Unit::TestCase
 
   def test_cat_update
     login_as :quentin
-    xhr :put, :update, :id => 1, :f => 'cat', :value => 'Cat2'
+    xhr :put, :update, :id => 1, :acct_id => 1, :f => 'cat', :value => 'Cat2'
     assert_response :success
     assert_equal Category.find_by_name('Cat2'), MoneyTransaction.find(1).category
   end
@@ -195,7 +195,7 @@ class TxnControllerTest < Test::Unit::TestCase
   def test_rjs_reconcile
     login_as :quentin
     assert_difference 'MoneyTransaction.count_reconciled' do
-      xhr :put, :update, :id => 1, :f => 'reconciled', :value => 1
+      xhr :put, :update, :id => 1, :acct_id => 1, :f => 'reconciled', :value => 1
     end
     assert_response :success
   end
@@ -203,7 +203,7 @@ class TxnControllerTest < Test::Unit::TestCase
   def test_rjs_reconcile_four
     login_as :quentin
     assert_difference 'MoneyTransaction.count_reconciled' do
-      xhr :put, :update, :id => 4, :f => 'reconciled', :value => 1
+      xhr :put, :update, :acct_id => 1, :id => 4, :f => 'reconciled', :value => 1
     end
     assert_response :success
   end
@@ -211,14 +211,14 @@ class TxnControllerTest < Test::Unit::TestCase
   def test_rjs_unreconcile
     login_as :quentin
     assert_difference 'MoneyTransaction.count_reconciled', -1 do
-      xhr :put, :update, :id => 2, :f => 'reconciled', :value => 0
+      xhr :put, :update, :acct_id => 1, :id => 2, :f => 'reconciled', :value => 0
     end
     assert_response :success
   end
 
   def test_current_reconciled
     login_as :quentin
-    xhr :get, :current_reconciled, :id => 2
+    xhr :get, :current_reconciled, :acct_id => 2
     assert_equal 2, assigns(:current_acct).id
   end
 

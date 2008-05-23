@@ -5,25 +5,21 @@ class TxnController < ApplicationController
   TXN_LIMIT=50 unless defined? TXN_LIMIT
   BIG_LIMIT=100000 unless defined? BIG_LIMIT
 
+  before_filter :find_acct
+
   def index
-    do_txn_page :find
+    case params[:which]
+    when nil
+      do_txn_page :find
+      title "Full transaction list for #{@current_acct.name}"
+    when 'unreconciled'
+      do_txn_page :find, BIG_LIMIT, default_conditions.merge(:reconciled => false)
+      title "Unreconciled transaction list for #{@current_acct.name}"
+    when 'all'
+      do_txn_page :find_with_deleted
+      title "Full transaction list for #{@current_acct.name} (including deleted)"
+    end
     @type = :normal
-    title "Full transaction list for #{@current_acct.name}"
-  end
-
-  def unreconciled
-    get_acct_from_params
-    do_txn_page :find, BIG_LIMIT, default_conditions.merge(:reconciled => false)
-    @type = :unreconciled
-    title "Unreconciled transaction list for #{@current_acct.name}"
-    render :template => "txn/index"
-  end
-
-  def all
-    do_txn_page :find_with_deleted
-    @type = :all
-    title "Full transaction list for #{@current_acct.name} (including deleted)"
-    render :template => "txn/index"
   end
 
   def new
@@ -45,12 +41,11 @@ class TxnController < ApplicationController
     @txn.save!
     flash[:info]="Saved txn for #{@txn.amount}"
     @new_id = @txn.id
-    redirect_to :action => 'new', :id => @current_acct.id
+    redirect_to new_acct_txn_path(@current_acct)
   end
 
   def transfer
     @today = Date.today.strftime
-    @current_acct=MoneyAccount.find(params[:id].to_i)
     @categories=@current_acct.group.categories
 
     title "Transfer from #{@current_acct.name}"
@@ -95,7 +90,6 @@ class TxnController < ApplicationController
   end
 
   def current_reconciled
-    get_acct_from_params
     get_sums
     render :template => 'txn/update_reconciled'
   end
@@ -104,7 +98,6 @@ class TxnController < ApplicationController
 
   def setup_form_vars
     @today = Date.today.strftime
-    @current_acct=MoneyAccount.find(params[:id].to_i)
     @categories=@current_acct.group.categories
     @txn = MoneyTransaction.new(params[:money_transaction])
   end
@@ -123,17 +116,15 @@ class TxnController < ApplicationController
     { :money_account_id => @current_acct }
   end
 
-  def get_acct_from_params
+  def find_acct
     if @current_acct.nil?
-      id = params[:acct_id] || params[:id]
-      @current_acct=MoneyAccount.find id.to_i
+      @current_acct=MoneyAccount.find params[:acct_id]
       @current_group=@current_acct.group
     end
   end
 
   # Load up some transactions with the approriate transaction find method
   def do_txn_page(which, limit=TXN_LIMIT, list_conditions=nil, conditions=nil)
-    get_acct_from_params
     conditions = conditions.nil? ? default_conditions : conditions
     list_conditions = list_conditions.nil? ? default_conditions : list_conditions
     get_sums conditions
