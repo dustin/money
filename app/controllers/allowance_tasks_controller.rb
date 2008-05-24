@@ -1,6 +1,6 @@
 class AllowanceTasksController < ApplicationController
 
-  def created
+  def index
     title "Allowance Tasks You've Created"
     @tasks=AllowanceTask.find_all_by_creator_id(current_user.id,
       :order => 'allowance_tasks.name', :include => :owner).group_by(&:owner)
@@ -26,14 +26,14 @@ class AllowanceTasksController < ApplicationController
       end
     end
     @groups = current_user.groups
+  end
 
-    if request.post?
-      @task=AllowanceTask.new params[:allowance_task]
-      @task.creator = current_user
-      @task.save!
-      flash[:info] = "Created new task:  #{@task.name}"
-      redirect_to :action => :created
-    end
+  def create
+    @task=AllowanceTask.new params[:allowance_task]
+    @task.creator = current_user
+    @task.save!
+    flash[:info] = "Created new task:  #{@task.name}"
+    redirect_to allowance_tasks_path
   end
 
   # Toggle the active state of a task

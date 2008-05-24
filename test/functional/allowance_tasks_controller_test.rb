@@ -38,9 +38,9 @@ class AllowanceTasksControllerTest < Test::Unit::TestCase
     end
   end
 
-  def test_created
+  def test_index
     login_as :quentin
-    get :created
+    get :index
     assert_response :success
     assert_equal [2, 1, 4, 3], assigns['tasks'][users(:aaron)].map(&:id)
     assert_equal 7.35, assigns['weekly_sums'][users(:aaron)]
@@ -75,7 +75,7 @@ class AllowanceTasksControllerTest < Test::Unit::TestCase
   def test_new
     login_as :quentin
     assert_difference 'AllowanceTask.count' do
-      post :new, :allowance_task => {
+      post :create, :allowance_task => {
         :name => 'Test Task', :description => 'A test task.', :owner_id => 2,
         :frequency => 2, :value => 1.29,
         :from_money_account_id => 3, :from_category_id => 3,
