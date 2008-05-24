@@ -2,7 +2,7 @@
   Transferring from
   = @current_acct.name
 
-- form_tag :action => :transfer, :id => @current_acct.id do
+- form_tag acct_transfers_path(@current_acct) do
   %fieldset
     %legend Source
 

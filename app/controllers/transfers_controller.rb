@@ -15,7 +15,7 @@ class TransfersController < ApplicationController
     dest_acct_id=params[:dest_acct].to_i
     if @current_acct.id == dest_acct_id
       flash[:error]="Source and destination accounts must be different."
-      redirect_to :action => 'transfer'
+      redirect_to new_acct_transfer_path(@current_acct)
     else
       # Do stuff
       dest_acct=MoneyAccount.find dest_acct_id
@@ -29,7 +29,7 @@ class TransfersController < ApplicationController
         dest_acct, src_cat, dest_cat, details[:ds], amt, details[:descr])
 
       flash[:info]="Transferred #{amt} from #{@current_acct.name} to #{dest_acct.name}"
-      redirect_to :action => 'transfer'
+      redirect_to new_acct_transfer_path(@current_acct)
     end
   end
 
