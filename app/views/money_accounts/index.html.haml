@@ -31,3 +31,5 @@
           - g.accounts.sort.each do |a|
             %li{:class => a.active ? 'active' : 'inactive'}
               = link_to a.name, new_acct_txn_path(a)
+
+%p= link_to 'New Account', new_acct_path

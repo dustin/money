@@ -1,0 +1,18 @@
+%h1 Create a New Account
+
+- form_for :money_account, :url => acct_index_path do |f|
+
+  %fieldset
+    %legend New Account
+
+    %div
+      %label
+        %span Group
+        = collection_select("money_account", "group_id" , @groups.sort, "id", "name")
+
+    %div
+      %label
+        %span Name
+        = f.text_field :name
+
+  %div= submit_tag 'Save'
