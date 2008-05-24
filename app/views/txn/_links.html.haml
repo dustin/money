@@ -1,0 +1,11 @@
+- if @type != :unreconciled
+  = link_to 'Show Unreconciled', acct_txn_index_path(@current_acct, :which => 'unreconciled')
+  |
+
+- if @type != :normal
+  = link_to 'Show All', acct_txn_index_path(@current_acct, :which => 'all')
+  |
+
+= link_to 'Withdraw/Deposit', new_acct_txn_path(@current_acct)
+|
+= link_to 'Transfer', new_acct_transfer_path(@current_acct)
