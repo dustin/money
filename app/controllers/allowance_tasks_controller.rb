@@ -38,6 +38,18 @@ class AllowanceTasksController < ApplicationController
 
   # Toggle the active state of a task
   def update
+    if params[:active]
+      update_status
+    elsif params[:task]
+      update_completion
+    else
+      raise "Don't know what you want"
+    end
+  end
+
+  private
+
+  def update_status
     task=AllowanceTask.find params[:id].to_i
     active = (params[:active] == 'true')
     task.deleted = !active
@@ -45,7 +57,7 @@ class AllowanceTasksController < ApplicationController
     render :action => (active ? :activate : :deactivate)
   end
 
-  def complete
+  def update_completion
     tids = params['task'].keys.map(&:to_i)
     # To prevent fraud, only include task IDs from those available.
     available = AllowanceTask.find_available(current_user)

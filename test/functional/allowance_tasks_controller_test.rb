@@ -27,14 +27,14 @@ class AllowanceTasksControllerTest < Test::Unit::TestCase
   def test_complete
     login_as :aaron
     assert_difference 'MoneyTransaction.count', 4 do
-      post :complete, :task => {"1" => "on", "3" => "on"}
+      put :update, :task => {"1" => "on", "3" => "on"}
     end
   end
 
   def test_redoing_unavailable
     login_as :aaron
     assert_difference 'MoneyTransaction.count', 0 do
-      post :complete, :task => {"2" => "on"}
+      put :update, :task => {"2" => "on"}
     end
   end
 
