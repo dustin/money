@@ -28,9 +28,9 @@
         %br
         = link_to 'Home', home_path
         |
-        = link_to 'Logout', :controller => :account, :action => :logout
+        = link_to 'Logout', logout_path
         |
-        = link_to 'Change Password', :controller => :account, :action => :change_password
+        = link_to 'Change Password', edit_user_path(@current_user)
         |
         = link_to 'Created Tasks', :controller => :allowance, :action => :created
 

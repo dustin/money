@@ -3,6 +3,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
   map.resource :session
 
+  map.login '/login', :controller => "sessions", :action => "new"
+  map.logout '/logout', :controller => "sessions", :action => "destroy"
+
   map.resources :acct, :controller => '/money_accounts' do |acct|
     acct.resources :txn, :controller => '/txn', :path_prefix => '/acct/:acct_id'
     acct.resources :transfers
