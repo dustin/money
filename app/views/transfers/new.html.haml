@@ -45,9 +45,9 @@
   %div= submit_tag
 
 %p
-  = link_to 'Show Current', :action => 'index', :id => @current_acct.id
+  = link_to 'Show Current', acct_txn_index_path(@current_acct)
   |
-  = link_to 'Withdraw/Deposit', :action => 'new', :id => @current_acct.id
+  = link_to 'Withdraw/Deposit', new_acct_txn_path(@current_acct)
 
 %script{:type => "text/javascript"}
   == var today='#{@today}'

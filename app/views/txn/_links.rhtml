@@ -1,8 +1,8 @@
 <% if @type != :unreconciled %>
-	<%= link_to 'Show Unreconciled', :action => 'unreconciled', :id => @current_acct.id %> |
+	<%= link_to 'Show Unreconciled', acct_txn_index_path(@current_acct, :which => 'unreconciled') %> |
 <% end %>
 <% if @type != :normal %>
-	<%= link_to 'Show All', :action => 'index', :id => @current_acct.id %> |
+	<%= link_to 'Show All', acct_txn_index_path(@current_acct, :which => 'all') %> |
 <% end %>
-<%= link_to 'Withdraw/Deposit', :controller => 'txn', :action => 'new', :id => @current_acct.id %>
-| <%= link_to 'Transfer',:controller => 'txn', :action => 'transfer', :id => @current_acct.id %>
+<%= link_to 'Withdraw/Deposit', new_acct_txn_path(@current_acct) %>
+| <%= link_to 'Transfer', new_acct_transfer_path(@current_acct) %>
