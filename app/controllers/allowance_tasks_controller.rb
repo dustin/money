@@ -1,4 +1,4 @@
-class AllowanceController < ApplicationController
+class AllowanceTasksController < ApplicationController
 
   def created
     title "Allowance Tasks You've Created"
@@ -53,7 +53,7 @@ class AllowanceController < ApplicationController
     AllowanceTask.transaction do
       tasks.each {|t| t.perform!}
     end
-    redirect_to :controller => 'acct', :action => 'index'
+    redirect_to home_path
   end
 
 end

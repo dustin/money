@@ -1,9 +1,9 @@
 require File.dirname(__FILE__) + '/../test_helper'
-require 'allowance_controller'
+require 'allowance_tasks_controller'
 require 'allowance_task'
 
 # Re-raise errors caught by the controller.
-class AllowanceController; def rescue_action(e) raise e end; end
+class AllowanceTasksController; def rescue_action(e) raise e end; end
 
 class AllowanceTask
   def AllowanceTask.count_active
@@ -11,7 +11,7 @@ class AllowanceTask
   end
 end
 
-class AllowanceControllerTest < Test::Unit::TestCase
+class AllowanceTasksControllerTest < Test::Unit::TestCase
 
   include AuthenticatedTestHelper
 
@@ -19,7 +19,7 @@ class AllowanceControllerTest < Test::Unit::TestCase
   fixtures :money_transactions
 
   def setup
-    @controller = AllowanceController.new
+    @controller = AllowanceTasksController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
@@ -90,7 +90,7 @@ class AllowanceControllerTest < Test::Unit::TestCase
     assert_difference 'AllowanceTask.count_active', -1 do
       xhr :post, :task_toggle, :id => 1, :active => 'false'
       assert_response :success
-      assert_template 'allowance/deactivate'
+      assert_template 'allowance_tasks/deactivate'
     end
   end
 
@@ -99,7 +99,7 @@ class AllowanceControllerTest < Test::Unit::TestCase
     assert_difference 'AllowanceTask.count_active' do
       xhr :post, :task_toggle, :id => 4, :active => 'true'
       assert_response :success
-      assert_template 'allowance/activate'
+      assert_template 'allowance_tasks/activate'
     end
   end
 
