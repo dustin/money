@@ -37,7 +37,7 @@ class AllowanceTasksController < ApplicationController
   end
 
   # Toggle the active state of a task
-  def task_toggle
+  def update
     task=AllowanceTask.find params[:id].to_i
     active = (params[:active] == 'true')
     task.deleted = !active

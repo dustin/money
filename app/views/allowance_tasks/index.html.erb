@@ -19,10 +19,8 @@
 				<tr id="task_<%= t.id %>" <%= t.deleted ? 'class="deleted"' : '' %>>
 					<td>
 		        <%= content_tag :input, '', :type => :checkbox,
-		                        :onclick => remote_function(:url => {
-		                                                      :controller => :allowance,
-		                                                      :action => :task_toggle,
-		                                                      :id => t.id},
+		                        :onclick => remote_function(:url => allowance_task_path(t),
+		                                                    :method => :put,
 		                                                    :with => "'active='+this.checked"),
 		                                    :checked => 'checked' %>
 					</td>
