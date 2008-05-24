@@ -1,0 +1,61 @@
+%h1
+  Transferring from
+  = @current_acct.name
+
+- form_tag :action => :transfer, :id => @current_acct.id do
+  %fieldset
+    %legend Source
+
+    %div
+      %label
+        %span Category
+        = collection_select("src", "category_id" , @categories, "id", "name")
+
+  %fieldset
+    %legend Destination
+
+    %div
+      %label
+        %span Account
+        %select#dest_acct{:name => 'dest_acct'}
+          = option_groups_from_collection_for_select(current_user.groups.sort, :accounts_sorted, :name, :id, :name)
+
+    %div
+      %label
+        %span Category
+      %select#dest_cat_list{:name => 'dest_cat'}
+        %option#-1 Choose an Account
+
+  %fieldset
+    %legend Details
+
+    %div
+      %label
+        %span Date
+        = text_field "details", "ds"
+    %div
+      %label
+        %span Amount
+        = text_field "details", "amount"
+    %div
+      %label
+        %span Description
+        = text_field "details", "descr"
+
+  %div= submit_tag
+
+%p
+  = link_to 'Show Current', :action => 'index', :id => @current_acct.id
+  |
+  = link_to 'Withdraw/Deposit', :action => 'new', :id => @current_acct.id
+
+%script{:type => "text/javascript"}
+  == var today='#{@today}'
+  :plain
+    field_blur_behavior('details_ds', today);
+
+    $('dest_acct').onchange=function() {
+      load_cats_for_acct($F('dest_acct'), 'dest_cat_list');
+    };
+
+    Event.observe(window, 'load', $('dest_acct').onchange);
