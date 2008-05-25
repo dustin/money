@@ -45,13 +45,13 @@
 
 %script{:type => "text/javascript"}
   - if @current_acct
-    - rec_url = "/txn/current_reconciled/#{@current_acct.id}"
-    == function updateReconciled() { new Ajax.Request('#{rec_url}' + "?" + Math.random(), {evalScripts: true}) }
+    - rec_url = "/txn/current_reconciled?acct_id=#{@current_acct.id}"
+    == function updateReconciled() { new Ajax.Request('#{rec_url}' + "&r=" + Math.random(), {evalScripts: true}) }
   - else
     updateReconciled = false
   == var known_cats = [ #{@current_group.categories.map{|c| "'#{c.name}'"}.sort.join(", ")} ];
 
-  function setuptxedit(id) { setup_txn_editors(id, known_cats, updateReconciled) }
+  function setuptxedit(aid, id) { setup_txn_editors(aid, id, known_cats, updateReconciled) }
 
   - @transactions.each do |t|
-    == setuptxedit(#{t.id});
+    == setuptxedit(#{@current_acct.id}, #{t.id});

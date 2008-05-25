@@ -48,20 +48,22 @@ function load_cats_for_acct(acct, listel) {
 
 // Set up transaction editors in places that have transaction lists.
 // Requires a variable called ``known_cats'' to contain an array of cat names
-function setup_txn_reconcile(id, recSuccess) {
+function setup_txn_reconcile(acct_id, id, recSuccess) {
     $('txn_' + id).onclick=function() {
       var checked = ($('txn_' + id).checked) ? 1 : 0;
-      new Ajax.Request('/txn/update/' + id + "?f=reconciled&value=" + checked, {
-        method: "post",
+      new Ajax.Request('/acct/' + acct_id + '/txn/' + id + "?f=reconciled&value=" + checked, {
+        method: "put",
         onSuccess: recSuccess
       });
     }
 }
-function setup_txn_editors(id, cats, recSuccess) {
+function setup_txn_editors(aid, id, cats, recSuccess) {
     if(recSuccess) {
-        setup_txn_reconcile(id, recSuccess);
+        setup_txn_reconcile(aid, id, recSuccess);
     }
-    new Ajax.InPlaceEditor('txn_desc_' + id, '/txn/update/' + id + '?f=descr');
+    new Ajax.InPlaceEditor('txn_desc_' + id, '/acct/' + aid + '/txn/' + id + '?f=descr&_method=put');
     new Ajax.InPlaceCollectionEditor('txn_cat_' + id,
-        '/txn/update/' + id + '?f=cat', { collection: cats });
+        '/acct/' + aid + '/txn/' + id + '?f=cat&_method=put', {
+            collection: cats
+    });
 }
