@@ -12,12 +12,14 @@
       %th Description
   %tbody
     - @transactions.each do |t|
-      %tr{:class => cycle('odd', 'even') + (t.deleted_at ? ' deleted' : '') }
+      %tr{:id => "txntr_#{t.id}", :class => cycle('odd', 'even') + (t.deleted_at ? ' deleted' : '') }
         %td
           %form{:method => "put", :action => '#'}
             - checked = t.reconciled ? {:checked => "1"} : {}
             %input{checked.merge(:type => "checkbox", :id => "txn_#{t.id}")}
-        %td= t.id
+        %td
+          = t.id
+          = txn_delete_tag t
         %td= t.ds
         %td= t.user.login
         %td

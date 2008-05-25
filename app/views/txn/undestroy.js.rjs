@@ -1,0 +1,1 @@
+page["txntr_#{params[:id]}"].remove_class_name(:deleted)

@@ -65,6 +65,17 @@ class TxnController < ApplicationController
     render :template => 'txn/update_reconciled'
   end
 
+  def destroy
+    request.format = 'js'
+    @txn = MoneyTransaction.find params[:id]
+    @txn.destroy
+  rescue ActiveRecord::RecordNotFound
+    @txn = MoneyTransaction.find_with_deleted params[:id]
+    @txn.deleted_at = nil
+    @txn.save!
+    render :action => :undestroy
+  end
+
   private
 
   def setup_form_vars

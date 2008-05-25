@@ -18,6 +18,10 @@ body {
 	padding-left: 0;
 }
 
+a img {
+  border: none;
+}
+
 table {
 	border-width: 2px;
 	border-style: outset;
