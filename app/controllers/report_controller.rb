@@ -42,7 +42,7 @@ class ReportController < ApplicationController
         totdiff += diff
         gcat << [catid, name, spent, budget, diff]
       end
-      @cats << [g, totspent, totbudget, totdiff, gcat]
+      @cats << [g, totspent, totbudget, totdiff, gcat] unless gcat.empty?
     end
   end
 

@@ -1,3 +1,8 @@
+%h1
+  Showing Transaction in
+  = @cats.size
+  = maybe_singular(@cats.size, 'Categories')
+
 - @cats.each do |g, totspent, totbudget, totdiff, cats|
   %h2
     Category Report for
