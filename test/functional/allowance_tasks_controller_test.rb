@@ -88,7 +88,7 @@ class AllowanceTasksControllerTest < Test::Unit::TestCase
   def test_deactivation
     login_as :quentin
     assert_difference 'AllowanceTask.count_active', -1 do
-      xhr :post, :update, :id => 1, :active => 'false'
+      xhr :post, :update, :id => 1, :active => 'false', :format => 'js'
       assert_response :success
       assert_template 'allowance_tasks/deactivate'
     end
@@ -97,7 +97,7 @@ class AllowanceTasksControllerTest < Test::Unit::TestCase
   def test_activation
     login_as :quentin
     assert_difference 'AllowanceTask.count_active' do
-      xhr :post, :update, :id => 4, :active => 'true'
+      xhr :post, :update, :id => 4, :active => 'true', :format => 'js'
       assert_response :success
       assert_template 'allowance_tasks/activate'
     end
