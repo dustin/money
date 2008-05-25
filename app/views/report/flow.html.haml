@@ -1,4 +1,12 @@
+- if @flow.map{|g,flow| flow}.flatten.size > 60
+  %h1 Groups
+  %ul
+    - @flow.each do |g, flow|
+      %li
+        %a{:href => "#g_#{g.id}"}= g.name
+
 - @flow.each do |g, flow|
+  %a{:name => "g_#{g.id}"}
   %h2
     Flow for
     = g.name
