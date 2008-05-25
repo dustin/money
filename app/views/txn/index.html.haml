@@ -54,4 +54,4 @@
   function setuptxedit(aid, id) { setup_txn_editors(aid, id, known_cats, updateReconciled) }
 
   - @transactions.each do |t|
-    == setuptxedit(#{@current_acct.id}, #{t.id});
+    == setuptxedit(#{t.account.id}, #{t.id});
