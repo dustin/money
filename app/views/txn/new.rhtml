@@ -4,7 +4,7 @@
   <fieldset>
     <legend>Account</legend>
     <div><label><span>Category</span>
-      <%= collection_select("money_transaction", "category_id" , @categories, "id", "name") %></label>
+      <%= collection_select("money_transaction", "category_id" , @categories.sort, "id", "name") %></label>
     </div>
   </fieldset>
   <fieldset>

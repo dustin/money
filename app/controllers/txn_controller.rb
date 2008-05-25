@@ -69,7 +69,7 @@ class TxnController < ApplicationController
 
   def setup_form_vars
     @today = Date.today.strftime
-    @categories=@current_acct.group.categories
+    @categories=@current_acct.group.categories.sort
     @txn = MoneyTransaction.new(params[:money_transaction])
   end
 

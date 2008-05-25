@@ -6,7 +6,7 @@ class TransfersController < ApplicationController
 
   def new
     @today = Date.today.strftime
-    @categories=@current_acct.group.categories
+    @categories=@current_acct.group.categories.sort
 
     title "Transfer from #{@current_acct.name}"
   end
