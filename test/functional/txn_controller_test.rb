@@ -139,7 +139,7 @@ class TxnControllerTest < Test::Unit::TestCase
 
   def test_current_reconciled
     login_as :quentin
-    xhr :get, :current_reconciled, :acct_id => 2
+    xhr :get, :current_reconciled, :acct_id => 2, :format => 'js'
     assert_equal 2, assigns(:current_acct).id
   end
 
