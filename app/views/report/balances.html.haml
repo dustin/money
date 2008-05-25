@@ -1,0 +1,15 @@
+- current_user.groups.sort.each do |g|
+  %h2= g.name
+
+  %table
+    %thead
+      %tr
+        %th Account
+        %th Balance
+
+    %tbody
+      - g.accounts.sort.each do |a|
+        %tr
+          %td{:class => a.active ? 'active' : 'inactive' }
+            = link_to a.name, new_acct_txn_path(a)
+          %td= currency_span(a.balance)

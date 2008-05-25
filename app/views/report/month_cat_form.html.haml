@@ -1,0 +1,13 @@
+- months = %w(January February March April May Jun July August September October November December)
+
+- form_tag({:action => :month_cat}, {:method => :get}) do
+  %select{:name => 'year'}
+    - @today.year.downto(@today.year - 10) do |y|
+      %option= y
+
+  %select{:name => 'month'}
+    - months.each_with_index do |m, n|
+      - sval = (n+1 == @today.month) ? {:selected => 'selected'} : {}
+      %option{sval.merge({:value => (n + 1) })}= m
+
+  = submit_tag 'Go'
