@@ -1,0 +1,22 @@
+%table
+  %thead
+    %tr
+      %th Login
+      %th Name
+      %th Email
+      %th Group Access
+      %th Actions
+
+  %tbody
+    - @users.each do |u|
+      %tr
+        %td= u.login
+        %td= u.name
+        %td= u.email
+        %td= u.groups.map(&:name).sort.join ', '
+        %td
+          = link_to 'Reset PW', :action => :reset_password, :user => u.login
+          |
+          = link_to 'Access', :action => :set_groups, :user => u.login
+
+%p= link_to 'New User', :action => :new_user

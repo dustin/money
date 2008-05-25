@@ -1,0 +1,30 @@
+- form_for :user, @user, :url => { :action => "new_user" } do |f|
+  %fieldset
+    %legend Account Info
+
+    %div
+      %label
+        %span Login
+      = f.text_field :login
+
+    %div
+      %label
+        %span Name
+        = f.text_field :name
+
+    %div
+      %label
+        %span Email
+        = f.text_field :email
+
+  %fieldset
+    %legend Group Access
+
+    %ul.cleanlist
+      - @groups.each do |g|
+        %li
+          %label
+            = check_box :group, g.id
+            = g.name
+
+  %div=  submit_tag 'Create User'

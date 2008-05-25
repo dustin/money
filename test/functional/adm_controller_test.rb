@@ -59,7 +59,7 @@ class AdmControllerTest < Test::Unit::TestCase
   def test_rjs_delete
     login_as :quentin
     assert_difference 'MoneyTransaction.count', -1 do
-      xhr :post, :delete, :id => 1
+      xhr :post, :delete, :id => 1, :format => 'js'
     end
     assert_response :success
   end
@@ -67,7 +67,7 @@ class AdmControllerTest < Test::Unit::TestCase
   def test_rjs_undelete
     login_as :quentin
     assert_difference 'MoneyTransaction.count' do
-      xhr :post, :undelete, :id => 3
+      xhr :post, :undelete, :id => 3, :format => 'js'
     end
     assert_response :success
   end
@@ -99,6 +99,15 @@ class AdmControllerTest < Test::Unit::TestCase
   def test_set_groups_form
     login_as :quentin
     get :set_groups
+    assert_response :success
+    assert_template 'adm/set_groups'
+    assert assigns['groups']
+    assert assigns['user_gids']
+  end
+
+  def test_set_groups_form_with_arg
+    login_as :quentin
+    get :set_groups, :user => 'aaron'
     assert_response :success
     assert_template 'adm/set_groups'
     assert assigns['groups']

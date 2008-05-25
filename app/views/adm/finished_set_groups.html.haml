@@ -1,0 +1,8 @@
+%p
+  Granted
+  = @user.login
+  access to the following groups:
+
+%ul
+  - @user.groups.map(&:name).sort.each do |g|
+    %li= g

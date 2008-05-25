@@ -1,0 +1,37 @@
+%h1 Recent Transactions
+
+%table.transaction_list
+  %thead
+    %tr
+      %th Deleted
+      %th Txn ID
+      %th Date
+      %th User
+      %th Group
+      %th Account
+      %th Category
+      %th Amount
+      %th Description
+
+  %tbody
+    - @transactions.each do |t|
+      %tr{:id => "txntr_#{t.id}", :class => "#{cycle('odd', 'even')} #{t.deleted_at ? 'deleted' : ''}"}
+        %td
+          %form{:method => "post", :action => '#'}
+            %label
+              - checked = t.deleted_at ? {:checked => 1} : {}
+              %input{checked.merge(:type => 'checkbox', :id => "txn_#{t.id}")}
+
+        %td= t.id
+        %td= t.ds
+        %td= t.user.login
+        %td= t.category.group.name
+        %td= t.account.name
+        %td= t.category.name
+        %td.moneycolumn= currency_span(t.amount)
+        %td= t.descr
+
+%script{:src => "/javascripts/admin.js"}
+%script{:type => 'text/javascript'}
+  - @transactions.each do |t|
+    == $('txn_#{t.id}').onclick = mk_txn_onlick_handler(#{t.id});
