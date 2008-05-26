@@ -38,23 +38,23 @@ tr,th,td {
 	font-size: small;
 }
 
-#footer .links {
+#footer .inline {
   margin: 0;
 }
 
-ul.links {
+ul.inline {
   padding: 0;
 }
 
-ul.links li {
+ul.inline li {
   display: inline;
 }
 
-ul.links li + li:before {
+ul.inline li + li:before {
   content: " | ";
 }
 
-ul.links li.label + li:before {
+ul.inline li.label + li:before {
   content: "";
 }
 

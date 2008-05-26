@@ -23,13 +23,13 @@
             |
           == #{g.name}:
           = currency_span(g.balance)
-        %ul.links
+        %ul.inline
           %li= link_to 'Home', home_path
           %li= link_to 'Logout', logout_path
           %li= link_to 'Change Password', edit_user_path(@current_user)
           %li= link_to 'Created Tasks', allowance_tasks_path
         - if current_user.admin?
-          %ul.links
+          %ul.inline
             %li.label Admin stuff:
             %li= link_to 'Recent', :controller => :adm, :action => :recent
             %li= link_to 'Reports', :controller => :report, :action => :index

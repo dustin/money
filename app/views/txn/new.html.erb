@@ -22,7 +22,7 @@
   <%= submit_tag %>
 <% end %>
 
-<ul class="links">
+<ul class="inline">
   <li><%= link_to 'Show Unreconciled', acct_txn_index_path(@current_acct, :which => 'unreconciled') %></li>
   <li><%= link_to 'Show All', acct_txn_index_path(@current_acct) %></li>
   <li><%= link_to 'Transfer', new_acct_transfer_path(@current_acct) %></li>
