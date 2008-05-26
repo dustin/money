@@ -28,7 +28,7 @@
         %td= t.category.group.name
         %td= t.account.name
         %td= t.category.name
-        %td.moneycolumn= currency_span(t.amount)
+        = currency_tag t.amount, :td, :class => "moneycolumn"
         %td= t.descr
 
 %script{:src => "/javascripts/admin.js"}

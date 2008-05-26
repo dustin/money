@@ -12,4 +12,4 @@
         %tr
           %td{:class => a.active ? 'active' : 'inactive' }
             = link_to a.name, new_acct_txn_path(a)
-          %td= currency_span(a.balance)
+          = currency_tag a.balance, :td

@@ -26,13 +26,13 @@
 					</td>
 					<td><%= t.name %></td>
 					<td><%= t.frequency %></td>
-					<td><%= currency_span(t.value) %></td>
-					<td><%= currency_span(t.weekly_value) %></td>
+					<%= currency_tag t.value, :td %>
+					<%= currency_tag t.weekly_value, :td %>
 				</tr>
 			<% end %>
 			<tr>
 				<td colspan="4"><b>Weekly Sum</b></td>
-				<td><%= currency_span(@weekly_sums[owner]) %></td>
+				<%= currency_tag @weekly_sums[owner], :td %>
 			<tr>
 		</tbody>
 	</table>

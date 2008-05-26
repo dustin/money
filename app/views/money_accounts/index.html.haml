@@ -14,7 +14,7 @@
             %td
               %input{:type => 'checkbox', :name => "task[#{t.id}]"}
             %td= t.name
-            %td= currency_span(t.value)
+            = currency_tag t.value, :td
     %p
       %input{:type => 'submit', :value => 'Mark Complete'}
 

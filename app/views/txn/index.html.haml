@@ -24,7 +24,7 @@
         %td= t.user.login
         %td
           %span{:id => "txn_cat_#{t.id}"}= t.category.name
-        %td.moneycolumn= currency_span(t.amount)
+        = currency_tag t.amount, :td, :class => "moneycolumn"
         %td
           %span{:id => "txn_desc_#{t.id}"}= t.descr
 
@@ -35,13 +35,13 @@
 
 %p
   Ending balance:
-  = currency_span(@txn_sum, 'endingbal')
+  = currency_tag(@txn_sum, :span, :id => 'endingbal')
   %br
   Reconciled balance:
-  = currency_span(@rec_sum, 'reconciled')
+  = currency_tag(@rec_sum, :span, :id => 'reconciled')
   %br
   Unreconciled balance:
-  = currency_span(@unrec_sum, 'unreconciled')
+  = currency_tag(@unrec_sum, :span, :id => 'unreconciled')
 
 %p= render :partial => 'links'
 

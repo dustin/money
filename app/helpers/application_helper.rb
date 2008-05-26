@@ -4,8 +4,9 @@ module ApplicationHelper
     amt < 0 ? 'negative' : 'positive'
   end
 
-  def currency_span(amt, id=nil)
-    content_tag :span, :id => id, :class => amt_class(amt) do
+  def currency_tag(amt, tag, opts={})
+    classes = [amt_class(amt), opts.delete(:class)].reject{|x| x.nil?}
+    content_tag tag, opts.merge(:class => classes * ' ') do
       number_to_currency(amt)
     end
   end

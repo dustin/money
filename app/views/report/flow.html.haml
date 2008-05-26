@@ -21,4 +21,4 @@
       - flow.each do |f|
         %tr
           %td= link_to f[0], :action => :month_cat, :date => f[0]
-          %td= currency_span(f[1].to_f)
+          = currency_tag f[1].to_f, :td
