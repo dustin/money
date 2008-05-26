@@ -23,24 +23,17 @@
             |
           == #{g.name}:
           = currency_span(g.balance)
-        %br
-        = link_to 'Home', home_path
-        |
-        = link_to 'Logout', logout_path
-        |
-        = link_to 'Change Password', edit_user_path(@current_user)
-        |
-        = link_to 'Created Tasks', allowance_tasks_path
-
+        %ul.links
+          %li= link_to 'Home', home_path
+          %li= link_to 'Logout', logout_path
+          %li= link_to 'Change Password', edit_user_path(@current_user)
+          %li= link_to 'Created Tasks', allowance_tasks_path
         - if current_user.admin?
-          %br
-          Admin stuff:
-          = link_to 'Recent', :controller => :adm, :action => :recent
-          |
-          = link_to 'Reports', :controller => :report, :action => :index
-          |
-          = link_to 'Users', :controller => :adm, :action => :users
+          %ul.links
+            %li.label Admin stuff:
+            %li= link_to 'Recent', :controller => :adm, :action => :recent
+            %li= link_to 'Reports', :controller => :report, :action => :index
+            %li= link_to 'Users', :controller => :adm, :action => :users
 
-    %br
     Version:
     = TREE_VERSION

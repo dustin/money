@@ -38,6 +38,23 @@ tr,th,td {
 	font-size: small;
 }
 
+ul.links {
+  margin: 0;
+  padding: 0;
+}
+
+ul.links li {
+  display: inline;
+}
+
+ul.links li + li:before {
+  content: " | ";
+}
+
+ul.links li.label + li:before {
+  content: "";
+}
+
 .moneycolumn {
 	text-align: right;
 }
