@@ -9,10 +9,8 @@
 
 %body
   .maincontent
-    - if flash[:error]
-      .error= flash[:error]
-    - if flash[:info]
-      .info= flash[:info]
+    - [:error, :info].select{|t| flash[t]}.each do |t|
+      %div{:class => t}= flash[t]
     = yield
 
   - cs = (logged_in?) ? current_user.login : ''
