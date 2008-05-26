@@ -47,7 +47,7 @@
 
 %script{:type => "text/javascript"}
   - if @current_acct
-    - rec_url = "/txn/current_reconciled?acct_id=#{@current_acct.id}"
+    - rec_url = "/txn/current_reconciled?format=js&acct_id=#{@current_acct.id}"
     == function updateReconciled() { new Ajax.Request('#{rec_url}' + "&r=" + Math.random(), {evalScripts: true}) }
   - else
     updateReconciled = false
