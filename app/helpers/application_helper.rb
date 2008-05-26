@@ -5,8 +5,9 @@ module ApplicationHelper
   end
 
   def currency_span(amt, id=nil)
-    i=id ? %W(id="#{id}") : ''
-    "<span #{i} class=\"#{amt_class(amt)}\">#{number_to_currency(amt)}</span>"
+    content_tag :span, :id => id, :class => amt_class(amt) do
+      number_to_currency(amt)
+    end
   end
 
   # Singularize a word if the count is 1.
