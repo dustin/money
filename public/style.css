@@ -38,7 +38,7 @@ tr,th,td {
 	font-size: small;
 }
 
-#footer .inline {
+#footer .inline, .inline.dense {
   margin: 0;
 }
 

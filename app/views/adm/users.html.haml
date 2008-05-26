@@ -15,8 +15,8 @@
         %td= u.email
         %td= u.groups.map(&:name).sort.join ', '
         %td
-          = link_to 'Reset PW', :action => :reset_password, :user => u.login
-          |
-          = link_to 'Access', :action => :set_groups, :user => u.login
+          %ul.inline.dense
+            %li= link_to 'Reset PW', :action => :reset_password, :user => u.login
+            %li= link_to 'Access', :action => :set_groups, :user => u.login
 
 %p= link_to 'New User', :action => :new_user
