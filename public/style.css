@@ -38,8 +38,11 @@ tr,th,td {
 	font-size: small;
 }
 
-ul.links {
+#footer .links {
   margin: 0;
+}
+
+ul.links {
   padding: 0;
 }
 

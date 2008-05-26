@@ -22,11 +22,11 @@
   <%= submit_tag %>
 <% end %>
 
-<p>
-  <%= link_to 'Show Unreconciled', acct_txn_index_path(@current_acct, :which => 'unreconciled') %>
-  | <%= link_to 'Show All', acct_txn_index_path(@current_acct) %>
-  | <%= link_to 'Transfer', new_acct_transfer_path(@current_acct) %>
-</p>
+<ul class="links">
+  <li><%= link_to 'Show Unreconciled', acct_txn_index_path(@current_acct, :which => 'unreconciled') %></li>
+  <li><%= link_to 'Show All', acct_txn_index_path(@current_acct) %></li>
+  <li><%= link_to 'Transfer', new_acct_transfer_path(@current_acct) %></li>
+</ul>
 
 <script type="text/javascript">
   function adjust_opt_state() {
