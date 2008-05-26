@@ -1,11 +1,7 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   def amt_class(amt)
-    rv='positive'
-    if amt < 0
-      rv='negative'
-    end
-    rv
+    amt < 0 ? 'negative' : 'positive'
   end
 
   def currency_span(amt, id=nil)
