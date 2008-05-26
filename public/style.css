@@ -42,7 +42,7 @@ tr,th,td {
   margin: 0;
 }
 
-ul.inline {
+.inline {
   padding: 0;
 }
 
@@ -56,6 +56,24 @@ ul.inline li + li:before {
 
 ul.inline li.label + li:before {
   content: "";
+}
+
+dl.inline dt {
+  display: inline;
+}
+
+dl.inline dt:after {
+  content: ":";
+}
+
+dl.inline dd {
+  display: inline;
+  padding: 0;
+  margin: 0;
+}
+
+dl.inline dd + dt:before {
+  content: " | ";
 }
 
 .moneycolumn {

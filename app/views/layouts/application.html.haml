@@ -18,9 +18,10 @@
   #footer
     - cache(:controller => 'acct', :action => 'footer', :action_suffix => cs) do
       - if logged_in?
-        %ul.inline
+        %dl.inline
           - current_user.groups.sort.each do |g|
-            %li== #{g.name}: #{currency_span(g.balance)}
+            %dt= g.name
+            %dd= currency_span(g.balance)
         %ul.inline
           %li= link_to 'Home', home_path
           %li= link_to 'Logout', logout_path
