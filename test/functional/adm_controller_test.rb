@@ -56,6 +56,12 @@ class AdmControllerTest < Test::Unit::TestCase
     assert User.authenticate('quentin', 'test'), 'Password changed!'
   end
 
+  def test_reset_not_logged_in
+    post :reset_password, :user => 'quentin'
+    assert_redirected_to login_path
+    assert User.authenticate('quentin', 'test'), 'Password changed!'
+  end
+
   def test_rjs_delete
     login_as :quentin
     assert_difference 'MoneyTransaction.count', -1 do
