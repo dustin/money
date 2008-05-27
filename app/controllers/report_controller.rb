@@ -1,5 +1,7 @@
 class ReportController < ApplicationController
 
+  include AdminControllerExtras
+
   def index
     title 'Reports'
     @today = Date.today
@@ -173,15 +175,4 @@ ENDSQL
     raise "#{n} is not a number" if n.class != Fixnum
   end
 
-  def authorized?
-    logged_in? && current_user.admin?
-  end
-
-  def access_denied
-    if logged_in?
-      render :action => :access_denied
-    else
-      redirect_to login_path
-    end
-  end
 end

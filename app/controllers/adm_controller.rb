@@ -1,5 +1,7 @@
 class AdmController < ApplicationController
 
+  include AdminControllerExtras
+
   TXN_LIMIT=TxnController::TXN_LIMIT
 
   def index
@@ -93,16 +95,4 @@ class AdmController < ApplicationController
     (1..8).map{|x| (97 + rand(26)).chr}.join
   end
 
-  def authorized?
-    logged_in? && current_user.admin?
-  end
-
-  def access_denied
-    if logged_in?
-      # XXX:  Should probably find a good place for this document.
-      render :template => 'report/access_denied'
-    else
-      redirect_to login_path
-    end
-  end
 end
