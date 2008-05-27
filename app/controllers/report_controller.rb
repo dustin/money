@@ -174,10 +174,14 @@ ENDSQL
   end
 
   def authorized?
-    current_user.admin?
+    logged_in? && current_user.admin?
   end
 
   def access_denied
-    render :action => :access_denied
+    if logged_in?
+      render :action => :access_denied
+    else
+      redirect_to login_path
+    end
   end
 end

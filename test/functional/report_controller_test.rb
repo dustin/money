@@ -22,6 +22,11 @@ class ReportControllerTest < Test::Unit::TestCase
     assert_response :success
   end
 
+  def test_index_no_auth
+    get :index
+    assert_redirected_to login_path
+  end
+
   def test_balances
     login_as :quentin
     get :balances
